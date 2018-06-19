@@ -1,0 +1,9 @@
+{
+  "package": "org.gr1m.mc.mup.mc119971.mixin",
+  "refmap": "mixins.mup.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinAnvilChunkLoader"
+  ]
+}
