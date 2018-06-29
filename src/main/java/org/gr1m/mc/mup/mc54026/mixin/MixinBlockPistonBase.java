@@ -6,9 +6,13 @@ import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityPiston;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.util.EnumFacing;
+import org.gr1m.mc.mup.mc54026.ITileEntityPiston;
+import org.gr1m.mc.mup.mc54026.IWorldServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -33,8 +37,25 @@ public abstract class MixinBlockPistonBase extends BlockDirectional {
         Block block = iblockstate.getBlock();
         int pullable = 0;
 
-        if (block != Blocks.PISTON_EXTENSION) pullable = 16;
+        if (block != Blocks.PISTON_EXTENSION)
+        {
+            pullable = 16;
+        }
+        else 
+        {
+            TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
+            if (tileentity instanceof TileEntityPiston && ((TileEntityPiston)tileentity).getFacing() == enumfacing && ((TileEntityPiston)tileentity).isExtending()) {
+                if (((TileEntityPiston)tileentity).getProgress(0) >= 0.5F && tileentity.getWorld().getTotalWorldTime() != ((ITileEntityPiston)tileentity).getLastTicked() && ((IWorldServer)worldIn).haveBlockActionsProcessed()) {
+                    pullable = 16;
+                }
+            }
+            else
+            {
+                pullable = 16;
+            }
+        }
+        
         worldIn.addBlockEvent(pos, blockIn, eventID, eventParam | pullable);
     }
 
@@ -51,7 +72,7 @@ public abstract class MixinBlockPistonBase extends BlockDirectional {
         {
             flag1 = true;
         }
-        
+
         return flag1;
     }
 }

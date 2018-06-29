@@ -4,6 +4,8 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinBlockPistonBase"
+    "MixinBlockPistonBase",
+    "MixinTileEntityPiston",
+    "MixinWorldServer"
   ]
 }
