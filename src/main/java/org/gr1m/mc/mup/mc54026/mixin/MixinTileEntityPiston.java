@@ -4,12 +4,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityPiston;
 import org.gr1m.mc.mup.mc54026.ITileEntityPiston;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TileEntityPiston.class)
 public abstract class MixinTileEntityPiston extends TileEntity implements ITileEntityPiston {
+    @Shadow
+    private float lastProgress;
+    
     private long lastTicked;
     
     @Inject(method = "update", at = @At("HEAD"))
@@ -22,4 +26,5 @@ public abstract class MixinTileEntityPiston extends TileEntity implements ITileE
     {
         return this.lastTicked;
     }
+    public float getLastProgress() { return this.lastProgress; }
 }

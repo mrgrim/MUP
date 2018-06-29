@@ -30,33 +30,30 @@ public abstract class MixinBlockPistonBase extends BlockDirectional {
     @Redirect(method = "checkForMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;addBlockEvent(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/Block;II)V", ordinal = 1))
     private void sendDropBlockFlag(World world, BlockPos pos, Block blockIn, int eventID, int eventParam, World worldIn, BlockPos callpos, IBlockState state)
     {
-        EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+        final EnumFacing enumfacing = state.getValue(FACING);
         
-        BlockPos blockpos = new BlockPos(callpos).add(enumfacing.getFrontOffsetX() * 2, enumfacing.getFrontOffsetY() * 2, enumfacing.getFrontOffsetZ() * 2);
-        IBlockState iblockstate = worldIn.getBlockState(blockpos);
-        Block block = iblockstate.getBlock();
-        int pullable = 0;
+        final BlockPos blockpos = new BlockPos(callpos).offset(enumfacing, 2);
+        final IBlockState iblockstate = worldIn.getBlockState(blockpos);
+        
+        int suppress_move = 0;
 
-        if (block != Blocks.PISTON_EXTENSION)
+        if (iblockstate.getBlock() == Blocks.PISTON_EXTENSION)
         {
-            pullable = 16;
-        }
-        else 
-        {
-            TileEntity tileentity = worldIn.getTileEntity(blockpos);
+            final TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
-            if (tileentity instanceof TileEntityPiston && ((TileEntityPiston)tileentity).getFacing() == enumfacing && ((TileEntityPiston)tileentity).isExtending()) {
-                if (((TileEntityPiston)tileentity).getProgress(0) >= 0.5F && tileentity.getWorld().getTotalWorldTime() != ((ITileEntityPiston)tileentity).getLastTicked() && ((IWorldServer)worldIn).haveBlockActionsProcessed()) {
-                    pullable = 16;
+            if (tileentity instanceof TileEntityPiston)
+            {
+                final TileEntityPiston tileentitypiston = (TileEntityPiston)tileentity;
+                if (tileentitypiston.getFacing() == enumfacing && tileentitypiston.isExtending()
+                        && (((ITileEntityPiston)tileentitypiston).getLastProgress() < 0.5F
+                        || tileentitypiston.getWorld().getTotalWorldTime() == ((ITileEntityPiston)tileentitypiston).getLastTicked()
+                        || !((IWorldServer)worldIn).haveBlockActionsProcessed())) {
+                    suppress_move = 16;
                 }
             }
-            else
-            {
-                pullable = 16;
-            }
         }
         
-        worldIn.addBlockEvent(pos, blockIn, eventID, eventParam | pullable);
+        worldIn.addBlockEvent(pos, blockIn, eventID, eventParam | suppress_move);
     }
 
     @Inject(method = "eventReceived", at = @At("HEAD"))
@@ -68,7 +65,7 @@ public abstract class MixinBlockPistonBase extends BlockDirectional {
     @ModifyVariable(method = "eventReceived", name = "flag1", index = 11, at = @At(value = "LOAD", ordinal = 0))
     private boolean didServerDrop(boolean flag1)
     {
-        if ((this.mixinEventParam & 16) == 0)
+        if ((this.mixinEventParam & 16) == 16)
         {
             flag1 = true;
         }
