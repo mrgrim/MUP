@@ -34,7 +34,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.4.2703"
+    version = "1.12.2-14.23.4.2726"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.
@@ -44,6 +44,8 @@ minecraft {
     // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = "snapshot_20180502"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+    replace '@FINGERPRINT@', project.findProperty('signSHA1')
 
     def args = [
             "-Dfml.coreMods.load=org.gr1m.mc.mup.MupCore",
@@ -70,6 +72,9 @@ repositories {
 configurations {
     embed
     implementation.extendsFrom(embed)
+
+    shade
+    compile.extendsFrom shade
 }
 
 dependencies {
@@ -95,9 +100,14 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //embed("org.spongepowered:mixin:0.7.8-SNAPSHOT") { transitive = false }
-    compile('org.spongepowered:mixin:0.7.10-SNAPSHOT') {
-        exclude module: 'guava'
-        exclude module: 'gson'
+    shade('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: "asm-commons"
+        exclude module: "asm-tree"
+        exclude module: "launchwrapper"
+        exclude module: "guava"
+        exclude module: "log4j-core"
+        exclude module: "gson"
+        exclude module: "commons-io"
     }
     compile 'org.jetbrains.java.decompiler:fernflower:sponge-SNAPSHOT'
 }
@@ -129,4 +139,31 @@ jar {
             'ForceLoadAsMod': 'true',
             'TweakOrder': 0
     )
+    
+    configurations.shade.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
 }
+
+task signJar(type: SignJar, dependsOn: reobfJar) {
+
+    // Skips if the keyStore property is missing.
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+
+    // findProperty allows us to reference the property without it existing. 
+    // Using project.propName would cause the script to fail validation if 
+    // the property did not exist. 
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
+}
+
+// Runs this task automatically when build is ran. 
+build.dependsOn signJar

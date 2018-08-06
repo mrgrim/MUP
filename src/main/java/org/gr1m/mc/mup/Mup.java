@@ -12,12 +12,13 @@ import org.gr1m.mc.mup.mc5694.network.MC5694PacketHandler;
 
 import java.io.File;
 
-@Mod(modid = org.gr1m.mc.mup.Mup.MODID, name = org.gr1m.mc.mup.Mup.NAME, version = org.gr1m.mc.mup.Mup.VERSION)
+@Mod(modid = Mup.MODID, name = Mup.NAME, version = Mup.VERSION, certificateFingerprint = Mup.FINGERPRINT)
 public class Mup
 {
     public static final String MODID = "mup";
     public static final String NAME = "EigenCraft Unofficial Patch";
     public static final String VERSION = "1.0";
+    public static final String FINGERPRINT = "@FINGERPRINT@";
 
     private static Logger logger;
     private static MupConfig config;

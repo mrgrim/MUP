@@ -14,7 +14,7 @@ import java.util.Map;
 
 @IFMLLoadingPlugin.MCVersion(ForgeVersion.mcVersion)
 @IFMLLoadingPlugin.SortingIndex(-10000)
-@IFMLLoadingPlugin.TransformerExclusions("org.gr1m.mc.mup.")
+@IFMLLoadingPlugin.TransformerExclusions("org.gr1m.mc.mup.MupCore")
 public class MupCore implements IFMLLoadingPlugin {
     private static final Logger log = LogManager.getLogger();
     private static boolean initialized = false;

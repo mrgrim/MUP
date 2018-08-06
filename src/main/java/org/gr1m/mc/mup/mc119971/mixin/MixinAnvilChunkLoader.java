@@ -108,7 +108,7 @@ public abstract class MixinAnvilChunkLoader {
 
     /* --- end of new code for MC-119971 --- */
 
-    @Redirect(method = "loadChunk__Async", at = @At(value = "INVOKE", target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;", ordinal = 0))
+    @Redirect(method = "loadChunk__Async", at = @At(value = "INVOKE", target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;", ordinal = 0, remap = false), remap = false)
     private Object pullChunkToSave(Map lChunksToSave, Object lpos)
     {
         return this.reloadChunkFromSaveQueues((ChunkPos)lpos);
@@ -122,7 +122,7 @@ public abstract class MixinAnvilChunkLoader {
         ci.setReturnValue(exists || RegionFileCache.chunkExists(this.chunkSaveLocation, x, z));
     }
     
-    @Redirect(method = "addChunkToPending", at = @At(value = "INVOKE", target = "Ljava/util/Set;contains(Ljava/lang/Object;)Z"))
+    @Redirect(method = "addChunkToPending", at = @At(value = "INVOKE", target = "Ljava/util/Set;contains(Ljava/lang/Object;)Z", remap = false))
     private boolean overrideAddChunkToPending(Set lChunksBeingSaved, Object lPos, ChunkPos pos, NBTTagCompound compound)
     {
         this.queueChunkToSave(pos, compound);
