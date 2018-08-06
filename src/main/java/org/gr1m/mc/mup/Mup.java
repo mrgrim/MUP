@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 import org.gr1m.mc.mup.mc4.network.MC4PacketHandler;
+import org.gr1m.mc.mup.mc5694.network.MC5694PacketHandler;
 
 import java.io.File;
 
@@ -35,6 +36,7 @@ public class Mup
         config.init(new File(Launch.minecraftHome, "config/mup.cfg"));
 
         if (config.mc4)            MC4PacketHandler.registerMessagesAndEvents();
+        if (config.mc5694)         MC5694PacketHandler.registerMessagesAndEvents();
     }
 
     @EventHandler
