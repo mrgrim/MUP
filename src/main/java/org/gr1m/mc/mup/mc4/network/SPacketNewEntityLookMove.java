@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.gr1m.mc.mup.mc4.INetHandlerPlayClient;
 
-public class SPacketNewEntityLookMove implements IMessage
+public class SPacketNewEntityLookMove implements ICloneableMessage
 {
     private int entityId;
     private double x, y, z;
@@ -30,6 +30,11 @@ public class SPacketNewEntityLookMove implements IMessage
         this.yaw = yawIn;
         this.pitch = pitchIn;
         this.onGround = onGroundIn;
+    }
+
+    public SPacketNewEntityLookMove cloneMessage()
+    {
+        return new SPacketNewEntityLookMove(this.entityId, this.x, this.y, this.z, this.yaw, this.pitch, this.onGround);
     }
 
     @Override
@@ -57,6 +62,7 @@ public class SPacketNewEntityLookMove implements IMessage
     }
 
     public Entity getEntity(World worldIn) { return worldIn.getEntityByID(this.entityId); }
+    public int getEntityId() { return this.entityId; }
     public double getX() { return this.x; }
     public double getY() { return this.y; }
     public double getZ() { return this.z; }

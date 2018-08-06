@@ -21,9 +21,9 @@ public abstract class MixinNetHandlerPlayClient implements INetHandlerPlayClient
 
         if (entity != null)
         {
-            double x = entity.posX + packetIn.getX();
-            double y = entity.posY + packetIn.getY();
-            double z = entity.posZ + packetIn.getZ();
+            double x = packetIn.getX();
+            double y = packetIn.getY();
+            double z = packetIn.getZ();
             EntityTracker.updateServerPosition(entity, x, y, z);
 
             if (!entity.canPassengerSteer())
@@ -40,9 +40,9 @@ public abstract class MixinNetHandlerPlayClient implements INetHandlerPlayClient
 
         if (entity != null)
         {
-            double x = entity.posX + packetIn.getX();
-            double y = entity.posY + packetIn.getY();
-            double z = entity.posZ + packetIn.getZ();
+            double x = packetIn.getX();
+            double y = packetIn.getY();
+            double z = packetIn.getZ();
             EntityTracker.updateServerPosition(entity, x, y, z);
 
             if (!entity.canPassengerSteer())
