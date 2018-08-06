@@ -1,0 +1,11 @@
+{
+  "package": "org.gr1m.mc.mup.mc118710.mixin",
+  "refmap": "mixins.mup.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinEntityPlayerSP",
+    "MixinNetHandlerPlayServer",    
+    "MixinPlayerControllerMP"
+  ]
+}
