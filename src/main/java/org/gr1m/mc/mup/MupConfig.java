@@ -1,45 +1,48 @@
 package org.gr1m.mc.mup;
 
-import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.io.File;
-
+@Config(modid = Mup.MODID, type = Config.Type.INSTANCE, category = "General")
 public class MupConfig {
+    
+    @Config.Name("Bug Fixes")
+    public static SubCatBugFixes BugFixes = new SubCatBugFixes();
 
-    private Configuration config;
+    public static class SubCatBugFixes {
+        @Config.RequiresMcRestart
+        public boolean mc4 = true;
 
-    public boolean mc4;
-    public boolean mc2025;
-    public boolean mc5694;
-    public boolean mc9568;
-    public boolean mc54026;
-    public boolean mc118710;
-    public boolean mc119971;
+        @Config.RequiresMcRestart
+        public boolean mc2025 = true;
 
-    public void init(File file) {
-        if (!file.exists()) {
-            mc4 = true;
-            mc2025 = true;
-            mc5694 = true;
-            mc9568 = true;
-            mc54026 = true;
-            mc118710 = true;
-            mc119971 = true;
-            return;
-        }
-        if (config == null) {
-            config = new Configuration(file);
-            reload();
-        }
+        @Config.RequiresMcRestart
+        public boolean mc5694 = true;
+
+        @Config.RequiresMcRestart
+        public boolean mc9568 = true;
+
+        @Config.RequiresMcRestart
+        public boolean mc54026 = true;
+
+        @Config.RequiresMcRestart
+        public boolean mc118710 = true;
+
+        @Config.RequiresMcRestart
+        public boolean mc119971 = true;
     }
 
-    public void reload() {
-        mc4      = config.get("fixes", "mc4",  true).getBoolean();
-        mc2025   = config.get("fixes", "mc2025",  true).getBoolean();
-        mc5694   = config.get("fixes", "mc5694",  true).getBoolean();
-        mc9568   = config.get("fixes", "mc9568",  true).getBoolean();
-        mc54026  = config.get("fixes", "mc54026", true).getBoolean();
-        mc118710 = config.get("fixes", "mc118710", true).getBoolean();
-        mc119971 = config.get("fixes", "mc119971", true).getBoolean();
+    @Mod.EventBusSubscriber(modid = Mup.MODID)
+    private static class EventHandler {
+
+        @SubscribeEvent
+        public static void onConfigChanged(final ConfigChangedEvent.OnConfigChangedEvent event) {
+            if (event.getModID().equals(Mup.MODID)) {
+                ConfigManager.sync(Mup.MODID, Config.Type.INSTANCE);
+            }
+        }
     }
 }
