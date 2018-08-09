@@ -19,7 +19,7 @@ public class MupCore implements IFMLLoadingPlugin {
     private static final Logger log = LogManager.getLogger();
     private static boolean initialized = false;
 
-    private static MupConfig config;
+    private static MupCoreConfig config;
 
     public MupCore() {
         initialize();
@@ -41,8 +41,8 @@ public class MupCore implements IFMLLoadingPlugin {
         if (initialized) return;
         initialized = true;
 
-        config = new MupConfig();
-        config.init(new File(Launch.minecraftHome, "config/mup.cfg"));
+        config = new MupCoreConfig();
+        config.init(new File(Launch.minecraftHome, "mup.cfg"));
     }
 
     @Override public String[] getASMTransformerClass() {

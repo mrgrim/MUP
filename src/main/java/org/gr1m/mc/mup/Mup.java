@@ -1,6 +1,5 @@
 package org.gr1m.mc.mup;
 
-import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -9,8 +8,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 import org.gr1m.mc.mup.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.mc5694.network.MC5694PacketHandler;
-
-import java.io.File;
 
 @Mod(modid = Mup.MODID, name = Mup.NAME, version = Mup.VERSION, certificateFingerprint = Mup.FINGERPRINT)
 public class Mup
@@ -21,7 +18,7 @@ public class Mup
     public static final String FINGERPRINT = "@FINGERPRINT@";
 
     private static Logger logger;
-    private static MupConfig config;
+    private static MupCoreConfig config;
     
     public Mup()
     {
@@ -33,8 +30,8 @@ public class Mup
         logger = event.getModLog();
         logger.info("EigenCraft Unofficial Patch Loading");
 
-        config = new MupConfig();
-        config.init(new File(Launch.minecraftHome, "config/mup.cfg"));
+        config = new MupCoreConfig();
+        config.init(event.getSuggestedConfigurationFile());
 
         if (config.mc4)            MC4PacketHandler.registerMessagesAndEvents();
         if (config.mc5694)         MC5694PacketHandler.registerMessagesAndEvents();

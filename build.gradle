@@ -144,6 +144,9 @@ jar {
         from(project.zipTree(dep)){
             exclude 'META-INF', 'META-INF/**'
         }
+        from(project.zipTree(dep)){
+            include 'META-INF/services', 'META-INF/services/**'
+        }
     }
 }
 
