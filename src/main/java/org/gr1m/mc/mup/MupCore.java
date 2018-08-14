@@ -42,7 +42,7 @@ public class MupCore implements IFMLLoadingPlugin {
         initialized = true;
 
         config = new MupCoreConfig();
-        config.init(new File(Launch.minecraftHome, "mup.cfg"));
+        config.init(new File(Launch.minecraftHome, "config/mup.cfg"));
     }
 
     @Override public String[] getASMTransformerClass() {

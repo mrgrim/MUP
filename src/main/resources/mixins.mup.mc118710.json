@@ -1,12 +1,12 @@
 {
-  "package": "org.gr1m.mc.mup.mc118710.mixin",
+  "package": "org.gr1m.mc.mup.bugfix.mc118710.mixin",
   "refmap": "mixins.mup.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.7.2",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinEntityPlayerSP",
-    "MixinNetHandlerPlayServer",    
+    "MixinNetHandlerPlayServer",
     "MixinPlayerControllerMP"
   ]
 }

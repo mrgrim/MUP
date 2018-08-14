@@ -1,5 +1,5 @@
 {
-  "package": "org.gr1m.mc.mup.mc2025.mixin",
+  "package": "org.gr1m.mc.mup.bugfix.mc2025.mixin",
   "refmap": "mixins.mup.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.7.2",

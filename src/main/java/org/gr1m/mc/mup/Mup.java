@@ -1,15 +1,23 @@
 package org.gr1m.mc.mup;
 
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
-import org.gr1m.mc.mup.mc4.network.MC4PacketHandler;
-import org.gr1m.mc.mup.mc5694.network.MC5694PacketHandler;
+import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
+import org.gr1m.mc.mup.bugfix.mc5694.network.MC5694PacketHandler;
+import org.gr1m.mc.mup.config.MupConfig;
 
-@Mod(modid = Mup.MODID, name = Mup.NAME, version = Mup.VERSION, certificateFingerprint = Mup.FINGERPRINT)
+import java.io.File;
+
+@Mod(modid = Mup.MODID, 
+     name = Mup.NAME,
+     version = Mup.VERSION,
+     certificateFingerprint = Mup.FINGERPRINT,
+     guiFactory = "org.gr1m.mc.mup.config.MupGuiFactory")
 public class Mup
 {
     public static final String MODID = "mup";
@@ -17,8 +25,8 @@ public class Mup
     public static final String VERSION = "1.0";
     public static final String FINGERPRINT = "@FINGERPRINT@";
 
-    private static Logger logger;
-    private static MupCoreConfig config;
+    public static Logger logger;
+    public static MupConfig config = new MupConfig();
     
     public Mup()
     {
@@ -29,12 +37,12 @@ public class Mup
     { 
         logger = event.getModLog();
         logger.info("EigenCraft Unofficial Patch Loading");
+        
+        config.init(new File(Launch.minecraftHome, "config/mup.cfg"));
+        config.load();
 
-        config = new MupCoreConfig();
-        config.init(event.getSuggestedConfigurationFile());
-
-        if (config.mc4)            MC4PacketHandler.registerMessagesAndEvents();
-        if (config.mc5694)         MC5694PacketHandler.registerMessagesAndEvents();
+        if (config.mc4.isEnabled())            MC4PacketHandler.registerMessagesAndEvents();
+        if (config.mc5694.isEnabled())         MC5694PacketHandler.registerMessagesAndEvents();
     }
 
     @EventHandler
