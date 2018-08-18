@@ -109,6 +109,7 @@ dependencies {
         exclude module: "gson"
         exclude module: "commons-io"
     }
+    
     compile 'org.jetbrains.java.decompiler:fernflower:sponge-SNAPSHOT'
 }
 

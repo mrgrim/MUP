@@ -1,7 +1,6 @@
-package org.gr1m.mc.mup;
+package org.gr1m.mc.mup.core;
 
-import net.minecraft.launchwrapper.Launch;
-import net.minecraftforge.common.ForgeVersion;
+import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,11 +11,11 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.util.Map;
 
-@IFMLLoadingPlugin.MCVersion(ForgeVersion.mcVersion)
+@IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.SortingIndex(-10000)
-@IFMLLoadingPlugin.TransformerExclusions("org.gr1m.mc.mup.MupCore")
+@IFMLLoadingPlugin.TransformerExclusions("org.gr1m.mc.mup.core.MupCore")
 public class MupCore implements IFMLLoadingPlugin {
-    private static final Logger log = LogManager.getLogger();
+    public static final Logger log = LogManager.getLogger();
     private static boolean initialized = false;
 
     private static MupCoreConfig config;
@@ -42,7 +41,7 @@ public class MupCore implements IFMLLoadingPlugin {
         initialized = true;
 
         config = new MupCoreConfig();
-        config.init(new File(Launch.minecraftHome, "config/mup.cfg"));
+        config.init(new File(((File)(FMLInjectionData.data()[6])), "config/mup.cfg"));
     }
 
     @Override public String[] getASMTransformerClass() {

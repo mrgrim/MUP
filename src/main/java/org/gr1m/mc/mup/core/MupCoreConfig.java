@@ -1,6 +1,6 @@
-package org.gr1m.mc.mup;
+package org.gr1m.mc.mup.core;
 
-import net.minecraftforge.common.config.Configuration;
+import org.gr1m.mc.mup.core.config.Configuration;
 
 import java.io.File;
 
