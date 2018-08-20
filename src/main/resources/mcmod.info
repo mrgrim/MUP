@@ -2,13 +2,13 @@
 {
   "modid": "mup",
   "name": "EigenCraft Unofficial Patch",
-  "description": "A collection of vanilla bug fixes and optimization.",
+  "description": "A collection of vanilla bug fixes, optimizations, and tweaks.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["MrGrim"],
-  "credits": "All of the contributors that have provided community fixes at Mojira.",
+  "credits": "All of the contributors that have provided community fixes at Mojira, EigenCraft Discord server, and elsewhere. Per patch credits can be viewed in the configuration GUI tooltips.",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

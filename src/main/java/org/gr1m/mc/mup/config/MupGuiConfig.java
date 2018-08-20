@@ -25,7 +25,7 @@ public class MupGuiConfig extends GuiConfig {
 
     private static List<IConfigElement> getConfigElements() {
         List<IConfigElement> list = new ArrayList<IConfigElement>();
-        list.add(new DummyConfigElement.DummyCategoryElement("Bug Fixes", "foo", MupGuiConfig.BugFixes.class));
+        list.add(new DummyConfigElement.DummyCategoryElement("Bug Fixes", "bugfixes", MupGuiConfig.BugFixes.class));
         return list;
     }
 
