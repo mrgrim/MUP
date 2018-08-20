@@ -24,7 +24,7 @@ apply plugin: 'java'
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
 
-version = "1.0"
+version = "1.0.0"
 group = "org.gr1m.mc" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "mup"
 
