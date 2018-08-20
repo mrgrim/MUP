@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc4.network.ICloneableMessage;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc4.network.SPacketNewEntityLookMove;
@@ -90,7 +91,7 @@ public abstract class MixinEntityTrackerEntry {
         
         for (EntityPlayerMP entityplayermp : this.trackingPlayers)
         {
-            if (mc4Packet != null && MC4PacketHandler.registered_clients.contains(entityplayermp.connection))
+            if (mc4Packet != null && MC4PacketHandler.registered_clients.contains(entityplayermp.connection) && Mup.config.mc4.enabled)
             {
                 MC4PacketHandler.INSTANCE.sendTo(mc4Packet, entityplayermp.connection.player);
             } else {

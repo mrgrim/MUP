@@ -6,6 +6,7 @@ import net.minecraft.server.management.PlayerInteractionManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc5694.IPlayerInteractionManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -36,7 +37,7 @@ public class MixinPlayerInteractionManager implements IPlayerInteractionManager 
             method = "onBlockClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;sendBlockBreakProgress(ILnet/minecraft/util/math/BlockPos;I)V"))
     private void sendBlockStateOnFailedInstaMine(BlockPos pos, EnumFacing side, CallbackInfo ci)
     {
-        if (this.clientInstaMined)
+        if (this.clientInstaMined && Mup.config.mc5694.enabled)
         {
             this.player.connection.sendPacket(new SPacketBlockChange(this.world, this.destroyPos));
         }

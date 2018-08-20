@@ -4,6 +4,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import org.gr1m.mc.mup.Mup;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,23 +41,26 @@ public abstract class MixinEntity implements ICommandSender {
 
     @Inject(method = "setSize", at = @At("HEAD"), cancellable = true)
     protected void onSetSize(float width, float height, CallbackInfo ci) {
-        if (width != this.width || height != this.height)
+        if (Mup.config.mc9568.enabled)
         {
-            float f = this.width;
-            this.width = width;
-            this.height = height;
-            AxisAlignedBB oldAABB = this.getEntityBoundingBox();
-
-            double d0 = (double)width / 2.0D;
-            this.setEntityBoundingBox(new AxisAlignedBB(this.posX - d0, this.posY, this.posZ - d0, this.posX + d0, this.posY + (double)this.height, this.posZ + d0));
-
-            if (this.width > f && !this.firstUpdate && !this.world.isRemote)
+            if (width != this.width || height != this.height)
             {
-                this.pushEntityOutOfBlocks(oldAABB); // new code proposed for fixing MC-9568
-            }
-        }
+                float f = this.width;
+                this.width = width;
+                this.height = height;
+                AxisAlignedBB oldAABB = this.getEntityBoundingBox();
 
-        ci.cancel();
+                double d0 = (double) width / 2.0D;
+                this.setEntityBoundingBox(new AxisAlignedBB(this.posX - d0, this.posY, this.posZ - d0, this.posX + d0, this.posY + (double) this.height, this.posZ + d0));
+
+                if (this.width > f && !this.firstUpdate && !this.world.isRemote)
+                {
+                    this.pushEntityOutOfBlocks(oldAABB); // new code proposed for fixing MC-9568
+                }
+            }
+
+            ci.cancel();
+        }
     }
 
     private void pushEntityOutOfBlocks(AxisAlignedBB oldHitbox){

@@ -105,7 +105,7 @@ public class MupGuiConfig extends GuiConfig {
             this.enableButton = new GuiButtonExt(0, owningEntryList.controlX + this.loadButton.getButtonWidth() + 10, 0,
                     owningEntryList.controlWidth - this.loadButton.getButtonWidth() - 10, 18, currentEnableValue ? "enabled" : "disabled");
             
-            this.enableButton.enabled = enabled() && currentLoadValue;
+            this.enableButton.enabled = enabled() && currentLoadValue && ((IMupConfigElement) this.configElement).isToggleable();
             updateEnableButtonText();
             
             this.toolTip.clear();
@@ -116,21 +116,29 @@ public class MupGuiConfig extends GuiConfig {
                 toolTip.add(TextFormatting.YELLOW + comment.replace('\n', ' '));
             else if (configElement.getComment() != null && !configElement.getComment().trim().isEmpty())
                 toolTip.add(TextFormatting.YELLOW + configElement.getComment().replace('\n', ' '));
-            else
-                toolTip.add(TextFormatting.RED + "No tooltip defined.");
 
             // TODO: Translation
+            if ((((IMupConfigElement) this.configElement).getSideEffects()) != null) toolTip.add(TextFormatting.RED + "Side Effects: " + (((IMupConfigElement) this.configElement).getSideEffects()));
+            toolTip.add(TextFormatting.WHITE + "Credits: " + (((IMupConfigElement) this.configElement).getCredits()));
             toolTip.add(TextFormatting.AQUA + "[default: " + (Boolean.valueOf(configElement.getDefaults()[0].toString()) ? "Loaded" : "Not Loaded") + ", " + (Boolean.valueOf(configElement.getDefaults()[0].toString()) ? "Enabled" : "Disabled") + "]");
             toolTip.add(TextFormatting.RED + "[Restart Required to Load/Unload!]");
         }
 
         public void updateEnableButtonText() {
-            this.enableButton.displayString = currentEnableValue ? "enabled" : "disabled";
-            enableButton.packedFGColour = currentEnableValue ? GuiUtils.getColorCode('2', true) : GuiUtils.getColorCode('4', true);
+            if (((IMupConfigElement) this.configElement).isToggleable())
+            {
+                this.enableButton.displayString = currentEnableValue ? "enabled" : "disabled";
+                enableButton.packedFGColour = currentEnableValue ? GuiUtils.getColorCode('2', true) : GuiUtils.getColorCode('4', true);
+            }
+            else
+            {
+                this.enableButton.displayString = currentLoadValue ? "enabled" : "disabled";
+                enableButton.packedFGColour = currentLoadValue ? GuiUtils.getColorCode('9', true) : GuiUtils.getColorCode('4', true);
+            }
         }
 
         public void enableButtonPressed(int slotIndex) {
-            if (enabled())
+            if (enabled() && this.enableButton.enabled)
                 currentEnableValue = !currentEnableValue;
         }
         
@@ -140,7 +148,7 @@ public class MupGuiConfig extends GuiConfig {
             {
                 if (this.loadButton.isChecked())
                 {
-                    this.enableButton.enabled = enabled();
+                    this.enableButton.enabled = enabled() && (((IMupConfigElement) this.configElement).isToggleable());
                     currentLoadValue = true;
                     currentEnableValue = realEnableValue;
                     updateEnableButtonText();
@@ -150,8 +158,8 @@ public class MupGuiConfig extends GuiConfig {
                     realEnableValue = currentEnableValue;
                     currentEnableValue = false;
                     this.enableButton.enabled = false;
-                    updateEnableButtonText();
                     currentLoadValue = false;
+                    updateEnableButtonText();
                 }
             }
         }
@@ -178,7 +186,7 @@ public class MupGuiConfig extends GuiConfig {
                 }
                 
                 updateEnableButtonText();
-                this.enableButton.enabled = currentLoadValue;
+                this.enableButton.enabled = currentLoadValue && (((IMupConfigElement) this.configElement).isToggleable());
             }
         }
 
@@ -225,19 +233,19 @@ public class MupGuiConfig extends GuiConfig {
             this.enableButton.width = this.owningEntryList.controlWidth - this.loadButton.getButtonWidth() - 10;
             this.enableButton.x = this.owningScreen.entryList.controlX + this.loadButton.getButtonWidth() + 10;
             this.enableButton.y = y;
-            this.enableButton.enabled = enabled() && currentLoadValue;
+            this.enableButton.enabled = enabled() && currentLoadValue && (((IMupConfigElement) this.configElement).isToggleable());
             this.enableButton.drawButton(this.mc, mouseX, mouseY, partial);
 
             this.loadButton.x = this.owningScreen.entryList.controlX;
             this.loadButton.y = y + ((slotHeight - this.loadButton.height) / 2) + 1;
-            this.enableButton.enabled = enabled();
+            this.loadButton.enabled = enabled();
             this.loadButton.drawButton(this.mc, mouseX, mouseY, partial);
         }
 
         @Override
         public boolean mousePressed(int index, int x, int y, int mouseEvent, int relativeX, int relativeY)
         {
-            if (this.enableButton.mousePressed(this.mc, x, y) && this.enableButton.enabled)
+            if (this.enableButton.mousePressed(this.mc, x, y))
             {
                 enableButton.playPressSound(mc.getSoundHandler());
                 enableButtonPressed(index);
@@ -275,13 +283,25 @@ public class MupGuiConfig extends GuiConfig {
         {}
     }
     
-    public static class PatchElement extends ConfigElement {
-        final Property patchProp;
+    public static class PatchElement extends ConfigElement implements IMupConfigElement
+    {
+        private final Property patchProp;
+        private final boolean toggleable;
+        private final String name;
+        private final String credits;
+        private final String sideEffects;
         
         public PatchElement(Property prop)
         {
             super(prop);
             patchProp = prop;
+
+            PatchDef patchDef = Mup.config.get(patchProp.getName());
+
+            this.name = (patchDef == null) ? patchProp.getName() : patchDef.getDisplayName();
+            this.toggleable = (patchDef == null) || patchDef.isToggleable();
+            this.credits = (patchDef == null) ? (TextFormatting.ITALIC + "No credits defined") : patchDef.getCredits();
+            this.sideEffects = (patchDef == null) ? null : patchDef.getSideEffects();
         }
 
         @Override
@@ -293,9 +313,25 @@ public class MupGuiConfig extends GuiConfig {
         @Override
         public String getName()
         {
-            MupConfig.BugDef bugDef = Mup.config.get(patchProp.getName());
-            
-            return (bugDef == null) ? patchProp.getName() : bugDef.getDisplayName();
+            return this.name;
+        }
+
+        @Override
+        public String getCredits()
+        {
+            return this.credits;
+        }
+
+        @Override
+        public String getSideEffects()
+        {
+            return this.sideEffects;
+        }
+
+        @Override
+        public boolean isToggleable()
+        {
+            return this.toggleable;
         }
     }
 }

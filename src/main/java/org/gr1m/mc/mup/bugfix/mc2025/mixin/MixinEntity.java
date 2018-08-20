@@ -5,6 +5,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.AxisAlignedBB;
+import org.gr1m.mc.mup.Mup;
+import org.gr1m.mc.mup.config.MupConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,8 +41,11 @@ public abstract class MixinEntity implements ICommandSender {
     @Inject(method = "writeToNBT", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagCompound;setUniqueId(Ljava/lang/String;Ljava/util/UUID;)V", shift = At.Shift.AFTER, ordinal = 0))
     private void saveAABBToNBT(NBTTagCompound compound, CallbackInfoReturnable<NBTTagCompound> ci)
     {
-        AxisAlignedBB aabb = this.getEntityBoundingBox();
-        compound.setTag("AABB", this.newDoubleNBTList(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ));
+        if (Mup.config.mc2025.enabled)
+        {
+            AxisAlignedBB aabb = this.getEntityBoundingBox();
+            compound.setTag("AABB", this.newDoubleNBTList(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ));
+        }
     }
     
     @Redirect(method = "readFromNBT", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;shouldSetPosAfterLoading()Z"))
@@ -51,7 +56,7 @@ public abstract class MixinEntity implements ICommandSender {
             this.setPosition(this.posX, this.posY, this.posZ);
         }
         
-        if (compound.hasKey("AABB", 6))
+        if (Mup.config.mc2025.enabled && compound.hasKey("AABB", 6))
         {
             NBTTagList aabb = compound.getTagList("AABB", 6);
             this.setEntityBoundingBox(new AxisAlignedBB(aabb.getDoubleAt(0), aabb.getDoubleAt(1), aabb.getDoubleAt(2), aabb.getDoubleAt(3), aabb.getDoubleAt(4), aabb.getDoubleAt(5)));

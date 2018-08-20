@@ -6,7 +6,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinNetHandlerPlayServer",
-    "MixinPlayerControllerMP",
     "MixinPlayerInteractionManager"
+  ],
+  "client": [
+    "MixinPlayerControllerMP"
   ]
 }

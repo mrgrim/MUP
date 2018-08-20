@@ -34,7 +34,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.4.2726"
+    version = "1.12.2-14.23.4.2757"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.
@@ -134,7 +134,7 @@ processResources {
 
 jar {
     manifest.attributes(
-            'FMLCorePlugin': 'org.gr1m.mc.mup.MupCore',
+            'FMLCorePlugin': 'org.gr1m.mc.mup.core.MupCore',
             'FMLCorePluginContainsFMLMod': 'org.gr1m.mc.mup.Mup',
             'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
             'ForceLoadAsMod': 'true',

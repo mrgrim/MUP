@@ -9,6 +9,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc5694.network.CPacketInstaMine;
 import org.gr1m.mc.mup.bugfix.mc5694.network.MC5694PacketHandler;
 import org.spongepowered.asm.mixin.Final;
@@ -29,15 +30,22 @@ public class MixinPlayerControllerMP {
               method = "clickBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetHandlerPlayClient;sendPacket(Lnet/minecraft/network/Packet;)V", ordinal = 0))
     private void sendStartDiggingPacket(final NetHandlerPlayClient connection, Packet<?> packetIn)
     {
-        // TODO: Optimize redundant calls to getBlockState and getPlayerRelativeBlockHardness 
-        
-        BlockPos pos = ((CPacketPlayerDigging)packetIn).getPosition();
-        EnumFacing facing = ((CPacketPlayerDigging)packetIn).getFacing();
-        IBlockState iblockstate = this.mc.world.getBlockState(pos);
-        
-        if (iblockstate.getMaterial() != Material.AIR && iblockstate.getPlayerRelativeBlockHardness(this.mc.player, this.mc.player.world, pos) >= 1.0F)
+        if (Mup.config.mc5694.enabled)
         {
-            MC5694PacketHandler.INSTANCE.sendToServer(new CPacketInstaMine(pos, facing));
+            // TODO: Optimize redundant calls to getBlockState and getPlayerRelativeBlockHardness 
+
+            BlockPos pos = ((CPacketPlayerDigging) packetIn).getPosition();
+            EnumFacing facing = ((CPacketPlayerDigging) packetIn).getFacing();
+            IBlockState iblockstate = this.mc.world.getBlockState(pos);
+
+            if (iblockstate.getMaterial() != Material.AIR && iblockstate.getPlayerRelativeBlockHardness(this.mc.player, this.mc.player.world, pos) >= 1.0F)
+            {
+                MC5694PacketHandler.INSTANCE.sendToServer(new CPacketInstaMine(pos, facing));
+            }
+            else
+            {
+                connection.sendPacket(packetIn);
+            }
         }
         else
         {

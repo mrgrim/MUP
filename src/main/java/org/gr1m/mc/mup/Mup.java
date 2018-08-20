@@ -9,11 +9,12 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc5694.network.MC5694PacketHandler;
+import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
 import org.gr1m.mc.mup.config.MupConfig;
 
 import java.io.File;
 
-@Mod(modid = Mup.MODID, 
+@Mod(modid = Mup.MODID,
      name = Mup.NAME,
      version = Mup.VERSION,
      certificateFingerprint = Mup.FINGERPRINT,
@@ -27,29 +28,31 @@ public class Mup
 
     public static Logger logger;
     public static MupConfig config = new MupConfig();
-    
+
     public Mup()
     {
     }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
-    { 
+    {
         logger = event.getModLog();
         logger.info("EigenCraft Unofficial Patch Loading");
-        
+
         config.init(new File(Launch.minecraftHome, "config/mup.cfg"));
         config.load();
 
-        if (config.mc4.isEnabled())            MC4PacketHandler.registerMessagesAndEvents();
-        if (config.mc5694.isEnabled())         MC5694PacketHandler.registerMessagesAndEvents();
+        if (config.mc4.isLoaded()) MC4PacketHandler.registerMessagesAndEvents();
+        if (config.mc5694.isLoaded()) MC5694PacketHandler.registerMessagesAndEvents();
+
+        ConfigPacketHandler.registerMessagesAndEvents();
     }
 
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
     }
-    
+
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {

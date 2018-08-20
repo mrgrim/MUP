@@ -3,6 +3,7 @@ package org.gr1m.mc.mup.config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
+import org.gr1m.mc.mup.Mup;
 
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class MupGuiFactory implements IModGuiFactory
     @Override
     public boolean hasConfigGui()
     {
-        return true;
+        return !Mup.config.isServerLocked();
     }
 
     @Override
