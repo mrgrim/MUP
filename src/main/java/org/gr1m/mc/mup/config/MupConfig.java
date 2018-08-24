@@ -61,6 +61,12 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Blocks attached to slime blocks can create ghost blocks"});
 
+    public final PatchDef mc73051 = new PatchDef("mc73051", PatchDef.Side.SERVER)
+        .setDisplayName("MC-73051")
+        .setCredits("Xcom")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Witch Hut structure data do not account for height the witch hut is generated at"});
+
     public final PatchDef mc108469 = new PatchDef("mc108469", PatchDef.Side.SERVER)
         .setDisplayName("MC-108469")
         .setCredits("Xcom")
