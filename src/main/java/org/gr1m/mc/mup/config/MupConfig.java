@@ -61,6 +61,13 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Blocks attached to slime blocks can create ghost blocks"});
 
+    public final PatchDef mc108469 = new PatchDef("mc108469", PatchDef.Side.SERVER)
+        .setDisplayName("MC-108469")
+        .setCredits("Xcom")
+        .setSideEffects("May slightly increase RAM use.")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Chunk-wise entity lists often don't get updated correctly (Entities disappear)"});
+
     public final PatchDef mc118710 = new PatchDef("mc118710", PatchDef.Side.BOTH)
         .setDisplayName("MC-118710")
         .setCredits("theosib, MrGrim")
