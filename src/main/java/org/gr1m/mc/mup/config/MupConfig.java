@@ -90,6 +90,16 @@ public class MupConfig
                                   "by loading outdated chunks — includes duping and deletion of entities/mobs,",
                                   "items in hoppers, and blocks moved by pistons, among other problems"});
 
+    public final PatchDef newlight = new PatchDef("newlight", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("Newlight")
+        .setCredits("PhiPro, Mathe172, nessie, MrGrim")
+        .setCategory("optimizations")
+        .setToggleable(false)
+        .setComment(new String[] {"This is a complete drop in replacement for the vanilla Block and Sky lighting engine.",
+                                  "It provides considerable performance improvements to light updates and fixes many",
+                                  "vanilla lighting bugs such as MC-3329, MC-3961, MC-9188, MC-11571, MC-80966,",
+                                  "MC-91136, MC-93132, MC-102162, and likely others."});
+
     public void init(File file)
     {
         if (config == null)

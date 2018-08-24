@@ -35,6 +35,8 @@ public class MupCore implements IFMLLoadingPlugin {
         if (config.mc108469)      Mixins.addConfiguration("mixins.mup.mc108469.json");
         if (config.mc118710)      Mixins.addConfiguration("mixins.mup.mc118710.json");
         if (config.mc119971)      Mixins.addConfiguration("mixins.mup.mc119971.json");
+
+        if (config.newlight)      Mixins.addConfiguration("mixins.mup.newlight.json");
         // @formatter:on
     }
 

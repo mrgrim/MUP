@@ -1,0 +1,18 @@
+{
+  "package": "org.gr1m.mc.mup.optimization.newlight.mixins",
+  "refmap": "mixins.mup.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.7.2",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinAnvilChunkLoader",
+    "MixinChunk",
+    "MixinChunkProviderServer",
+    "MixinExtendedBlockStorage",
+    "MixinMinecraft",
+    "MixinRenderGlobal",
+    "MixinSPacketChunkData",
+    "MixinWorld",
+    "MixinWorldServer"
+  ]
+}

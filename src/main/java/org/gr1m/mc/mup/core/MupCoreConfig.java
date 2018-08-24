@@ -17,6 +17,8 @@ public class MupCoreConfig {
     public boolean mc108469;
     public boolean mc118710;
     public boolean mc119971;
+    
+    public boolean newlight;
 
     public void init(File file)
     {
@@ -30,6 +32,8 @@ public class MupCoreConfig {
     public void load()
     {
         config.load();
+        
+        // Bug Fixes
         mc4      = config.get("bug fixes", "mc4", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc2025   = config.get("bug fixes", "mc2025", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc5694   = config.get("bug fixes", "mc5694", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
@@ -39,6 +43,9 @@ public class MupCoreConfig {
         mc108469 = config.get("bug fixes", "mc108469", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc118710 = config.get("bug fixes", "mc118710", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc119971 = config.get("bug fixes", "mc119971", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
+        
+        // Optimizations
+        newlight = config.get("optimizations", "newlight", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
     }
     
 }

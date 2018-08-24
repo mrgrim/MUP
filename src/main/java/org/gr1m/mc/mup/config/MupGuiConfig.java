@@ -26,6 +26,7 @@ public class MupGuiConfig extends GuiConfig {
     private static List<IConfigElement> getConfigElements() {
         List<IConfigElement> list = new ArrayList<IConfigElement>();
         list.add(new DummyConfigElement.DummyCategoryElement("Bug Fixes", "bugfixes", MupGuiConfig.BugFixes.class));
+        list.add(new DummyConfigElement.DummyCategoryElement("Optimizations", "optimizations", MupGuiConfig.Optimizations.class));
         return list;
     }
 
@@ -73,6 +74,30 @@ public class MupGuiConfig extends GuiConfig {
             GuiConfig guiConfig =  new GuiConfig(this.owningScreen, list, this.owningScreen.modID, "bug fixes", false, false, "EigenCraft Unofficial Patch");
             guiConfig.titleLine2 = "Bug Fixes";
             
+            return guiConfig;
+        }
+    }
+
+    public static class Optimizations extends GuiConfigEntries.CategoryEntry
+    {
+        public Optimizations(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement prop)
+        {
+            super(owningScreen, owningEntryList, prop);
+        }
+
+        @Override
+        protected GuiScreen buildChildScreen()
+        {
+            List<IConfigElement> list = new ArrayList<IConfigElement>();
+
+            for (Property bugfix : MupConfig.config.getCategory("optimizations").getOrderedValues())
+            {
+                list.add(new PatchElement(bugfix));
+            }
+
+            GuiConfig guiConfig =  new GuiConfig(this.owningScreen, list, this.owningScreen.modID, "optimizations", false, false, "EigenCraft Unofficial Patch");
+            guiConfig.titleLine2 = "Optimizations";
+
             return guiConfig;
         }
     }
