@@ -9,10 +9,13 @@
     "MixinChunk",
     "MixinChunkProviderServer",
     "MixinExtendedBlockStorage",
-    "MixinMinecraft",
-    "MixinRenderGlobal",
     "MixinSPacketChunkData",
     "MixinWorld",
     "MixinWorldServer"
+  ],
+  "client": [
+    "MixinChunkClient",
+    "MixinMinecraft",
+    "MixinRenderGlobal"
   ]
 }

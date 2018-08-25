@@ -51,9 +51,6 @@ public abstract class MixinChunk implements IChunk {
 	@Shadow
 	protected abstract int getBlockLightOpacity(int x, int y, int z);
 
-	@Shadow
-	protected abstract void generateHeightMap();
-
 	// Since we can't use LocalCapture directly in @Redirected methods we'll simply make a copy of them for ourselves.
 	@Inject(method = "generateSkylightMap", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/WorldProvider;hasSkyLight()Z"), locals = LocalCapture.CAPTURE_FAILHARD)
 	private void setJAndKFields(CallbackInfo ci, int i, int j, int k) {
@@ -170,18 +167,6 @@ public abstract class MixinChunk implements IChunk {
 	
 	@Redirect(method = "onTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/Chunk;checkLight()V"))
 	private void onCheckLight(Chunk chunk) {
-	}
-
-	// TODO: Give better name.
-	@Redirect(method = "read", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/Chunk;generateHeightMap()V"))
-	private void weAlsoCallThisElsewhere(Chunk chunk) {
-	}
-
-	@Inject(method = "read", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/Chunk;generateHeightMap()V", shift = At.Shift.AFTER))
-	private void preGenerateHeightMap(PacketBuffer buf, int availableSections, boolean groundUpContinuous, CallbackInfo ci) {
-		final int[] oldHeightMap = groundUpContinuous ? null : Arrays.copyOf(heightMap, heightMap.length);
-		this.generateHeightMap();
-		LightingHooks.relightSkylightColumns(world, (Chunk) (Object) this, oldHeightMap);
 	}
 
 	public short[] getNeighborLightChecks() {
