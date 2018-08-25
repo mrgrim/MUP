@@ -26,10 +26,32 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 * [MC-9568](https://bugs.mojang.com/browse/MC-9568) - Mobs suffocate / go through blocks when growing up near a solid
   block
 * [MC-54026](https://bugs.mojang.com/browse/MC-54026) - Blocks attached to slime blocks can create ghost blocks
+* [MC-73051](https://bugs.mojang.com/browse/MC-73051) - Witch Hut structure data do not account for height the witch hut
+  is generated at
+* [MC-108469](https://bugs.mojang.com/browse/MC-108469) - Chunk-wise entity lists often don't get updated correctly
+  (Entities disappear)
 * [MC-118710](https://bugs.mojang.com/browse/MC-118710) - Blocks take multiple attempts to mine
 * [MC-119971](https://bugs.mojang.com/browse/MC-119971) - Various duplications, deletions, and data corruption at chunk
-  boundaries, caused by loading outdated chunks — includes duping and deletion of entities/mobs, items in hoppers, and
+  boundaries, caused by loading outdated chunks - includes duping and deletion of entities/mobs, items in hoppers, and
   blocks moved by pistons, among other problems
+  
+The following optimizations are available:
+
+* Newlight - This is a complete drop in replacement for the vanilla Block and Sky lighting engine. It provides
+  considerable performance improvements to light updates and fixes many vanilla lighting bugs such as
+  [MC-3329](https://bugs.mojang.com/browse/MC-3329), [MC-3961](https://bugs.mojang.com/browse/MC-3961),
+  [MC-9188](https://bugs.mojang.com/browse/MC-9188), [MC-11571](https://bugs.mojang.com/browse/MC-11571),
+  [MC-80966](https://bugs.mojang.com/browse/MC-80966), [MC-91136](https://bugs.mojang.com/browse/MC-91136),
+  [MC-93132](https://bugs.mojang.com/browse/MC-93132), [MC-102162](https://bugs.mojang.com/browse/MC-102162), and
+  likely others. This engine was developed by the Overengineered Coding Duo, PhiPro and Mathe172, who have graciously
+  allowed its redistribution. The initial conversion to Mixins was completed by nessie for Liteloader, and is available
+  at [his GitHub page](https://github.com/Nessiesson/Newlight/releases) (this is not required for this mod).
+  
+## What is EigenCraft?
+
+EigenCraft is a Discord server focused on Minecraft development and bug fixing. Many of the fixes in this mod were
+generously contributed by developers there. The credit list for each patch is viewable in the tooltip for each one in
+the configuration menu.
 
 ## Configuration
 
