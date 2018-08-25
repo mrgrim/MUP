@@ -2,7 +2,7 @@
   "package": "org.gr1m.mc.mup.optimization.newlight.mixins",
   "refmap": "mixins.mup.refmap.json",
   "target": "@env(DEFAULT)",
-  "minVersion": "0.7.2",
+  "minVersion": "0.7.4",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinAnvilChunkLoader",
