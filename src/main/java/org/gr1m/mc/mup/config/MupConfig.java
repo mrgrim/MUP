@@ -100,6 +100,17 @@ public class MupConfig
                                   "vanilla lighting bugs such as MC-3329, MC-3961, MC-9188, MC-11571, MC-80966,",
                                   "MC-91136, MC-93132, MC-102162, and likely others."});
 
+    public final PatchDef rsturbo = new PatchDef("rsturbo", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("RS Turbo")
+        .setCredits("theosib")
+        .setCategory("optimizations")
+        .setDefaults(new boolean[] { true, false })
+        .setSideEffects("Does not have 100% vanilla behavior, but is very close.")
+        .setComment(new String[] {"This is a rewrite of redstone wire developed by theosib with the aim of increasing",
+                                  "performance while maintaining compatibility with vanilla as much as possible. It has",
+                                  "been shown to increase performance by as much as 10x and removes directional or",
+                                  "locational requirements for many things. It fixes MC-81098 and MC-11193."});
+
     public void init(File file)
     {
         if (config == null)
@@ -139,7 +150,7 @@ public class MupConfig
                     boolean[] bugState;
                     PatchDef patchDef = (PatchDef) fieldObj;
 
-                    bugState = config.get(patchDef.getCategory(), field.getName(), new boolean[] {true, true}, String.join("\n", patchDef.getComment()), true, 2).getBooleanList();
+                    bugState = config.get(patchDef.getCategory(), field.getName(), patchDef.getDefaults(), String.join("\n", patchDef.getComment()), true, 2).getBooleanList();
 
                     if (bugState[0]) patchDef.setLoaded();
                     patchDef.setEnabled(bugState[1]);

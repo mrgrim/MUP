@@ -23,6 +23,7 @@ public class PatchDef
     private String sideEffects;
     private String[] comment;
     private boolean toggleable = true;
+    private boolean[] defaults;
     
     public PatchDef(String fieldNameIn, Enum<Side> sideIn)
     {
@@ -40,6 +41,7 @@ public class PatchDef
         this.processServerSync = serverSyncHandler;
         this.processClientSync = clientSyncHandler;
         this.side = sideIn;
+        this.defaults = new boolean[] { true, true };
     }
     
     public final BiConsumer<PatchDef, Boolean> processServerSync;
@@ -84,6 +86,9 @@ public class PatchDef
 
     public String[] getComment() { return this.comment; }
     public PatchDef setComment(String[] commentIn) { this.comment = commentIn; return this; }
+
+    public boolean[] getDefaults() { return this.defaults; }
+    public PatchDef setDefaults(boolean[] defaultsIn) { this.defaults = defaultsIn; return this; }
 
     public static class ServerSyncHandlers {
         public static final BiConsumer<PatchDef, Boolean> IGNORE = (bug, enabled) -> { };
