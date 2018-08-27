@@ -1,9 +1,8 @@
-package org.gr1m.mc.mup.optimization.newlight.mixins;
+package org.gr1m.mc.mup.optimization.newlight.mixin;
 
 import org.gr1m.mc.mup.optimization.newlight.IChunk;
 import org.gr1m.mc.mup.optimization.newlight.IWorld;
 import org.gr1m.mc.mup.optimization.newlight.LightingHooks;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -20,8 +19,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import java.util.Arrays;
 
 import static net.minecraft.world.chunk.Chunk.NULL_BLOCK_STORAGE;
 

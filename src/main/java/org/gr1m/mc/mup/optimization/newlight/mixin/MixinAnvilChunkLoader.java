@@ -1,4 +1,4 @@
-package org.gr1m.mc.mup.optimization.newlight.mixins;
+package org.gr1m.mc.mup.optimization.newlight.mixin;
 
 import org.gr1m.mc.mup.optimization.newlight.LightingHooks;
 import net.minecraft.nbt.NBTTagCompound;

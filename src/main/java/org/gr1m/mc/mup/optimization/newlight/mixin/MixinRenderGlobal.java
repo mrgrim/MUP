@@ -1,4 +1,4 @@
-package org.gr1m.mc.mup.optimization.newlight.mixins;
+package org.gr1m.mc.mup.optimization.newlight.mixin;
 
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.util.math.BlockPos;

@@ -1,4 +1,4 @@
-package org.gr1m.mc.mup.optimization.newlight.mixins;
+package org.gr1m.mc.mup.optimization.newlight.mixin;
 
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import org.spongepowered.asm.mixin.Mixin;
