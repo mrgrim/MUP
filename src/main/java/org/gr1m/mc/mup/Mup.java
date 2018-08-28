@@ -1,16 +1,20 @@
 package org.gr1m.mc.mup;
 
 import net.minecraft.launchwrapper.Launch;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc5694.network.MC5694PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
 import org.gr1m.mc.mup.config.MupConfig;
+import org.gr1m.mc.mup.tweaks.hud.Hud;
 
 import java.io.File;
 
@@ -45,6 +49,8 @@ public class Mup
 
         if (config.mc4.isLoaded()) MC4PacketHandler.registerMessagesAndEvents();
         if (config.mc5694.isLoaded()) MC5694PacketHandler.registerMessagesAndEvents();
+        
+        Hud.Init();
 
         ConfigPacketHandler.registerMessagesAndEvents();
     }

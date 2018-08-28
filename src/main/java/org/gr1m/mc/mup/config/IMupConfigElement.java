@@ -7,4 +7,5 @@ public interface IMupConfigElement extends IConfigElement
     boolean isToggleable();
     String getCredits();
     String getSideEffects();
+    PatchDef getPatchDef();
 }

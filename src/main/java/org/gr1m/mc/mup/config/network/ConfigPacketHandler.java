@@ -42,11 +42,8 @@ public class ConfigPacketHandler
 
             for (PatchDef patch : Mup.config.getAll())
             {
-                if (patch.getSide() == PatchDef.Side.BOTH)
-                {
-                    message.addConfig(patch.getFieldName(), patch.isEnabled());
-                    Mup.logger.debug("Adding \"" + patch.getFieldName() + "\" to server config sync packet with value: " + (patch.isEnabled() ? "true" : "false"));
-                }
+                message.addConfig(patch.getFieldName(), patch.isEnabled());
+                Mup.logger.debug("Adding \"" + patch.getFieldName() + "\" to server config sync packet with value: " + (patch.isEnabled() ? "true" : "false"));
             }
 
             ConfigPacketHandler.INSTANCE.sendTo(message, ((NetHandlerPlayServer) event.getHandler()).player);
@@ -92,6 +89,9 @@ public class ConfigPacketHandler
 
     public static void handleServerConfigReceived(SPacketMupConfig message)
     {
+        // Attempt to apply all server supplied configuration settings, and report back any that are not recognized or
+        // loaded by the client.
+        
         CPacketMupConfig replyMessage = new CPacketMupConfig();
         
         for (Map.Entry<String, Boolean> configEntry : message.getConfigList().entrySet())
@@ -103,6 +103,7 @@ public class ConfigPacketHandler
             if (entry != null)
             {
                 entry.processServerSync.accept(entry, configEntry.getValue());
+                entry.setServerEnabled(configEntry.getValue());
                 
                 if (entry.isEnabled() != configEntry.getValue())
                 {
@@ -119,13 +120,16 @@ public class ConfigPacketHandler
         {
             ConfigPacketHandler.INSTANCE.sendToServer(replyMessage);
         }
+        
+        // Also send any client toggleable settings current status to the server.
+        sendClientConfig();
     }
 
     public static void handleClientConfigReceived(CPacketMupConfig message, NetHandlerPlayServer handler)
     {
         for (Map.Entry<String, Boolean> configEntry : message.getConfigList().entrySet())
         {
-            Mup.logger.debug("Received config sync from server for field \"" + configEntry.getKey() + "\" with value: " + (configEntry.getValue() ? "true" : "false"));
+            Mup.logger.debug("Received config sync from client for field \"" + configEntry.getKey() + "\" with value: " + (configEntry.getValue() ? "true" : "false"));
 
             PatchDef entry = Mup.config.get(configEntry.getKey());
 
@@ -134,6 +138,21 @@ public class ConfigPacketHandler
                 if (entry.processClientSync.apply(entry, configEntry.getValue(), handler)) break;
             }
         }
+    }
+    
+    public static void sendClientConfig()
+    {
+        CPacketMupConfig message = new CPacketMupConfig();
+
+        for (PatchDef patchDef : Mup.config.getAll())
+        {
+            if ((patchDef.getSide() == PatchDef.Side.CLIENT || patchDef.getSide() == PatchDef.Side.BOTH) && patchDef.isClientToggleable())
+            {
+                message.addConfig(patchDef.getFieldName(), patchDef.isEnabled() && patchDef.wasLoaded());
+            }
+        }
+        
+        ConfigPacketHandler.INSTANCE.sendToServer(message);
     }
 
     public static void registerMessagesAndEvents()

@@ -18,7 +18,7 @@ public class MupCore implements IFMLLoadingPlugin {
     public static final Logger log = LogManager.getLogger();
     private static boolean initialized = false;
 
-    private static MupCoreConfig config;
+    public static MupCoreConfig config;
 
     public MupCore() {
         initialize();
@@ -38,6 +38,7 @@ public class MupCore implements IFMLLoadingPlugin {
 
         if (config.newlight)      Mixins.addConfiguration("mixins.mup.newlight.json");
         if (config.rsturbo)       Mixins.addConfiguration("mixins.mup.rsturbo.json");
+        if (config.hud)           Mixins.addConfiguration("mixins.mup.hud.json");
         // @formatter:on
     }
 

@@ -18,7 +18,7 @@ public class MupGuiFactory implements IModGuiFactory
     @Override
     public boolean hasConfigGui()
     {
-        return !Mup.config.isServerLocked();
+        return true;
     }
 
     @Override

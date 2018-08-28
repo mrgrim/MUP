@@ -20,6 +20,8 @@ public class MupCoreConfig {
     
     public boolean newlight;
     public boolean rsturbo;
+    
+    public boolean hud;
 
     public void init(File file)
     {
@@ -47,7 +49,10 @@ public class MupCoreConfig {
         
         // Optimizations
         newlight = config.get("optimizations", "newlight", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        rsturbo = config.get("optimizations", "rsturbo", new boolean[]{true, false}, null, true, 2).getBooleanList()[0];
+        rsturbo  = config.get("optimizations", "rsturbo", new boolean[]{true, false}, null, true, 2).getBooleanList()[0];
+
+        // Tweaks
+        hud      = config.get("tweaks", "hud", new boolean[]{true, false}, null, true, 2).getBooleanList()[0];
     }
     
 }

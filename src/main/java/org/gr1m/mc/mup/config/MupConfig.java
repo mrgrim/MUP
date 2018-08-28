@@ -11,6 +11,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
+import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
+import org.gr1m.mc.mup.tweaks.hud.Hud;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -25,9 +27,16 @@ public class MupConfig
 
     private boolean serverLocked;
 
-    public final PatchDef mc4 = new PatchDef("mc4", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.ACCEPT, (bug, enabled, handler) -> {
-        // Remove the client from the MC-4 plugin channel registration if it insists this bug fix is disabled on its end
-        if (!enabled) MC4PacketHandler.registered_clients.remove(handler);
+    public final PatchDef mc4 = new PatchDef("mc4", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE, (bug, enabled, handler) -> {
+        if (enabled)
+        {
+            MC4PacketHandler.registered_clients.add(handler);
+        }
+        else
+        {
+            MC4PacketHandler.registered_clients.remove(handler);
+        }
+        
         return false;
     })
         .setDisplayName("MC-4")
@@ -43,7 +52,7 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Mobs going out of fenced areas/suffocate in blocks when loading chunks"});
 
-    public final PatchDef mc5694 = new PatchDef("mc5694", PatchDef.Side.BOTH)
+    public final PatchDef mc5694 = new PatchDef("mc5694", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE)
         .setDisplayName("MC-5694")
         .setCredits("Pokechu22, theosib, gnembon, Xcom, MrGrim")
         .setCategory("bug fixes")
@@ -55,10 +64,11 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Mobs suffocate / go through blocks when growing up near a solid block"});
 
-    public final PatchDef mc54026 = new PatchDef("mc54026", PatchDef.Side.BOTH)
+    public final PatchDef mc54026 = new PatchDef("mc54026", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.ACCEPT)
         .setDisplayName("MC-54026")
         .setCredits("gnembon, Xcom, MrGrim")
         .setCategory("bug fixes")
+        .setClientToggleable(true)
         .setComment(new String[] {"Blocks attached to slime blocks can create ghost blocks"});
 
     public final PatchDef mc73051 = new PatchDef("mc73051", PatchDef.Side.SERVER)
@@ -74,7 +84,7 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Chunk-wise entity lists often don't get updated correctly (Entities disappear)"});
 
-    public final PatchDef mc118710 = new PatchDef("mc118710", PatchDef.Side.BOTH)
+    public final PatchDef mc118710 = new PatchDef("mc118710", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE)
         .setDisplayName("MC-118710")
         .setCredits("theosib, MrGrim")
         .setSideEffects("Increases network traffic")
@@ -100,7 +110,7 @@ public class MupConfig
                                   "vanilla lighting bugs such as MC-3329, MC-3961, MC-9188, MC-11571, MC-80966,",
                                   "MC-91136, MC-93132, MC-102162, and likely others."});
 
-    public final PatchDef rsturbo = new PatchDef("rsturbo", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
+    public final PatchDef rsturbo = new PatchDef("rsturbo", PatchDef.Side.SERVER)
         .setDisplayName("RS Turbo")
         .setCredits("theosib")
         .setCategory("optimizations")
@@ -110,6 +120,26 @@ public class MupConfig
                                   "performance while maintaining compatibility with vanilla as much as possible. It has",
                                   "been shown to increase performance by as much as 10x and removes directional or",
                                   "locational requirements for many things. It fixes MC-81098 and MC-11193."});
+
+    public final PatchDef hud = new PatchDef("hud", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE, (bug, enabled, handler) -> {
+        if (enabled)
+        {
+            Hud.registered_clients.add(handler);
+        }
+        else
+        {
+            Hud.registered_clients.remove(handler);
+        }
+
+        return false;
+    })
+        .setDisplayName("HUD")
+        .setCredits("MrGrim")
+        .setSideEffects("Increases network traffic")
+        .setCategory("tweaks")
+        .setDefaults(new boolean[] { true, false })
+        .setComment(new String[] {"Enables server MSPT/TPS display in player list overlay and enables the overlay in",
+                                  "single player. Shows 5 second average and updates once per second."});
 
     public void init(File file)
     {
@@ -129,33 +159,38 @@ public class MupConfig
 
     public void sync()
     {
-        if (!this.serverLocked)
+        for (Field field : this.getClass().getFields())
         {
-            for (Field field : this.getClass().getFields())
+            Object fieldObj;
+
+            try
             {
-                Object fieldObj;
+                fieldObj = field.get(this);
+            }
+            catch (Exception e)
+            {
+                Mup.logger.error("Unknown field access reading configuration file.");
+                continue;
+            }
 
-                try
-                {
-                    fieldObj = field.get(this);
-                }
-                catch (Exception e)
-                {
-                    Mup.logger.error("Unknown field access reading configuration file.");
-                    continue;
-                }
+            if (fieldObj.getClass() == PatchDef.class)
+            {
+                boolean[] bugState;
+                PatchDef patchDef = (PatchDef) fieldObj;
 
-                if (fieldObj.getClass() == PatchDef.class)
+                if (!this.isServerLocked() || patchDef.isClientToggleable())
                 {
-                    boolean[] bugState;
-                    PatchDef patchDef = (PatchDef) fieldObj;
-
                     bugState = config.get(patchDef.getCategory(), field.getName(), patchDef.getDefaults(), String.join("\n", patchDef.getComment()), true, 2).getBooleanList();
 
                     if (bugState[0]) patchDef.setLoaded();
                     patchDef.setEnabled(bugState[1]);
                 }
             }
+        }
+        
+        if (this.isServerLocked())
+        {
+            ConfigPacketHandler.sendClientConfig();
         }
     }
 

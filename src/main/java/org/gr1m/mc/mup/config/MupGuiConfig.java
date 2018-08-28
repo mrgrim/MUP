@@ -1,7 +1,11 @@
 package org.gr1m.mc.mup.config;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiLabel;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.ConfigElement;
@@ -9,6 +13,7 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.*;
 import org.gr1m.mc.mup.Mup;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,21 +26,28 @@ public class MupGuiConfig extends GuiConfig {
                 false,
                 "EigenCraft Unofficial Patch");
         titleLine2 = "General Configuration";
+        this.entryList = new PatchEntries(this, this.mc);
     }
 
     private static List<IConfigElement> getConfigElements() {
         List<IConfigElement> list = new ArrayList<IConfigElement>();
         list.add(new DummyConfigElement.DummyCategoryElement("Bug Fixes", "bugfixes", MupGuiConfig.BugFixes.class));
         list.add(new DummyConfigElement.DummyCategoryElement("Optimizations", "optimizations", MupGuiConfig.Optimizations.class));
+        list.add(new DummyConfigElement.DummyCategoryElement("Tweaks", "tweaks", MupGuiConfig.Tweaks.class));
         return list;
     }
 
     @Override
     public void initGui() {
+        if (this.entryList == null || this.needsRefresh)
+        {
+            this.entryList = new PatchEntries(this, this.mc);
+            this.needsRefresh = false;
+        }
+
         // You can add buttons and initialize fields here
         super.initGui();
     }
-
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -47,6 +59,28 @@ public class MupGuiConfig extends GuiConfig {
     protected void actionPerformed(GuiButton button) {
         // You can process any additional buttons you may have added here
         super.actionPerformed(button);
+    }
+
+    public static class PatchGuiConfig extends GuiConfig {
+        public PatchGuiConfig(GuiScreen parentScreen, List<IConfigElement> configElements, String modID, String configID,
+                              boolean allRequireWorldRestart, boolean allRequireMcRestart, String title)
+        {
+            super(parentScreen, configElements, modID, configID, allRequireWorldRestart, allRequireMcRestart, title);
+
+            this.entryList = new PatchEntries(this, this.mc);
+        }
+
+        @Override
+        public void initGui() {
+            if (this.entryList == null || this.needsRefresh)
+            {
+                this.entryList = new PatchEntries(this, this.mc);
+                this.needsRefresh = false;
+            }
+
+            // You can add buttons and initialize fields here
+            super.initGui();
+        }
     }
 
     public static class BugFixes extends GuiConfigEntries.CategoryEntry
@@ -71,13 +105,13 @@ public class MupGuiConfig extends GuiConfig {
                 return (Integer.parseInt(propA.getName().substring(3)) > Integer.parseInt(propB.getName().substring(3))) ? 1: -1;
             });
             
-            GuiConfig guiConfig =  new GuiConfig(this.owningScreen, list, this.owningScreen.modID, "bug fixes", false, false, "EigenCraft Unofficial Patch");
+            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, "bug fixes", false, false, "EigenCraft Unofficial Patch");
             guiConfig.titleLine2 = "Bug Fixes";
             
             return guiConfig;
         }
     }
-
+    
     public static class Optimizations extends GuiConfigEntries.CategoryEntry
     {
         public Optimizations(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement prop)
@@ -95,10 +129,84 @@ public class MupGuiConfig extends GuiConfig {
                 list.add(new PatchElement(bugfix));
             }
 
-            GuiConfig guiConfig =  new GuiConfig(this.owningScreen, list, this.owningScreen.modID, "optimizations", false, false, "EigenCraft Unofficial Patch");
+            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, "optimizations", false, false, "EigenCraft Unofficial Patch");
             guiConfig.titleLine2 = "Optimizations";
 
             return guiConfig;
+        }
+    }
+
+    public static class Tweaks extends GuiConfigEntries.CategoryEntry
+    {
+        public Tweaks(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement prop)
+        {
+            super(owningScreen, owningEntryList, prop);
+        }
+
+        @Override
+        protected GuiScreen buildChildScreen()
+        {
+            List<IConfigElement> list = new ArrayList<IConfigElement>();
+
+            for (Property tweak : MupConfig.config.getCategory("tweaks").getOrderedValues())
+            {
+                list.add(new PatchElement(tweak));
+            }
+
+            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, "tweaks", false, false, "EigenCraft Unofficial Patch");
+            guiConfig.titleLine2 = "Tweaks";
+
+            return guiConfig;
+        }
+    }
+
+    public static class GuiLabelExt extends GuiLabel {
+        public GuiLabelExt(FontRenderer fontRendererObj, int labelId, int xIn, int yIn, int widthIn, int heightIn, int colorIn)
+        {
+            super(fontRendererObj, labelId, xIn, yIn, widthIn, heightIn, colorIn);
+        }
+        
+        public void setWidth(int widthIn) { this.width = widthIn; }
+    }
+    
+    public static class PatchEntries extends GuiConfigEntries {
+        private GuiLabelExt header1, header2;
+        
+        public PatchEntries(GuiConfig parent, Minecraft mc)
+        {
+            super(parent, mc);
+            
+            if (Mup.config.isServerLocked())
+            {
+                this.setHasListHeader(true, ((mc.fontRenderer.FONT_HEIGHT + 1) * 2) + 2);
+
+                this.header1 = new GuiLabelExt(this.mc.fontRenderer, 0, 0, 0, this.width, mc.fontRenderer.FONT_HEIGHT, GuiUtils.getColorCode('4', true));
+                this.header1.setCentered();
+                this.header1.addLine("Server is Managing Configuration");
+
+                this.header2 = new GuiLabelExt(this.mc.fontRenderer, 0, 0, 0, this.width, mc.fontRenderer.FONT_HEIGHT, GuiUtils.getColorCode('e', true));
+                this.header2.setCentered();
+                this.header2.addLine("Only Selected Client Side Options will be Available");
+            }
+        }
+        
+        @Override
+        protected void drawListHeader(int insideLeft, int insideTop, Tessellator tessellatorIn)
+        {
+            if (Mup.config.isServerLocked())
+            {
+                this.header1.setWidth(this.width);
+                this.header1.x = insideLeft;
+                this.header1.y = insideTop + 1;
+
+                this.header1.drawLabel(this.mc, this.mouseX, this.mouseY);
+
+                this.header2.setWidth(this.width);
+                this.header2.x = insideLeft;
+                this.header2.y = insideTop + 1 + this.mc.fontRenderer.FONT_HEIGHT + 1;
+
+                this.header2.drawLabel(this.mc, this.mouseX, this.mouseY);
+            }
         }
     }
 
@@ -150,21 +258,45 @@ public class MupGuiConfig extends GuiConfig {
         }
 
         public void updateEnableButtonText() {
+            // Take care to only modify the running configuration if the config is server locked
+            boolean actuallyEnabled = (!((IMupConfigElement) this.configElement).getPatchDef().isClientToggleable() && Mup.config.isServerLocked()) ?
+                                      ((IMupConfigElement) this.configElement).getPatchDef().isEnabled() : this.currentEnableValue;
+            boolean actuallyLoaded  = (!((IMupConfigElement) this.configElement).getPatchDef().isClientToggleable() && Mup.config.isServerLocked()) ?
+                                      ((IMupConfigElement) this.configElement).getPatchDef().isServerEnabled() : this.currentLoadValue;
+            
             if (((IMupConfigElement) this.configElement).isToggleable())
             {
-                this.enableButton.displayString = currentEnableValue ? "enabled" : "disabled";
-                enableButton.packedFGColour = currentEnableValue ? GuiUtils.getColorCode('2', true) : GuiUtils.getColorCode('4', true);
+                this.enableButton.displayString = actuallyEnabled ? "enabled" : "disabled";
+                
+                if (actuallyEnabled != this.currentEnableValue)
+                {
+                    enableButton.packedFGColour = GuiUtils.getColorCode('e', true);
+                }
+                else
+                {
+                    enableButton.packedFGColour = actuallyEnabled ? GuiUtils.getColorCode('2', true) : GuiUtils.getColorCode('4', true);
+                }
             }
             else
             {
-                this.enableButton.displayString = currentLoadValue ? "enabled" : "disabled";
-                enableButton.packedFGColour = currentLoadValue ? GuiUtils.getColorCode('9', true) : GuiUtils.getColorCode('4', true);
+                this.enableButton.displayString = actuallyLoaded ? "enabled" : "disabled";
+
+                if (actuallyLoaded != this.currentLoadValue)
+                {
+                    enableButton.packedFGColour = GuiUtils.getColorCode('e', true);
+                }
+                else
+                {
+                    enableButton.packedFGColour = actuallyLoaded ? GuiUtils.getColorCode('9', true) : GuiUtils.getColorCode('4', true);
+                }
             }
         }
 
         public void enableButtonPressed(int slotIndex) {
             if (enabled() && this.enableButton.enabled)
+            {
                 currentEnableValue = !currentEnableValue;
+            }
         }
         
         public void loadButtonPressed(int slotIndex)
@@ -254,17 +386,15 @@ public class MupGuiConfig extends GuiConfig {
         public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partial)
         {
             super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected, partial);
-            
-            this.enableButton.width = this.owningEntryList.controlWidth - this.loadButton.getButtonWidth() - 10;
-            this.enableButton.x = this.owningScreen.entryList.controlX + this.loadButton.getButtonWidth() + 10;
-            this.enableButton.y = y;
-            this.enableButton.enabled = enabled() && currentLoadValue && (((IMupConfigElement) this.configElement).isToggleable());
-            this.enableButton.drawButton(this.mc, mouseX, mouseY, partial);
 
             this.loadButton.x = this.owningScreen.entryList.controlX;
             this.loadButton.y = y + ((slotHeight - this.loadButton.height) / 2) + 1;
-            this.loadButton.enabled = enabled();
             this.loadButton.drawButton(this.mc, mouseX, mouseY, partial);
+
+            this.enableButton.width = this.owningEntryList.controlWidth - this.loadButton.getButtonWidth() - 10;
+            this.enableButton.x = this.owningScreen.entryList.controlX + this.loadButton.getButtonWidth() + 10;
+            this.enableButton.y = y;
+            this.enableButton.drawButton(this.mc, mouseX, mouseY, partial);
         }
 
         @Override
@@ -294,6 +424,12 @@ public class MupGuiConfig extends GuiConfig {
             this.enableButton.mouseReleased(x, y);
             this.loadButton.mouseReleased(x, y);
         }
+        
+        @Override
+        public boolean enabled()
+        {
+            return !Mup.config.isServerLocked() || ((IMupConfigElement) this.configElement).getPatchDef().isClientToggleable();
+        }
 
         @Override
         public void keyTyped(char eventChar, int eventKey)
@@ -315,18 +451,19 @@ public class MupGuiConfig extends GuiConfig {
         private final String name;
         private final String credits;
         private final String sideEffects;
+        private final PatchDef patchDef;
         
         public PatchElement(Property prop)
         {
             super(prop);
             patchProp = prop;
 
-            PatchDef patchDef = Mup.config.get(patchProp.getName());
+            this.patchDef = Mup.config.get(patchProp.getName());
 
-            this.name = (patchDef == null) ? patchProp.getName() : patchDef.getDisplayName();
-            this.toggleable = (patchDef == null) || patchDef.isToggleable();
-            this.credits = (patchDef == null) ? (TextFormatting.ITALIC + "No credits defined") : patchDef.getCredits();
-            this.sideEffects = (patchDef == null) ? null : patchDef.getSideEffects();
+            this.name = (this.patchDef == null) ? patchProp.getName() : this.patchDef.getDisplayName();
+            this.toggleable = (this.patchDef == null) || this.patchDef.isToggleable();
+            this.credits = (this.patchDef == null) ? (TextFormatting.ITALIC + "No credits defined") : this.patchDef.getCredits();
+            this.sideEffects = (this.patchDef == null) ? null : this.patchDef.getSideEffects();
         }
 
         @Override
@@ -348,6 +485,7 @@ public class MupGuiConfig extends GuiConfig {
         }
 
         @Override
+        @Nullable
         public String getSideEffects()
         {
             return this.sideEffects;
@@ -358,5 +496,9 @@ public class MupGuiConfig extends GuiConfig {
         {
             return this.toggleable;
         }
+        
+        @Override
+        @Nullable
+        public PatchDef getPatchDef() { return this.patchDef; }
     }
 }
