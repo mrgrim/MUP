@@ -1,10 +1,12 @@
 package org.gr1m.mc.mup.config.network;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -33,8 +35,16 @@ public class ConfigPacketHandler
         }
     }
 
+    // Forge irritatingly is fine with the server sending clients packets at this stage, but drops all replies. For
+    // some bizarre reason there is no method available to extend negotiation, so all a mod can do is pray like hell
+    // no emergent interactions cause problems for the brief moments the player is logged in before the client can
+    // inform the server of any important state.
+
+    //@SubscribeEvent
+    //public static void onServerConnectionFromClient(FMLNetworkEvent.ServerConnectionFromClientEvent event)
+    
     @SubscribeEvent
-    public static void onServerConnectionFromClient(FMLNetworkEvent.ServerConnectionFromClientEvent event)
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event)
     {
         // Send config state to client
         SPacketMupConfig message = new SPacketMupConfig();
@@ -45,7 +55,7 @@ public class ConfigPacketHandler
             Mup.logger.debug("Adding \"" + patch.getFieldName() + "\" to server config sync packet with value: " + (patch.isEnabled() ? "true" : "false"));
         }
 
-        ConfigPacketHandler.INSTANCE.sendTo(message, ((NetHandlerPlayServer) event.getHandler()).player);
+        ConfigPacketHandler.INSTANCE.sendTo(message, (EntityPlayerMP)(event.player));
     }
 
     @SubscribeEvent
