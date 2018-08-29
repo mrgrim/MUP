@@ -83,13 +83,6 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Chunk-wise entity lists often don't get updated correctly (Entities disappear)"});
 
-    public final PatchDef mc123320 = new PatchDef("mc123320", PatchDef.Side.SERVER)
-        .setDisplayName("MC-123320")
-        .setCredits("nessie, MrGrim")
-        .setSideEffects("If the MC-4 patch is disabled this will increase network use when large quantities of in motion item entities are present.")
-        .setCategory("bug fixes")
-        .setComment(new String[] {"Items do not move through blocks smoothly"});
-
     public final PatchDef mc118710 = new PatchDef("mc118710", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE)
         .setDisplayName("MC-118710")
         .setCredits("theosib, MrGrim")
@@ -105,6 +98,20 @@ public class MupConfig
         .setComment(new String[] {"Various duplications, deletions, and data corruption at chunk boundaries, caused",
                                   "by loading outdated chunks — includes duping and deletion of entities/mobs,",
                                   "items in hoppers, and blocks moved by pistons, among other problems"});
+
+    public final PatchDef mc123320 = new PatchDef("mc123320", PatchDef.Side.SERVER)
+        .setDisplayName("MC-123320")
+        .setCredits("nessie, MrGrim")
+        .setSideEffects("If the MC-4 patch is disabled this will increase network use when large quantities of in motion item entities are present.")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Items do not move through blocks smoothly"});
+
+    // Implemented hash code caching because these objects do not appear to be singletons as Grum suggested.
+    public final PatchDef mc134989 = new PatchDef("mc134989", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE)
+        .setDisplayName("MC-134989")
+        .setCredits("theosib")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"AbstractMap::hashCode accounts for substantial CPU overhead (from profiling)"});
 
     public final PatchDef newlight = new PatchDef("newlight", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("Newlight")
