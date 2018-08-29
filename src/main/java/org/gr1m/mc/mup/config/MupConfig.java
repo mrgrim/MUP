@@ -83,6 +83,13 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Chunk-wise entity lists often don't get updated correctly (Entities disappear)"});
 
+    public final PatchDef mc123320 = new PatchDef("mc123320", PatchDef.Side.SERVER)
+        .setDisplayName("MC-123320")
+        .setCredits("nessie, MrGrim")
+        .setSideEffects("If the MC-4 patch is disabled this will increase network use when large quantities of in motion item entities are present.")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Items do not move through blocks smoothly"});
+
     public final PatchDef mc118710 = new PatchDef("mc118710", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE)
         .setDisplayName("MC-118710")
         .setCredits("theosib, MrGrim")

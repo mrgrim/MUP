@@ -17,6 +17,7 @@ public class MupCoreConfig {
     public boolean mc108469;
     public boolean mc118710;
     public boolean mc119971;
+    public boolean mc123320;
     
     public boolean newlight;
     public boolean rsturbo;
@@ -46,6 +47,7 @@ public class MupCoreConfig {
         mc108469 = config.get("bug fixes", "mc108469", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc118710 = config.get("bug fixes", "mc118710", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc119971 = config.get("bug fixes", "mc119971", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
+        mc123320 = config.get("bug fixes", "mc123320", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         
         // Optimizations
         newlight = config.get("optimizations", "newlight", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];

@@ -26,6 +26,7 @@ public class MupCore implements IFMLLoadingPlugin {
         MixinBootstrap.init();
         
         // @formatter:off
+        // Bug Fixes
         if (config.mc4)           Mixins.addConfiguration("mixins.mup.mc4.json");
         if (config.mc2025)        Mixins.addConfiguration("mixins.mup.mc2025.json");
         if (config.mc5694)        Mixins.addConfiguration("mixins.mup.mc5694.json");
@@ -35,9 +36,13 @@ public class MupCore implements IFMLLoadingPlugin {
         if (config.mc108469)      Mixins.addConfiguration("mixins.mup.mc108469.json");
         if (config.mc118710)      Mixins.addConfiguration("mixins.mup.mc118710.json");
         if (config.mc119971)      Mixins.addConfiguration("mixins.mup.mc119971.json");
+        if (config.mc123320)      Mixins.addConfiguration("mixins.mup.mc123320.json");
 
+        // Optimizations
         if (config.newlight)      Mixins.addConfiguration("mixins.mup.newlight.json");
         if (config.rsturbo)       Mixins.addConfiguration("mixins.mup.rsturbo.json");
+        
+        // Tweaks
         if (config.hud)           Mixins.addConfiguration("mixins.mup.hud.json");
         // @formatter:on
     }
