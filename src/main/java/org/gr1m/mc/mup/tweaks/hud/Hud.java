@@ -1,12 +1,10 @@
 package org.gr1m.mc.mup.tweaks.hud;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.play.server.SPacketPlayerListHeaderFooter;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,6 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import org.gr1m.mc.mup.Mup;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -34,11 +33,21 @@ public class Hud
     {
         registered_clients.remove(event.getHandler());
     }
+    
+    public static void clearHudForPlayer(INetHandler player)
+    {
+        SPacketPlayerListHeaderFooter packet = new SPacketPlayerListHeaderFooter();
+
+        ((ISPacketPlayerListHeaderFooter) (packet)).setHeader(new TextComponentString(""));
+        ((ISPacketPlayerListHeaderFooter) (packet)).setFooter(new TextComponentString(""));
+
+        ((NetHandlerPlayServer) (player)).sendPacket(packet);
+    }
 
     @SubscribeEvent
     public static void serverTickEvent(TickEvent.ServerTickEvent event)
     {
-        if (event.side == Side.SERVER && event.phase == TickEvent.Phase.START)
+        if (Mup.config.hud.enabled && event.side == Side.SERVER && event.phase == TickEvent.Phase.START)
         {
             MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
             

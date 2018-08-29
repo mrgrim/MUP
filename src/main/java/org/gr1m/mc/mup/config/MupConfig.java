@@ -1,14 +1,13 @@
 package org.gr1m.mc.mup.config;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
@@ -129,8 +128,9 @@ public class MupConfig
         else
         {
             Hud.registered_clients.remove(handler);
+            Hud.clearHudForPlayer(handler);
         }
-
+        
         return false;
     })
         .setDisplayName("HUD")
@@ -186,11 +186,6 @@ public class MupConfig
                     patchDef.setEnabled(bugState[1]);
                 }
             }
-        }
-        
-        if (this.isServerLocked())
-        {
-            ConfigPacketHandler.sendClientConfig();
         }
     }
 
@@ -257,16 +252,15 @@ public class MupConfig
         {
             config.save();
             Mup.config.sync();
-        }
-    }
 
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
-    public void onEvent(GuiOpenEvent event)
-    {
-        //        if (event.gui instanceof Gui)
-        //        {
-        //            event.gui = new GuiConfigMagicBeans(null);
-        //        }
+            // Right now this event is only ever called from GUI code by Forge itself, but just in case...
+            if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
+            {
+                if (Minecraft.getMinecraft().getConnection() != null)
+                {
+                    ConfigPacketHandler.sendClientConfig();
+                }
+            }
+        }
     }
 }

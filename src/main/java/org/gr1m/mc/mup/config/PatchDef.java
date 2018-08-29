@@ -15,7 +15,7 @@ public class PatchDef
 
     public boolean loaded;
     public boolean enabled;
-    public boolean serverEnabled;
+    private boolean serverEnabled;
     
     private final String fieldName;
     private final Enum<Side> side;
@@ -77,7 +77,7 @@ public class PatchDef
     {
         return this.serverEnabled;
     }
-    public PatchDef setServerEnabled(boolean isServerEnabled) { this.enabled = isServerEnabled; return this; }
+    public PatchDef setServerEnabled(boolean isServerEnabled) { this.serverEnabled = isServerEnabled; return this; }
 
     public boolean isToggleable()
     {
@@ -123,8 +123,15 @@ public class PatchDef
         public static final BiConsumer<PatchDef, Boolean> IGNORE = (bug, enabled) -> { };
 
         public static final BiConsumer<PatchDef, Boolean> TOGGLE = (bug, enabled) -> {
-            bug.setClientToggleable(enabled);
-            if (!enabled) bug.setEnabled(false);
+            if (Mup.config.isServerLocked())
+            {
+                bug.setClientToggleable(enabled);
+                if (!enabled) bug.setEnabled(false);
+            }
+            else
+            {
+                bug.setClientToggleable(true);
+            }
         };
 
         public static final BiConsumer<PatchDef, Boolean> ENFORCE = (bug, enabled) -> {

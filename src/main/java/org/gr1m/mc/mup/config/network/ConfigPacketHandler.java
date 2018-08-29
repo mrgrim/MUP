@@ -1,5 +1,6 @@
 package org.gr1m.mc.mup.config.network;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,20 +36,16 @@ public class ConfigPacketHandler
     @SubscribeEvent
     public static void onServerConnectionFromClient(FMLNetworkEvent.ServerConnectionFromClientEvent event)
     {
-        if (!event.isLocal())
+        // Send config state to client
+        SPacketMupConfig message = new SPacketMupConfig();
+
+        for (PatchDef patch : Mup.config.getAll())
         {
-            // Send config state to client
-            SPacketMupConfig message = new SPacketMupConfig();
-
-            for (PatchDef patch : Mup.config.getAll())
-            {
-                message.addConfig(patch.getFieldName(), patch.isEnabled());
-                Mup.logger.debug("Adding \"" + patch.getFieldName() + "\" to server config sync packet with value: " + (patch.isEnabled() ? "true" : "false"));
-            }
-
-            ConfigPacketHandler.INSTANCE.sendTo(message, ((NetHandlerPlayServer) event.getHandler()).player);
-            Mup.logger.debug("Sending server config sync packet to client.");
+            message.addConfig(patch.getFieldName(), patch.isEnabled());
+            Mup.logger.debug("Adding \"" + patch.getFieldName() + "\" to server config sync packet with value: " + (patch.isEnabled() ? "true" : "false"));
         }
+
+        ConfigPacketHandler.INSTANCE.sendTo(message, ((NetHandlerPlayServer) event.getHandler()).player);
     }
 
     @SubscribeEvent
@@ -60,10 +57,10 @@ public class ConfigPacketHandler
     @SubscribeEvent
     public static void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
     {
-        if (!event.isLocal())
-        {
+        // Event runs in network thread. Schedule for execution on the Minecraft thread.
+        Minecraft.getMinecraft().addScheduledTask(() -> {
             // Prevents the runtime configuration from synchronizing with the local config file.
-            Mup.config.lock();
+            if (!event.isLocal()) Mup.config.lock();
 
             if (!event.getConnectionType().equals("MODDED"))
             {
@@ -76,15 +73,18 @@ public class ConfigPacketHandler
                         patch.setEnabled(false);
                 }
             }
-        }
+        });
     }
 
     @SubscribeEvent
     public static void onClientDisconnectionFromServer(FMLNetworkEvent.ClientDisconnectionFromServerEvent event)
     {
-        // Reset Mup.config PatchDef's to Configuration Properties.
-        Mup.config.unlock();
-        Mup.config.sync();
+        // Event runs in network thread. Schedule for execution on the Minecraft thread.
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            // Reset Mup.config PatchDef's to Configuration Properties.
+            Mup.config.unlock();
+            Mup.config.sync();
+        });
     }
 
     public static void handleServerConfigReceived(SPacketMupConfig message)
