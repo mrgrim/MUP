@@ -14,7 +14,7 @@ In addition, most patches can be toggled while the game is running. While the pa
 will restore vanilla behavior. This can help determine if a patch is causing a problem, and it allows servers to toggle
 patches on and off for clients.
 
-## Features
+## Fixed Bugs
 
 Currently the mod provides fixes for the following bugs in 1.12.2:
 
@@ -34,18 +34,44 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 * [MC-119971](https://bugs.mojang.com/browse/MC-119971) - Various duplications, deletions, and data corruption at chunk
   boundaries, caused by loading outdated chunks - includes duping and deletion of entities/mobs, items in hoppers, and
   blocks moved by pistons, among other problems
+* [MC-123320](https://bugs.mojang.com/browse/MC-123320) - Items do not move through blocks smoothly
+* [MC-134989](https://bugs.mojang.com/browse/MC-134989) - AbstractMap::hashCode accounts for substantial CPU overhead
+  (from profiling)
   
-The following optimizations are available:
+## Optimizations
 
-* Newlight - This is a complete drop in replacement for the vanilla Block and Sky lighting engine. It provides
-  considerable performance improvements to light updates and fixes many vanilla lighting bugs such as
-  [MC-3329](https://bugs.mojang.com/browse/MC-3329), [MC-3961](https://bugs.mojang.com/browse/MC-3961),
-  [MC-9188](https://bugs.mojang.com/browse/MC-9188), [MC-11571](https://bugs.mojang.com/browse/MC-11571),
-  [MC-80966](https://bugs.mojang.com/browse/MC-80966), [MC-91136](https://bugs.mojang.com/browse/MC-91136),
-  [MC-93132](https://bugs.mojang.com/browse/MC-93132), [MC-102162](https://bugs.mojang.com/browse/MC-102162), and
-  likely others. This engine was developed by the Overengineered Coding Duo, PhiPro and Mathe172, who have graciously
-  allowed its redistribution. The initial conversion to Mixins was completed by nessie for Liteloader, and is available
-  at [his GitHub page](https://github.com/Nessiesson/Newlight/releases) (this is not required for this mod).
+### Newlight
+
+This is a complete drop in replacement for the vanilla Block and Sky lighting engine. It provides
+considerable performance improvements to light updates and fixes many vanilla lighting bugs such as
+[MC-3329](https://bugs.mojang.com/browse/MC-3329), [MC-3961](https://bugs.mojang.com/browse/MC-3961),
+[MC-9188](https://bugs.mojang.com/browse/MC-9188), [MC-11571](https://bugs.mojang.com/browse/MC-11571),
+[MC-80966](https://bugs.mojang.com/browse/MC-80966), [MC-91136](https://bugs.mojang.com/browse/MC-91136),
+[MC-93132](https://bugs.mojang.com/browse/MC-93132), [MC-102162](https://bugs.mojang.com/browse/MC-102162), and
+likely others. This engine was developed by the Overengineered Coding Duo, PhiPro and Mathe172, who have graciously
+allowed its redistribution. The initial conversion to Mixins was completed by nessie for Liteloader, and is available
+at [his GitHub page](https://github.com/Nessiesson/Newlight/releases) (this is not required for this mod).
+
+### Redstone Wire Turbo
+
+A set of replacement routines for redstone dust block update and power calculations aimed at 
+high compatibility developed by theosib. Builds utilizing redstone dust can see 2x to 10x performance improvements
+using this optimization. It also eliminates the directionality and locationality of most designs by making update
+propagation predictable. It always flows outward from the source.
+
+This optimization was tested heavily by many members of the technical Minecraft player community. While it is extremely
+compatible, it is does not perfectly replicate vanilla behavior. So far, only two known contraptions broken have broken.
+In cases where it is not compatible, its more predictable nature will likely result in a simpler alternative.
+
+This optimization fixes [MC-81098](https://bugs.mojang.com/browse/MC-81098) and
+[MC-11193](https://bugs.mojang.com/browse/MC-11193). Feel free to report any discovered differences against vanilla
+redstone on the issues board.
+
+## Tweaks
+
+* Performance HUD - With this tweak enabled the server sends the client server performance data in the form of a 5
+  second average MSPT (Milliseconds per Tick) and TPS (Ticks per Second). It is available in the player overlay
+  activated with the TAB key. For convenience, this tweak also enables the overlay in single player mode. 
   
 ## What is EigenCraft?
 
@@ -96,5 +122,8 @@ the client will let the server know, and in _most cases_ the server will be able
 any reason, the mismatch will cause problems, the server will kick the client and provide instructions on how to
 resolve the situation.
 
-In addition, to prevent confusion the client will not allow the user to open the configuration GUI while connected to
-a server.
+When viewing the configuration menu while connected to a server most options will be disabled and a notification that
+the configuration is being managed by the server will be displayed. Differences between the local saved configuration
+and the servers configuration that have been detected will be displayed in yellow text. This is not an error! It's
+only to illustrate what settings the server requested to be changed. Additionally, some settings have client side
+behavior that can be altered while connected to a server. These will remain enabled and can be adjusted as needed.
