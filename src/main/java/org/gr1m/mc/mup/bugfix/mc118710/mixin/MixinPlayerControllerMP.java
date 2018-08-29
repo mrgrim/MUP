@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc118710.IEntityPlayerSP;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,6 +25,6 @@ public class MixinPlayerControllerMP {
             method = "clickBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetHandlerPlayClient;sendPacket(Lnet/minecraft/network/Packet;)V", ordinal = 0))
     private void updatePlayerPositionBeforeDigging(BlockPos loc, EnumFacing face, CallbackInfoReturnable<Boolean> ci)
     {
-        ((IEntityPlayerSP)this.mc.player).updateWalkingPlayer();
+        if (Mup.config.mc118710.enabled) ((IEntityPlayerSP)this.mc.player).updateWalkingPlayer();
     }
 }

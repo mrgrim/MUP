@@ -49,8 +49,7 @@ public class Mup
 
         if (config.mc4.isLoaded()) MC4PacketHandler.registerMessagesAndEvents();
         if (config.mc5694.isLoaded()) MC5694PacketHandler.registerMessagesAndEvents();
-        
-        Hud.Init();
+        if (config.hud.isLoaded()) Hud.Init();
 
         ConfigPacketHandler.registerMessagesAndEvents();
     }
