@@ -148,7 +148,7 @@ public class MupConfig
         return false;
     })
         .setDisplayName("HUD")
-        .setCredits("MrGrim")
+        .setCredits("nessie")
         .setSideEffects("Increases network traffic")
         .setCategory("tweaks")
         .setDefaults(new boolean[] { true, false })
