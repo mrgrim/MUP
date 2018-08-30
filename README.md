@@ -14,6 +14,10 @@ In addition, most patches can be toggled while the game is running. While the pa
 will restore vanilla behavior. This can help determine if a patch is causing a problem, and it allows servers to toggle
 patches on and off for clients.
 
+![JProfiler](https://www.ej-technologies.com/images/product_banners/jprofiler_small.png)
+[Java profiler](https://www.ej-technologies.com/products/jprofiler/overview.html) open source license generously
+provided by ej-technologies. Thanks!
+
 ## Fixed Bugs
 
 Currently the mod provides fixes for the following bugs in 1.12.2:
@@ -60,7 +64,7 @@ using this optimization. It also eliminates the directionality and locationality
 propagation predictable. It always flows outward from the source.
 
 This optimization was tested heavily by many members of the technical Minecraft player community. While it is extremely
-compatible, it is does not perfectly replicate vanilla behavior. So far, only two known contraptions broken have broken.
+compatible, it is does not perfectly replicate vanilla behavior. So far, only two known contraptions have broken.
 In cases where it is not compatible, its more predictable nature will likely result in a simpler alternative.
 
 This optimization fixes [MC-81098](https://bugs.mojang.com/browse/MC-81098) and
