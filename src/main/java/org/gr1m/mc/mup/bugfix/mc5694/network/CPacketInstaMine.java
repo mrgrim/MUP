@@ -28,7 +28,7 @@ public class CPacketInstaMine implements IMessage
     public void fromBytes(final ByteBuf buf)
     {
         this.pos = BlockPos.fromLong(buf.readLong());
-        this.facing = EnumFacing.getFront(buf.readByte());
+        this.facing = EnumFacing.byIndex(buf.readByte());
     }
 
     @Override

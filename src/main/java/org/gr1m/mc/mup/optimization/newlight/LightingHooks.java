@@ -106,8 +106,8 @@ public class LightingHooks {
                 int yMin = Math.max(yMax - 1, 0);
 
                 for (final EnumFacing dir : EnumFacing.HORIZONTALS) {
-                    final int nX = x + dir.getFrontOffsetX();
-                    final int nZ = z + dir.getFrontOffsetZ();
+                    final int nX = x + dir.getXOffset();
+                    final int nZ = z + dir.getZOffset();
 
                     if (((nX | nZ) & CHUNK_COORD_OVERFLOW_MASK) != 0)
                         continue;
@@ -133,8 +133,8 @@ public class LightingHooks {
 
         chunk.markDirty();
 
-        final int xOffset = nDir.getFrontOffsetX();
-        final int zOffset = nDir.getFrontOffsetZ();
+        final int xOffset = nDir.getXOffset();
+        final int zOffset = nDir.getZOffset();
 
         final int xMin;
         final int zMin;
@@ -168,8 +168,8 @@ public class LightingHooks {
                 int yMax = nChunk.getHeightValue(x, z) - 1;
 
                 for (final EnumFacing dir : EnumFacing.HORIZONTALS) {
-                    final int nX = x + dir.getFrontOffsetX();
-                    final int nZ = z + dir.getFrontOffsetZ();
+                    final int nX = x + dir.getXOffset();
+                    final int nZ = z + dir.getZOffset();
 
                     if (((nX | nZ) & CHUNK_COORD_OVERFLOW_MASK) != 0)
                         continue;
@@ -188,7 +188,7 @@ public class LightingHooks {
         final IChunkProvider provider = world.getChunkProvider();
 
         for (final EnumFacing dir : EnumFacing.HORIZONTALS) {
-            final Chunk nChunk = provider.getLoadedChunk(chunk.x + dir.getFrontOffsetX(), chunk.z + dir.getFrontOffsetZ());
+            final Chunk nChunk = provider.getLoadedChunk(chunk.x + dir.getXOffset(), chunk.z + dir.getZOffset());
 
             if (nChunk == null)
                 continue;
@@ -260,8 +260,8 @@ public class LightingHooks {
 
         if (emptySections != 0) {
             for (final EnumFacing dir : EnumFacing.HORIZONTALS) {
-                final int xOffset = dir.getFrontOffsetX();
-                final int zOffset = dir.getFrontOffsetZ();
+                final int xOffset = dir.getXOffset();
+                final int zOffset = dir.getZOffset();
 
                 final boolean neighborColumnExists =
                     (((x + xOffset) | (z + zOffset)) & 16) == 0 //Checks whether the position is at the specified border (the 16 bit is set for both 15+1 and 0-1)
@@ -309,7 +309,7 @@ public class LightingHooks {
     }
 
     private static int getFlagIndex(final EnumSkyBlock lightType, final EnumFacing dir, final AxisDirection axisDirection, final EnumBoundaryFacing boundaryFacing) {
-        return getFlagIndex(lightType, dir.getFrontOffsetX(), dir.getFrontOffsetZ(), axisDirection, boundaryFacing);
+        return getFlagIndex(lightType, dir.getXOffset(), dir.getZOffset(), axisDirection, boundaryFacing);
     }
 
     private static AxisDirection getAxisDirection(final EnumFacing dir, final int x, final int z) {
@@ -318,8 +318,8 @@ public class LightingHooks {
 
     private static void scheduleRelightChecksForChunkBoundaries(final World world, final Chunk chunk) {
         for (final EnumFacing dir : EnumFacing.HORIZONTALS) {
-            final int xOffset = dir.getFrontOffsetX();
-            final int zOffset = dir.getFrontOffsetZ();
+            final int xOffset = dir.getXOffset();
+            final int zOffset = dir.getZOffset();
 
             final Chunk nChunk = world.getChunkProvider().getLoadedChunk(chunk.x + xOffset, chunk.z + zOffset);
 

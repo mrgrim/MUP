@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.Slice;
 public abstract class MixinWorld
 {
     @Redirect(method = "updateEntityWithOptionalForce",
-              slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getChunkFromChunkCoords(II)Lnet/minecraft/world/chunk/Chunk;", ordinal = 0),
-                             to = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getChunkFromChunkCoords(II)Lnet/minecraft/world/chunk/Chunk;", ordinal = 1)),
+              slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getChunk(II)Lnet/minecraft/world/chunk/Chunk;", ordinal = 0),
+                             to = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getChunk(II)Lnet/minecraft/world/chunk/Chunk;", ordinal = 1)),
               at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setPositionNonDirty()Z", ordinal = 0))
     public boolean alwaysLoadChunk(Entity entityIn)
     {

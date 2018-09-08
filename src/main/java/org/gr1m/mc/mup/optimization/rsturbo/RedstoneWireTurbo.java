@@ -841,7 +841,7 @@ public final class RedstoneWireTurbo {
         // elsewhere in Minecraft into this accelerator.  So sadly, we must
         // suffer the performance hit of this very expensive call.  If there
         // is consistency to what this call returns, we may be able to cache it.
-        final int k = worldIn.isBlockIndirectlyGettingPowered(upd.self);
+        final int k = worldIn.getRedstonePowerFromNeighbors(upd.self);
         ((IBlockRedstoneWire) (wire)).setCanProvidePower(true);
 
         // The variable 'k' holds the maximum redstone power value of any adjacent blocks.

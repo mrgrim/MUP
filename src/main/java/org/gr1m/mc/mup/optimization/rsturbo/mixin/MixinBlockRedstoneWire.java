@@ -92,7 +92,7 @@ public abstract class MixinBlockRedstoneWire extends Block implements IBlockReds
         int l = 0;
 
         this.canProvidePower = false;
-        int k = worldIn.isBlockIndirectlyGettingPowered(pos1);
+        int k = worldIn.getRedstonePowerFromNeighbors(pos1);
         this.canProvidePower = true;
 
         // The variable 'k' holds the maximum redstone power value of any adjacent blocks.

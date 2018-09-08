@@ -15,14 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinMinecraft {
 	@Shadow
 	@Final
-	public Profiler mcProfiler;
+	public Profiler profiler;
 
 	@Shadow
 	public WorldClient world;
 
 	@Inject(method = "runTick", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=levelRenderer"))
 	private void preEndStartSectionLevelRenderer(CallbackInfo ci) {
-		this.mcProfiler.endStartSection("lighting");
+		this.profiler.endStartSection("lighting");
 		((IWorld) this.world).getLightingEngine().procLightUpdates();
 	}
 }

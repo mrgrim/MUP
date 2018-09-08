@@ -1,5 +1,6 @@
 package org.gr1m.mc.mup.bugfix.mc5694.mixin;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.play.server.SPacketBlockChange;
@@ -31,7 +32,7 @@ public class MixinNetHandlerPlayServer implements INetHandlerPlayServer {
         double d2 = this.player.posZ - ((double) blockpos.getZ() + 0.5D);
         double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 
-        double dist = player.interactionManager.getBlockReachDistance() + 1;
+        double dist = player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue() + 1;
         dist *= dist;
 
         if (d3 <= dist && blockpos.getY() < this.server.getBuildLimit())
