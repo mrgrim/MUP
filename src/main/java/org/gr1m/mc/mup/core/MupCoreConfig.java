@@ -24,6 +24,7 @@ public class MupCoreConfig {
     public boolean rsturbo;
     
     public boolean hud;
+    public boolean profiler;
 
     public void init(File file)
     {
@@ -57,6 +58,7 @@ public class MupCoreConfig {
 
         // Tweaks
         hud      = config.get("tweaks", "hud", new boolean[]{true, false}, null, true, 2).getBooleanList()[0];
+        profiler = config.get("tweaks", "profiler", new boolean[]{false, false}, null, true, 2).getBooleanList()[0];
     }
     
 }

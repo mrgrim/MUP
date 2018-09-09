@@ -148,12 +148,22 @@ public class MupConfig
         return false;
     })
         .setDisplayName("HUD")
-        .setCredits("nessie")
+        .setCredits("nessie [CarpetMod]")
         .setSideEffects("Increases network traffic")
         .setCategory("tweaks")
         .setDefaults(new boolean[] { true, false })
         .setComment(new String[] {"Enables server MSPT/TPS display in player list overlay and enables the overlay in",
                                   "single player. Shows 5 second average and updates once per second."});
+    
+    public final PatchDef profiler = new PatchDef("profiler", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("Profiler")
+        .setCredits("gnembon, Xcom [CarpetMod]")
+        .setCategory("tweaks")
+        .setToggleable(false)
+        .setDefaults(new boolean[] { false, false })
+        .setSideEffects("Adds a small amount of performance overhead each tick.")
+        .setComment(new String[] {"Enables server side profiler features available under the /tickhealth command:",
+                                  "    /tickhealth <basic|entities> [tick count]"});
 
     public void init(File file)
     {

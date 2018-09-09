@@ -1,0 +1,1 @@
+commands.tickhealth.subcommand.invalid=Invalid tickhealth subcommand. Expecting 'global' or 'entities'.

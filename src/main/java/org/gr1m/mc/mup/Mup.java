@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,7 @@ import org.gr1m.mc.mup.bugfix.mc5694.network.MC5694PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
 import org.gr1m.mc.mup.config.MupConfig;
 import org.gr1m.mc.mup.tweaks.hud.Hud;
+import org.gr1m.mc.mup.tweaks.profiler.ProfilerCommand;
 
 import java.io.File;
 
@@ -63,4 +65,12 @@ public class Mup
     public void postInit(FMLPostInitializationEvent event)
     {
     }
+
+    @EventHandler
+    public void serverLoad(FMLServerStartingEvent event)
+    {
+        if (config.profiler.isLoaded()) event.registerServerCommand(new ProfilerCommand());
+    }
 }
+
+// TODO: WorldServer.playerCheckLight
