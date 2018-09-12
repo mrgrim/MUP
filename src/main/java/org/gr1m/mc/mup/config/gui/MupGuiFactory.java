@@ -1,9 +1,8 @@
-package org.gr1m.mc.mup.config;
+package org.gr1m.mc.mup.config.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
-import org.gr1m.mc.mup.Mup;
 
 import java.util.Set;
 

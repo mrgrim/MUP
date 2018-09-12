@@ -25,7 +25,7 @@ import java.io.File;
      version = Mup.VERSION,
      acceptedMinecraftVersions = "1.12.2",
      certificateFingerprint = Mup.FINGERPRINT,
-     guiFactory = "org.gr1m.mc.mup.config.MupGuiFactory")
+     guiFactory = "org.gr1m.mc.mup.config.gui.MupGuiFactory")
 public class Mup
 {
     public static final String MODID = "mup";
@@ -34,7 +34,7 @@ public class Mup
     public static final String FINGERPRINT = "@FINGERPRINT@";
 
     public static Logger logger;
-    public static MupConfig config = new MupConfig();
+    public final static MupConfig config = new MupConfig();
 
     public Mup()
     {
