@@ -2,6 +2,7 @@ package org.gr1m.mc.mup.config.gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.*;
 import org.gr1m.mc.mup.Mup;
@@ -11,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MupGuiConfig extends GuiConfig {
+    public static final ResourceLocation ICON_CROSS = new ResourceLocation(Mup.MODID, "textures/misc/cross.png");
+    public static final ResourceLocation ICON_TICK = new ResourceLocation(Mup.MODID, "textures/misc/tick.png");
+    public static final ResourceLocation ICON_LOCK = new ResourceLocation(Mup.MODID, "textures/misc/lock.png");
+    public static final ResourceLocation ICON_WRENCH = new ResourceLocation(Mup.MODID, "textures/misc/wrench_orange.png");
+    
     MupGuiConfig(GuiScreen parent) {
         super(parent,
                 getConfigElements(),

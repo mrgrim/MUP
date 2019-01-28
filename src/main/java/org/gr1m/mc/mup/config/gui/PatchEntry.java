@@ -7,7 +7,8 @@ import org.gr1m.mc.mup.Mup;
 
 public class PatchEntry extends GuiConfigEntries.ListEntryBase {
     private final GuiButtonExt enableButton;
-    private final GuiCheckBox loadButton;
+    private final GuiCheckBoxExt loadButton;
+    private final GuiButtonImage wrenchButton;
 
     private final boolean beforeLoadValue;
     private final boolean beforeEnableValue;
@@ -17,7 +18,8 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
     private boolean currentLoadValue;
     private boolean currentEnableValue;
 
-    public PatchEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+    public PatchEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
+    {
         super(owningScreen, owningEntryList, configElement);
 
         this.beforeLoadValue = Boolean.valueOf(configElement.getList()[0].toString());
@@ -26,15 +28,28 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
         this.currentLoadValue = beforeLoadValue;
         this.currentEnableValue = realEnableValue = beforeEnableValue;
 
-        this.loadButton = new GuiCheckBox(0, owningEntryList.controlX, 0, "Load Patch", currentLoadValue);
+        this.loadButton = new GuiCheckBoxExt(0, owningEntryList.controlX, 2, "Load Patch", currentLoadValue);
         this.loadButton.visible = true;
-        this.loadButton.enabled = enabled();
+        this.loadButton.enabled = this.enabled();
 
         this.enableButton = new GuiButtonExt(0, owningEntryList.controlX + this.loadButton.getButtonWidth() + 10, 0,
                                              owningEntryList.controlWidth - this.loadButton.getButtonWidth() - 10, 18, currentEnableValue ? "enabled" : "disabled");
-
-        this.enableButton.enabled = enabled() && currentLoadValue && ((IMupConfigElement) this.configElement).isToggleable();
+        this.enableButton.visible = true;
+        this.enableButton.enabled = this.enabled() && currentLoadValue && ((IMupConfigElement) this.configElement).isToggleable();
         updateEnableButtonText();
+
+        if (((IMupConfigElement) configElement).getPatchDef().customConfig != null)
+        {
+            this.enableButton.setWidth(this.enableButton.getButtonWidth() - 18);
+            
+            this.wrenchButton = new GuiButtonImage(owningEntryList.controlX + this.loadButton.getButtonWidth() + 10 + this.enableButton.getButtonWidth(), 0);
+            this.wrenchButton.visible = true;
+            this.wrenchButton.enabled = this.enabled();
+        }
+        else
+        {
+            this.wrenchButton = null;
+        }
 
         this.toolTip.clear();
         toolTip.add(TextFormatting.GREEN + name);
@@ -189,6 +204,16 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
         this.enableButton.width = this.owningEntryList.controlWidth - this.loadButton.getButtonWidth() - 10;
         this.enableButton.x = this.owningScreen.entryList.controlX + this.loadButton.getButtonWidth() + 10;
         this.enableButton.y = y;
+        
+        if (this.wrenchButton != null)
+        {
+            this.enableButton.setWidth(this.enableButton.getButtonWidth() - 18);
+            
+            this.wrenchButton.x = this.owningScreen.entryList.controlX + this.loadButton.getButtonWidth() + 10 + this.enableButton.getButtonWidth();
+            this.wrenchButton.y = y;
+            this.wrenchButton.drawButton(this.mc, mouseX, mouseY, partial);
+        }
+
         this.enableButton.drawButton(this.mc, mouseX, mouseY, partial);
     }
 
@@ -206,6 +231,11 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
         {
             loadButton.playPressSound(mc.getSoundHandler());
             loadButtonPressed();
+            return true;
+        }
+        else if (this.wrenchButton != null && this.wrenchButton.mousePressed(this.mc, x, y))
+        {
+            loadButton.playPressSound(mc.getSoundHandler());
             return true;
         }
         else

@@ -19,6 +19,7 @@ public class PatchDef
     
     private final String fieldName;
     private final Enum<Side> side;
+    public final ICustomizablePatch customConfig;
     
     private String displayName;
     private String category;
@@ -41,11 +42,17 @@ public class PatchDef
     
     public PatchDef(String fieldNameIn, Enum<Side> sideIn, BiConsumer<PatchDef, Boolean> serverSyncHandler, TriFunction<PatchDef, Boolean, NetHandlerPlayServer, Boolean> clientSyncHandler)
     {
+        this(fieldNameIn, sideIn, serverSyncHandler, clientSyncHandler, null);
+    }
+    
+    public PatchDef(String fieldNameIn, Enum<Side> sideIn, BiConsumer<PatchDef, Boolean> serverSyncHandler, TriFunction<PatchDef, Boolean, NetHandlerPlayServer, Boolean> clientSyncHandler, ICustomizablePatch customConfigIn)
+    {
         this.fieldName = fieldNameIn;
         this.processServerSync = serverSyncHandler;
         this.processClientSync = clientSyncHandler;
         this.side = sideIn;
         this.defaults = new boolean[] { true, true };
+        this.customConfig = customConfigIn;
     }
     
     public final BiConsumer<PatchDef, Boolean> processServerSync;
