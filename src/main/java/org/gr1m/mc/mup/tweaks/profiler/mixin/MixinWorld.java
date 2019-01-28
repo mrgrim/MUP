@@ -26,7 +26,7 @@ public abstract class MixinWorld
     @Final
     public WorldProvider provider;
     
-    @Inject(method = "updateEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;removeAll(Ljava/util/Collection;)Z", ordinal = 0),
+    @Inject(method = "updateEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;removeAll(Ljava/util/Collection;)Z", ordinal = 0, remap = false),
             slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=remove", ordinal = 0), to = @At(value = "CONSTANT", args = "stringValue=regular")))
     private void profileEntitiesStart(CallbackInfo ci)
     {
@@ -37,7 +37,7 @@ public abstract class MixinWorld
         }
     }
     
-    @Redirect(method = "updateEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;", ordinal = 0),
+    @Redirect(method = "updateEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;", ordinal = 0, remap = false),
               slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/world/World;loadedEntityList:Ljava/util/List;", ordinal = 1),
                              to = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRidingEntity()Lnet/minecraft/entity/Entity;", ordinal = 0)))
     private Object profileEntityStart(List<Entity> entityList, int index)
@@ -76,7 +76,7 @@ public abstract class MixinWorld
         }
     }
     
-    @Redirect(method = "updateEntities", at = @At(value = "INVOKE", target = "Ljava/util/Iterator;next()Ljava/lang/Object;", ordinal = 0),
+    @Redirect(method = "updateEntities", at = @At(value = "INVOKE", target = "Ljava/util/Iterator;next()Ljava/lang/Object;", ordinal = 0, remap = false),
               slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/world/World;tickableTileEntities:Ljava/util/List;", ordinal = 1),
                              to = @At(value = "INVOKE", target = "Lnet/minecraft/tileentity/TileEntity;hasWorld()Z")))
     private Object profileTileEntityStart(Iterator<TileEntity> iter)
