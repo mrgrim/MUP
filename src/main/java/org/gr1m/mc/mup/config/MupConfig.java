@@ -82,6 +82,12 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Mobs suffocate when going through nether portals."});
 
+    public final PatchDef mc98153 = new PatchDef("mc98153", PatchDef.Side.SERVER)
+        .setDisplayName("MC-98153")
+        .setCredits("Xcom")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Portals generate far-away chunks & set player on fire."});
+
     public final PatchDef mc108469 = new PatchDef("mc108469", PatchDef.Side.SERVER)
         .setDisplayName("MC-108469")
         .setCredits("Xcom")
