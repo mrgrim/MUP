@@ -76,6 +76,12 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Witch Hut structure data do not account for height the witch hut is generated at"});
 
+    public final PatchDef mc80032 = new PatchDef("mc80032", PatchDef.Side.SERVER)
+        .setDisplayName("MC-80032")
+        .setCredits("Xcom")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Mobs suffocate when going through nether portals."});
+
     public final PatchDef mc108469 = new PatchDef("mc108469", PatchDef.Side.SERVER)
         .setDisplayName("MC-108469")
         .setCredits("Xcom")
@@ -164,6 +170,16 @@ public class MupConfig
         .setSideEffects("Adds a small amount of performance overhead each tick.")
         .setComment(new String[] {"Enables server side profiler features available under the /tickhealth command:",
                                   "    /tickhealth <basic|entities> [tick count]"});
+
+    public final PatchDef etde = new PatchDef("etde", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("Entity Tracking Distance Editor")
+        .setCredits("MrGrim")
+        .setCategory("tweaks")
+        .setToggleable(true)
+        .setDefaults(new boolean[] { false, false })
+        .setSideEffects("Modifying these values can cause entity \"pop in\" or harm performance.")
+        .setComment(new String[] {"Controls how close an entity must be to a client before the client displays it and keeps track of it.",
+                                  "Setting the tracking distance larger than the view distance will cause the it to be set to the current view distance."});
 
     public void init(File file)
     {
