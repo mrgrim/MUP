@@ -184,7 +184,7 @@ public class MupConfig
         .setToggleable(true)
         .setDefaults(new boolean[] { false, false })
         .setSideEffects("Modifying these values can cause entity \"pop in\" or harm performance.")
-        .setComment(new String[] {"Controls how close an entity must be to a client before the client displays it and keeps track of it.",
+        .setComment(new String[] {"[NOT FUNCTIONAL] Controls how close an entity must be to a client before the client displays it and keeps track of it.",
                                   "Setting the tracking distance larger than the view distance will cause the it to be set to the current view distance."});
 
     public void init(File file)
