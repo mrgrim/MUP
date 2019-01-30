@@ -95,6 +95,12 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Chunk-wise entity lists often don't get updated correctly (Entities disappear)"});
 
+    public final PatchDef mc111444 = new PatchDef("mc108469", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("MC-111444")
+        .setCredits("Earthcomputer, nessie, masa")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Elytras can't open in laggy game."});
+
     public final PatchDef mc118710 = new PatchDef("mc118710", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE)
         .setDisplayName("MC-118710")
         .setCredits("theosib, MrGrim")
