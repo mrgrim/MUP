@@ -179,7 +179,7 @@ public class MupConfig
         .setCategory("tweaks")
         .setToggleable(false)
         .setDefaults(new boolean[] { false, false })
-        .setSideEffects("Adds a small amount of performance overhead each tick.")
+        .setSideEffects("This is a fairly invasive patch. Recommend only loading temporarily when required.")
         .setComment(new String[] {"Enables server side profiler features available under the /tickhealth command:",
                                   "    /tickhealth <basic|entities> [tick count]"});
 

@@ -32,8 +32,11 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 * [MC-54026](https://bugs.mojang.com/browse/MC-54026) - Blocks attached to slime blocks can create ghost blocks
 * [MC-73051](https://bugs.mojang.com/browse/MC-73051) - Witch Hut structure data do not account for height the witch hut
   is generated at
+* [MC-80032](https://bugs.mojang.com/browse/MC-80032) - Horse suffocate when going through nether portals
+* [MC-98153](https://bugs.mojang.com/browse/MC-98153) - Portals generate far-away chunks & set player on fire
 * [MC-108469](https://bugs.mojang.com/browse/MC-108469) - Chunk-wise entity lists often don't get updated correctly
   (Entities disappear)
+* [MC-111444](https://bugs.mojang.com/browse/MC-111444) - Elytras can't open in laggy game
 * [MC-118710](https://bugs.mojang.com/browse/MC-118710) - Blocks take multiple attempts to mine
 * [MC-119971](https://bugs.mojang.com/browse/MC-119971) - Various duplications, deletions, and data corruption at chunk
   boundaries, caused by loading outdated chunks - includes duping and deletion of entities/mobs, items in hoppers, and
@@ -75,7 +78,10 @@ redstone on the issues board.
 
 * Performance HUD - With this tweak enabled the server sends the client server performance data in the form of a 5
   second average MSPT (Milliseconds per Tick) and TPS (Ticks per Second). It is available in the player overlay
-  activated with the TAB key. For convenience, this tweak also enables the overlay in single player mode. 
+  activated with the TAB key. For convenience, this tweak also enables the overlay in single player mode.
+* Profiler - A simple server side profiler accessible via the `/tickhealth` command. This is ported from the same
+  feature found in CarpetMod. It's a relatively naive and simple profiler that makes some tasks simpler, but due to how
+  invasive the patch is it is recommend to only be enabled when it is needed.
   
 ## What is EigenCraft?
 
