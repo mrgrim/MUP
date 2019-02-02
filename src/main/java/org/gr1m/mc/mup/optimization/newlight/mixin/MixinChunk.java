@@ -165,6 +165,15 @@ public abstract class MixinChunk implements IChunk {
 	@Redirect(method = "onTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/Chunk;checkLight()V"))
 	private void onCheckLight(Chunk chunk) {
 	}
+	
+	@Inject(method = "propagateSkylightOcclusion", at = @At("HEAD"), cancellable = true)
+    private void nullPropagateSkylightOcclusion(int x, int z, CallbackInfo ci)
+    {
+        ci.cancel();
+        
+        // This is a workaround for Recurrent Complex's height map freezer which ends up calling vanilla lighting methods directly.
+        LightingHooks.fillSkylightColumn((Chunk)(Object)(this), x, z);
+    }
 
 	public short[] getNeighborLightChecks() {
 		return this.neightborLightChecks;
