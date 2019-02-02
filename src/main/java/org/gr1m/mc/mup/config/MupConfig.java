@@ -193,6 +193,15 @@ public class MupConfig
         .setComment(new String[] {"[NOT FUNCTIONAL] Controls how close an entity must be to a client before the client displays it and keeps track of it.",
                                   "Setting the tracking distance larger than the view distance will cause the it to be set to the current view distance."});
 
+    public final PatchDef dac = new PatchDef("dac", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("Disable Movement Anti Cheat")
+        .setCredits("MrGrim")
+        .setCategory("tweaks")
+        .setToggleable(true)
+        .setDefaults(new boolean[] { false, false })
+        .setSideEffects("This disables movement based anti cheat functionality. Only use on private servers with trusted players!")
+        .setComment(new String[] {"Prevents the server from resetting the position of (rubber banding) clients that move \"too quickly\"."});
+
     public void init(File file)
     {
         if (config == null)
