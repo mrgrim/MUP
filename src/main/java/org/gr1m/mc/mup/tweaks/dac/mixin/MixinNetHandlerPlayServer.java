@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(NetHandlerPlayServer.class)
-public class MixinNetHandlerPlayServer
+public abstract class MixinNetHandlerPlayServer
 {
     @Shadow
     public EntityPlayerMP player;
