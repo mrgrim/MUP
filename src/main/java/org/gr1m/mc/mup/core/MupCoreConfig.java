@@ -12,6 +12,7 @@ public class MupCoreConfig {
     public boolean mc2025;
     public boolean mc5694;
     public boolean mc9568;
+    public boolean mc14826;
     public boolean mc54026;
     public boolean mc73051;
     public boolean mc80032;
@@ -48,6 +49,7 @@ public class MupCoreConfig {
         mc2025   = config.get("bug fixes", "mc2025", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc5694   = config.get("bug fixes", "mc5694", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc9568   = config.get("bug fixes", "mc9568", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
+        mc14826  = config.get("bug fixes", "mc14826", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc54026  = config.get("bug fixes", "mc54026", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc73051  = config.get("bug fixes", "mc73051", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
         mc80032  = config.get("bug fixes", "mc80032", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];

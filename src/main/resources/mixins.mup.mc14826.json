@@ -1,0 +1,13 @@
+{
+  "package": "org.gr1m.mc.mup.bugfix.mc14826.mixin",
+  "refmap": "mixins.mup.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.7.4",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinEntity",
+    "MixinEntityLeashKnot",
+    "MixinEntityLiving",
+    "MixinEntityTrackerEntry"
+  ]
+}

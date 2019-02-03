@@ -63,6 +63,12 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Mobs suffocate / go through blocks when growing up near a solid block"});
 
+    public final PatchDef mc14826 = new PatchDef("mc14826", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("MC-14826")
+        .setCredits("Xcom, Kevin Gagnon")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Leads in unloaded chunks break, become invisible or connect to an invisible target far away"});
+
     public final PatchDef mc54026 = new PatchDef("mc54026", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.ACCEPT)
         .setDisplayName("MC-54026")
         .setCredits("gnembon, Xcom, MrGrim")
