@@ -56,7 +56,7 @@ public abstract class MixinEntity implements ICommandSender {
             this.setPosition(this.posX, this.posY, this.posZ);
         }
         
-        if (Mup.config.mc2025.enabled && compound.hasKey("AABB", 6))
+        if (Mup.config.mc2025.enabled && compound.hasKey("AABB", 9))
         {
             NBTTagList aabb = compound.getTagList("AABB", 6);
             this.setEntityBoundingBox(new AxisAlignedBB(aabb.getDoubleAt(0), aabb.getDoubleAt(1), aabb.getDoubleAt(2), aabb.getDoubleAt(3), aabb.getDoubleAt(4), aabb.getDoubleAt(5)));
