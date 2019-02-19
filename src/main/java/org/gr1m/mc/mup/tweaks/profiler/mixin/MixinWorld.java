@@ -1,12 +1,12 @@
 package org.gr1m.mc.mup.tweaks.profiler.mixin;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import org.gr1m.mc.mup.tweaks.profiler.MupProfiler;
+import org.spongepowered.asm.lib.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
