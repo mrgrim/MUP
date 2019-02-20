@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import org.gr1m.mc.mup.tweaks.profiler.MupProfiler;
+import org.spongepowered.asm.lib.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -90,13 +91,10 @@ public abstract class MixinWorld
         
         return tileEntity;
     }
-    
-    // We're going to have to live without capturing deletion time in per tile entity counters. The only way to handle
-    // adding code in the middle of a series of block endings is to overwrite the entire block that you want to inject
-    // after, and it's risky trying to handle tile entity deletion here.
-    @Inject(method = "updateEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/tileentity/TileEntity;isInvalid()Z", ordinal = 0),
-            slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/util/ITickable;update()V", ordinal = 0),
-                           to = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/Chunk;removeTileEntity(Lnet/minecraft/util/math/BlockPos;)V", ordinal = 0)))
+
+    @Inject(method = "updateEntities", at = @At(value = "JUMP", opcode = Opcodes.GOTO, shift = At.Shift.BEFORE),
+            slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/chunk/Chunk;removeTileEntity(Lnet/minecraft/util/math/BlockPos;)V"),
+                    to = @At(value = "CONSTANT", args = "stringValue=pendingBlockEntities")))
     private void profileTileEntityStop(CallbackInfo ci)
     {
         if ((World)((Object)(this)) instanceof WorldServer)
