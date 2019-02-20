@@ -167,7 +167,8 @@ public class LightingEngine {
         }
 
         //renderer accesses world unsynchronized, don't modify anything in that case
-        if (this.world.isRemote && !Minecraft.getMinecraft().isCallingFromMinecraftThread()) {
+        if ((this.world.isRemote && !Minecraft.getMinecraft().isCallingFromMinecraftThread()) ||
+            (!this.world.isRemote && !this.world.getMinecraftServer().isCallingFromMinecraftThread())) {
             return;
         }
 
