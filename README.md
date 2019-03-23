@@ -86,6 +86,9 @@ redstone on the issues board.
 * Profiler - A simple server side profiler accessible via the `/tickhealth` command. This is ported from the same
   feature found in CarpetMod. It's a relatively naive and simple profiler that makes some tasks simpler, but due to how
   invasive the patch is it is recommend to only be enabled when it is needed.
+* Disable Movement Anti Cheat - Disables movement based anti cheat functionality. This helps with rubber banding from
+  "Player moved too quickly" or "Player moved wrongly" when the server is lagging. However, hackers could very easily
+  abuse this. Only enable if you trust all your players!
   
 ## What is EigenCraft?
 
