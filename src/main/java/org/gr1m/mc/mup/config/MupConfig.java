@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
+import org.gr1m.mc.mup.tweaks.etde.config.EtdeCustomConfig;
 import org.gr1m.mc.mup.tweaks.hud.Hud;
 
 import javax.annotation.Nullable;
@@ -189,7 +190,7 @@ public class MupConfig
         .setComment(new String[] {"Enables server side profiler features available under the /tickhealth command:",
                                   "    /tickhealth <basic|entities> [tick count]"});
 
-    public final PatchDef etde = new PatchDef("etde", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+    public final PatchDef etde = new PatchDef("etde", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE, new EtdeCustomConfig())
         .setDisplayName("Entity Tracking Distance Editor")
         .setCredits("MrGrim")
         .setCategory("tweaks")
@@ -251,6 +252,8 @@ public class MupConfig
 
                     if (bugState[0]) patchDef.setLoaded();
                     patchDef.setEnabled(bugState[1]);
+                    
+                    if (patchDef.customConfig != null) patchDef.customConfig.loadConfig(config, patchDef.getCategory() + "." + patchDef.getFieldName());
                 }
             }
         }
