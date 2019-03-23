@@ -29,10 +29,14 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
   client-side only
 * [MC-9568](https://bugs.mojang.com/browse/MC-9568) - Mobs suffocate / go through blocks when growing up near a solid
   block
+* [MC-14826](https://bugs.mojang.com/browse/MC-14826) - Leads in unloaded chunks break, become invisible or connect to
+  an invisible target far away
 * [MC-54026](https://bugs.mojang.com/browse/MC-54026) - Blocks attached to slime blocks can create ghost blocks
 * [MC-73051](https://bugs.mojang.com/browse/MC-73051) - Witch Hut structure data do not account for height the witch hut
   is generated at
 * [MC-80032](https://bugs.mojang.com/browse/MC-80032) - Horse suffocate when going through nether portals
+* [MC-92916](https://bugs.mojang.com/browse/MC-92916) - Player is removed from the EntityTracker when teleporting to
+  unloaded chunks or changing dimensions, resulting in client side desync
 * [MC-98153](https://bugs.mojang.com/browse/MC-98153) - Portals generate far-away chunks & set player on fire
 * [MC-108469](https://bugs.mojang.com/browse/MC-108469) - Chunk-wise entity lists often don't get updated correctly
   (Entities disappear)
