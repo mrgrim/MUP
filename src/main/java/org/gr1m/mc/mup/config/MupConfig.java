@@ -89,6 +89,13 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Mobs suffocate when going through nether portals."});
 
+    public final PatchDef mc92916 = new PatchDef("mc92916", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("MC-92916")
+        .setCredits("Xcom, MrGrim")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Player is removed from the EntityTracker when teleporting to unloaded chunks or changing dimensions,",
+                                  "resulting in client side desync"});
+
     public final PatchDef mc98153 = new PatchDef("mc98153", PatchDef.Side.SERVER)
         .setDisplayName("MC-98153")
         .setCredits("Xcom")
