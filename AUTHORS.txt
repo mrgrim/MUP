@@ -1,0 +1,37 @@
+All contributors retain copyright for their respective contributions.
+
+Earthcomputer (https://github.com/Earthcomputer)
+ - MC-111444
+
+Xcom (https://github.com/X-com)
+ - MC-5694, MC-9568, MC-14826, MC-54026, MC-73051, MC-80032, MC-92916, MC-98153, MC-108469, Profiler
+ 
+theosib (https://github.com/theosib)
+ - MC-4, MC-5694, MC-118710, MC-119971, MC-134989, RS Turbo
+ 
+gnembon (https://github.com/gnembon)
+ - MC-5694, MC-54026, Profiler
+ 
+Pokechu22 (https://github.com/Pokechu22)
+ - MC-5694
+ 
+nessie (https://github.com/Nessiesson)
+ - MC-111444, MC-123320, Newlight, HUD
+ 
+masa (https://github.com/maruohon/)
+ - MC-111444
+ 
+PhiPro (https://github.com/PhiPro95)
+ - Newlight
+ 
+Mathe172 (https://github.com/Mathe172)
+ - Newlight
+ 
+Kevin Gagnon (https://coros.us/)
+ - MC-14826
+ 
+WolfieMario (https://github.com/WolfieMario)
+ - MC-2025
+ 
+DeadlyMC (https://github.com/DeadlyMC)
+ - Profiler
