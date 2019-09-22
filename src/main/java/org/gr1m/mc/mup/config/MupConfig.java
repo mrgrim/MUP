@@ -109,7 +109,7 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Chunk-wise entity lists often don't get updated correctly (Entities disappear)"});
 
-    public final PatchDef mc111444 = new PatchDef("mc108469", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+    public final PatchDef mc111444 = new PatchDef("mc111444", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
         .setDisplayName("MC-111444")
         .setCredits("Earthcomputer, nessie, masa")
         .setCategory("bug fixes")
