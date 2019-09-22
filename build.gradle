@@ -132,6 +132,27 @@ processResources {
     }
 }
 
+processResources.doLast {
+    copy {
+        from("$projectDir/src/main/resources") {
+            include 'mcmod.info'
+
+            // replace version and mcversion
+            expand 'version':project.version, 'mcversion':project.minecraft.version
+        }
+
+        into("$projectDir/build/classes/java/main")
+    }
+
+    copy {
+        from("$projectDir/src/main/resources") {
+            exclude 'mcmod.info'
+        }
+
+        into("$projectDir/build/classes/java/main")
+    }
+}
+
 jar {
     manifest.attributes(
             'FMLCorePlugin': 'org.gr1m.mc.mup.core.MupCore',
