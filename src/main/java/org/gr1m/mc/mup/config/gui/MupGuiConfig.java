@@ -21,6 +21,7 @@ public class MupGuiConfig extends GuiConfig {
         super(parent,
                 getConfigElements(),
                 Mup.MODID,
+                "MupConfigID",
                 false,
                 false,
                 "EigenCraft Unofficial Patch");
@@ -102,7 +103,7 @@ public class MupGuiConfig extends GuiConfig {
             // Strip "MC-" prefix from bug fix names and sort numerically.
             list.sort((propA, propB) -> (Integer.parseInt(propA.getName().substring(3)) > Integer.parseInt(propB.getName().substring(3))) ? 1 : -1);
             
-            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, "bug fixes", false, false, "EigenCraft Unofficial Patch");
+            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, null, false, false, "EigenCraft Unofficial Patch");
             guiConfig.titleLine2 = "Bug Fixes";
             
             return guiConfig;
@@ -121,12 +122,12 @@ public class MupGuiConfig extends GuiConfig {
         {
             List<IConfigElement> list = new ArrayList<>();
 
-            for (Property bugfix : MupConfig.config.getCategory("optimizations").getOrderedValues())
+            for (Property optimization : MupConfig.config.getCategory("optimizations").getOrderedValues())
             {
-                list.add(new PatchElement(bugfix));
+                list.add(new PatchElement(optimization));
             }
 
-            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, "optimizations", false, false, "EigenCraft Unofficial Patch");
+            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, null, false, false, "EigenCraft Unofficial Patch");
             guiConfig.titleLine2 = "Optimizations";
 
             return guiConfig;
@@ -150,7 +151,7 @@ public class MupGuiConfig extends GuiConfig {
                 list.add(new PatchElement(tweak));
             }
 
-            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, "tweaks", false, false, "EigenCraft Unofficial Patch");
+            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, null, false, false, "EigenCraft Unofficial Patch");
             guiConfig.titleLine2 = "Tweaks";
 
             return guiConfig;

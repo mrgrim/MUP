@@ -1,5 +1,7 @@
 package org.gr1m.mc.mup.config.gui;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.config.*;
@@ -17,6 +19,8 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
 
     private boolean currentLoadValue;
     private boolean currentEnableValue;
+
+    protected GuiScreen childScreen;
 
     public PatchEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
     {
@@ -45,6 +49,8 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
             this.wrenchButton = new GuiButtonImage(owningEntryList.controlX + this.loadButton.getButtonWidth() + 10 + this.enableButton.getButtonWidth(), 0);
             this.wrenchButton.visible = true;
             this.wrenchButton.enabled = this.enabled();
+            
+            this.childScreen = ((IMupConfigElement) configElement).getPatchDef().customConfig.createGuiScreen(this.owningScreen, ((IMupConfigElement) configElement));
         }
         else
         {
@@ -105,6 +111,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
     private void enableButtonPressed() {
         if (enabled() && this.enableButton.enabled)
         {
+            this.enableButton.playPressSound(mc.getSoundHandler());
             currentEnableValue = !currentEnableValue;
         }
     }
@@ -113,6 +120,8 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
     {
         if (enabled())
         {
+            this.loadButton.playPressSound(mc.getSoundHandler());
+            
             if (this.loadButton.isChecked())
             {
                 this.enableButton.enabled = enabled() && (((IMupConfigElement) this.configElement).isToggleable());
@@ -130,11 +139,27 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
             }
         }
     }
+    
+    private void wrenchButtonPressed()
+    {
+        if (enabled() && this.wrenchButton != null && this.wrenchButton.enabled)
+        {
+            this.wrenchButton.playPressSound(mc.getSoundHandler());
+            Minecraft.getMinecraft().displayGuiScreen(childScreen);
+        }
+    }
 
     @Override
     public boolean isDefault() {
-        return currentLoadValue   == Boolean.valueOf(configElement.getDefaults()[0].toString()) &&
-               currentEnableValue == Boolean.valueOf(configElement.getDefaults()[1].toString());
+        boolean result;
+        
+        result = currentLoadValue   == Boolean.valueOf(configElement.getDefaults()[0].toString()) &&
+                 currentEnableValue == Boolean.valueOf(configElement.getDefaults()[1].toString());
+        
+        if (childScreen instanceof GuiConfig && ((GuiConfig) childScreen).entryList != null)
+            result = ((GuiConfig) childScreen).entryList.areAllEntriesDefault(true) && result;
+
+        return result;
     }
 
     @Override
@@ -154,12 +179,22 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
 
             updateEnableButtonText();
             this.enableButton.enabled = currentLoadValue && (((IMupConfigElement) this.configElement).isToggleable());
+
+            if (childScreen instanceof GuiConfig && ((GuiConfig) childScreen).entryList != null)
+                ((GuiConfig) childScreen).entryList.setAllToDefault(true);
         }
     }
 
     @Override
     public boolean isChanged() {
-        return (currentLoadValue != beforeLoadValue) || (currentEnableValue != beforeEnableValue);
+        boolean result;
+        
+        result = (currentLoadValue != beforeLoadValue) || (currentEnableValue != beforeEnableValue);
+
+        if (childScreen instanceof GuiConfig && ((GuiConfig) childScreen).entryList != null)
+            result = ((GuiConfig) childScreen).entryList.hasChangedEntry(true) || result;
+        
+        return result;
     }
 
     @Override
@@ -170,15 +205,29 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
 
             this.loadButton.setIsChecked(currentLoadValue);
             updateEnableButtonText();
+
+            if (childScreen instanceof GuiConfig && ((GuiConfig) childScreen).entryList != null)
+                ((GuiConfig) childScreen).entryList.undoAllChanges(true);
         }
     }
 
     @Override
     public boolean saveConfigElement() {
         if (enabled() && isChanged()) {
+            boolean requiresRestart = false;
+
+            if (childScreen instanceof GuiConfig && ((GuiConfig) childScreen).entryList != null)
+            {
+                requiresRestart = configElement.requiresMcRestart() && ((GuiConfig) childScreen).entryList.hasChangedEntry(true);
+
+                if (((GuiConfig) childScreen).entryList.saveConfigElements())
+                    requiresRestart = true;
+            }
+
             configElement.set(new Boolean[] {currentLoadValue, currentEnableValue});
-            return (currentLoadValue != beforeLoadValue); // MC Restart Required
+            return (currentLoadValue != beforeLoadValue) || requiresRestart; // MC Restart Required
         }
+        
         return false;
     }
 
@@ -222,20 +271,18 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
     {
         if (this.enableButton.mousePressed(this.mc, x, y))
         {
-            enableButton.playPressSound(mc.getSoundHandler());
             enableButtonPressed();
             updateEnableButtonText();
             return true;
         }
         else if (this.loadButton.mousePressed(this.mc, x, y))
         {
-            loadButton.playPressSound(mc.getSoundHandler());
             loadButtonPressed();
             return true;
         }
         else if (this.wrenchButton != null && this.wrenchButton.mousePressed(this.mc, x, y))
         {
-            loadButton.playPressSound(mc.getSoundHandler());
+            wrenchButtonPressed();
             return true;
         }
         else
@@ -248,6 +295,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
         super.mouseReleased(index, x, y, mouseEvent, relativeX, relativeY);
         this.enableButton.mouseReleased(x, y);
         this.loadButton.mouseReleased(x, y);
+        this.wrenchButton.mouseReleased(x, y);
     }
 
     @Override

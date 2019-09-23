@@ -1,7 +1,19 @@
 package org.gr1m.mc.mup.tweaks.etde.config;
 
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.common.config.ConfigCategory;
+import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.IConfigElement;
+import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.config.ICustomizablePatch;
+import org.gr1m.mc.mup.config.MupConfig;
+import org.gr1m.mc.mup.config.gui.IMupConfigElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EtdeCustomConfig implements ICustomizablePatch
 {
@@ -71,5 +83,27 @@ public class EtdeCustomConfig implements ICustomizablePatch
         this.AreaEffectCloud = config.get(category, "AreaEffectCloud", 160).getInt();
         this.EnderCrystal = config.get(category, "EnderCrystal", 256).getInt();
         this.EvokerFangs = config.get(category, "EvokerFangs", 160).getInt();
+    }
+    
+    @Override
+    public GuiScreen createGuiScreen(GuiConfig owningScreen, IMupConfigElement patchProperty)
+    {
+        List<IConfigElement> list = new ArrayList<>();
+        ConfigCategory parentCategory;
+
+        parentCategory = MupConfig.config.getCategory(patchProperty.getPatchDef().getCategory() + "." + patchProperty.getPatchDef().getFieldName());
+        
+        for (ConfigCategory category : parentCategory.getChildren())
+        {
+            list.add(new ConfigElement(category));
+        }
+        
+        for (Property property : parentCategory.getOrderedValues())
+        {
+            list.add(new ConfigElement(property));
+        }
+        
+        return new GuiConfig(owningScreen, list, Mup.MODID, false, false, owningScreen.title,
+                             ((owningScreen.titleLine2 == null ? "" : owningScreen.titleLine2) + " > ETDE Properties"));
     }
 }
