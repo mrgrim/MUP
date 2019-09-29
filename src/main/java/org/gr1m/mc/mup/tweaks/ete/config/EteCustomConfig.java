@@ -20,6 +20,7 @@ public class EteCustomConfig implements ICustomizablePatch
 {
     public static class Var
     {
+        // TODO: Add ability to store server settings for display. Will require custom GUI lists and sync handlers.
         public int range;
         public int frequency;
         int defaultRange;
