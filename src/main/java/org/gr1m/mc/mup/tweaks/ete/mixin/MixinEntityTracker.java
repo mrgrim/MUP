@@ -37,10 +37,16 @@ public abstract class MixinEntityTracker
     @Inject(method = "track(Lnet/minecraft/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
     public void customTrack(Entity entityIn, CallbackInfo ci)
     {
+        if (!Mup.config.ete.enabled) return;
+        
         final EteCustomConfig config = ((EteCustomConfig)(Mup.config.ete.customConfig));
         ci.cancel();
 
-        if (net.minecraftforge.fml.common.registry.EntityRegistry.instance().tryTrackingEntity((EntityTracker)((Object)(this)), entityIn)) return;
+        if (net.minecraftforge.fml.common.registry.EntityRegistry.instance().tryTrackingEntity((EntityTracker)((Object)(this)), entityIn))
+        {
+            Mup.logger.error("Forge handled tracking for entity class " + entityIn.getClass().toString());
+            return;
+        }
         
         if (entityIn instanceof EntityPlayerMP)
         {
