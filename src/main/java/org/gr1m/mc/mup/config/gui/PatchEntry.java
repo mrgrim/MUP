@@ -295,7 +295,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
         super.mouseReleased(index, x, y, mouseEvent, relativeX, relativeY);
         this.enableButton.mouseReleased(x, y);
         this.loadButton.mouseReleased(x, y);
-        this.wrenchButton.mouseReleased(x, y);
+        if (this.wrenchButton != null) this.wrenchButton.mouseReleased(x, y);
     }
 
     @Override
