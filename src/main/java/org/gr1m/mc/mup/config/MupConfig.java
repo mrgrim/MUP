@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
-import org.gr1m.mc.mup.tweaks.etde.config.EtdeCustomConfig;
+import org.gr1m.mc.mup.tweaks.ete.config.EteCustomConfig;
 import org.gr1m.mc.mup.tweaks.hud.Hud;
 
 import javax.annotation.Nullable;
@@ -197,15 +197,15 @@ public class MupConfig
         .setComment(new String[] {"Enables server side profiler features available under the /tickhealth command:",
                                   "    /tickhealth <basic|entities> [tick count]"});
 
-    public final PatchDef etde = new PatchDef("etde", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE, new EtdeCustomConfig())
-        .setDisplayName("Entity Tracking Distance Editor")
+    public final PatchDef ete = new PatchDef("ete", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE, new EteCustomConfig())
+        .setDisplayName("Entity Tracking Editor")
         .setCredits("MrGrim")
         .setCategory("tweaks")
         .setToggleable(true)
         .setDefaults(new boolean[] { false, false })
-        .setSideEffects("Modifying these values can cause entity \"pop in\" or harm performance.")
-        .setComment(new String[] {"[NOT FUNCTIONAL] Controls how close an entity must be to a client before the client displays it and keeps track of it.",
-                                  "Setting the tracking distance larger than the view distance will cause the it to be set to the current view distance."});
+        .setSideEffects("Modifying these values can cause entity \"pop in\", increase server bandwidth use, or harm performance.")
+        .setComment(new String[] {"Edit the maximum range at which the server will send entity data to the client and how often the server updates the client.",
+                                  "Setting the tracking distance larger than the view distance will cause it to be set to the current view distance."});
 
     public final PatchDef dac = new PatchDef("dac", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
         .setDisplayName("Disable Movement Anti Cheat")

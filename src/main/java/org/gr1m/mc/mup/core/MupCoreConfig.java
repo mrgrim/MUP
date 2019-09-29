@@ -31,7 +31,7 @@ public class MupCoreConfig {
     public boolean hud;
     public boolean profiler;
     public boolean dac;
-    public boolean etde;
+    public boolean ete;
 
     public void init(File file)
     {
@@ -72,7 +72,7 @@ public class MupCoreConfig {
         hud      = config.get("tweaks", "hud", new boolean[]{true, false}, null, true, 2).getBooleanList()[0];
         profiler = config.get("tweaks", "profiler", new boolean[]{false, false}, null, true, 2).getBooleanList()[0];
         dac      = config.get("tweaks", "dac", new boolean[]{false, false}, null, true, 2).getBooleanList()[0];
-        etde     = config.get("tweaks", "etde", new boolean[]{false, false}, null, true, 2).getBooleanList()[0];
+        ete      = config.get("tweaks", "ete", new boolean[]{false, false}, null, true, 2).getBooleanList()[0];
     }
     
 }
