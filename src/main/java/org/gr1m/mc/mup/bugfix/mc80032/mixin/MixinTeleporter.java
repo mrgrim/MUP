@@ -15,18 +15,19 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(Teleporter.class)
 public abstract class MixinTeleporter
 {
+    //TODO: Commented out local variable indexes as OptiFine mucks up the LVT for this method. I'd prefer to be explicit. When mod compatibility checks are added I'll make an alternative Mixin class/json to load.
     private double storedD2;
     private Entity storedEntity;
     private BlockPattern.PatternHelper storedBlockPatternHelper;
     
-    @ModifyVariable(method = "placeInExistingPortal", name = "d2", index = 18, at = @At(value = "LOAD", opcode = Opcodes.DLOAD, ordinal = 1))
+    @ModifyVariable(method = "placeInExistingPortal", name = "d2", /*index = 18,*/ at = @At(value = "LOAD", opcode = Opcodes.DLOAD, ordinal = 1))
     private double xAxisD2Capture(double d2)
     {
         this.storedD2 = d2;
         return 0.0D;
     }
 
-    @ModifyVariable(method = "placeInExistingPortal", name = "d2", index = 18, at = @At(value = "LOAD", opcode = Opcodes.DLOAD, ordinal = 2))
+    @ModifyVariable(method = "placeInExistingPortal", name = "d2", /*index = 18,*/ at = @At(value = "LOAD", opcode = Opcodes.DLOAD, ordinal = 2))
     private double zAxisD2Capture(double d2)
     {
         this.storedD2 = d2;
@@ -54,7 +55,7 @@ public abstract class MixinTeleporter
         return blockPatternHelper.getWidth();
     }
 
-    @ModifyVariable(method = "placeInExistingPortal", name = "d7", index = 14, at = @At(value = "STORE", opcode = Opcodes.DSTORE, ordinal = 1))
+    @ModifyVariable(method = "placeInExistingPortal", name = "d7", /*index = 14,*/ at = @At(value = "STORE", opcode = Opcodes.DSTORE, ordinal = 1))
     private double xAxisOffsetCalc(double d7)
     {
         double offset = d7;
@@ -82,7 +83,7 @@ public abstract class MixinTeleporter
         return this.storedD2 + offset;
     }
 
-    @ModifyVariable(method = "placeInExistingPortal", name = "d5", index = 12, at = @At(value = "STORE", opcode = Opcodes.DSTORE, ordinal = 1))
+    @ModifyVariable(method = "placeInExistingPortal", name = "d5", /*index = 12,*/ at = @At(value = "STORE", opcode = Opcodes.DSTORE, ordinal = 1))
     private double yAxisOffsetCalc(double d5)
     {
         double offset = d5;
