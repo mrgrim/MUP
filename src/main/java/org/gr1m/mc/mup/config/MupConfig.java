@@ -13,6 +13,7 @@ import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
 import org.gr1m.mc.mup.tweaks.ete.config.EteCustomConfig;
 import org.gr1m.mc.mup.tweaks.hud.Hud;
+import org.gr1m.mc.mup.tweaks.vde.config.VdeCustomConfig;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -215,6 +216,16 @@ public class MupConfig
         .setDefaults(new boolean[] { false, false })
         .setSideEffects("This disables movement based anti cheat functionality. Only use on private servers with trusted players!")
         .setComment(new String[] {"Prevents the server from resetting the position of (rubber banding) clients that move \"too quickly\"."});
+
+    public final PatchDef vde = new PatchDef("vde", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE, new VdeCustomConfig())
+        .setDisplayName("View Distance Editor")
+        .setCredits("MrGrim")
+        .setCategory("tweaks")
+        .setToggleable(true)
+        .setDefaults(new boolean[] { false, false })
+        .setSideEffects("Modifying these values can cause entity \"pop in\" or harm performance.")
+        .setComment(new String[] {"Edit the maximum client render distance of various entities. The client cannot render entities it does not know about.",
+                                  "Make sure the server tracking distance is also adjusted using the Entity Tracking Editor tweak."});
 
     public void init(File file)
     {
