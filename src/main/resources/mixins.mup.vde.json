@@ -6,6 +6,16 @@
   "compatibilityLevel": "JAVA_8",
   "client": [
     "MixinEntity",
+    "MixinEntityArmorStand",
+    "MixinEntityArrow",
+    "MixinEntityEnderEye",
+    "MixinEntityFireball",
+    "MixinEntityFireworkRocket",
+    "MixinEntityFishHook",
+    "MixinEntityItemFrame",
+    "MixinEntityLeashKnot",
+    "MixinEntityShulkerBullet",
+    "MixinEntityThrowable",
     "MixinRenderGlobal",
     "MixinTileEntity"
   ]

@@ -33,11 +33,11 @@ public class VdeCustomConfig implements ICustomizablePatch
         prop = config.get(parentCategory, "Dynamic Distance", true, "Whether or not entity view distances should scale with entity size.");
         enableScaling = prop.getBoolean();
         
-        prop = config.get(parentCategory, "Entity View Distance", 50, "View distance of entities as a percentage of world view distance.", 1, 100);
+        prop = config.get(parentCategory, "Entity View Distance", 50, "View distance of entities as a percentage of world view distance.", 5, 100);
         entityViewDistance = (int) ((((double)(prop.getInt())) / 100.0D) * 128); // 128 is 100% at view distance 8. Actual render distance is compensated for by Entity.renderDistanceWeight
         prop.setHasSlidingControl(true);
 
-        prop = config.get(parentCategory, "Tile Entity View Distance", 50, "View distance of tile entities as a percentage of world view distance.", 1, 100);
+        prop = config.get(parentCategory, "Tile Entity View Distance", 50, "View distance of tile entities as a percentage of world view distance.", 5, 100);
         tileEntityViewDistance = (int) ((((double)(prop.getInt())) / 100.0D) * 128); // 128 is 100% at view distance 8. Actual render distance is compensated for by Entity.renderDistanceWeight
         prop.setHasSlidingControl(true);
     }
