@@ -3,6 +3,7 @@ package org.gr1m.mc.mup.config;
 import net.minecraft.network.NetHandlerPlayServer;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.core.MupCore;
+import org.gr1m.mc.mup.core.MupCoreConfig;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
@@ -30,6 +31,9 @@ public class PatchDef
     private boolean clientToggleable = false;
     private boolean[] defaults;
     
+    public boolean compatDisabled;
+    public String compatReason;
+    
     public PatchDef(String fieldNameIn, Enum<Side> sideIn)
     {
         this(fieldNameIn, sideIn, ServerSyncHandlers.ENFORCE, ClientSyncHandlers.IGNORE);
@@ -53,6 +57,19 @@ public class PatchDef
         this.side = sideIn;
         this.defaults = new boolean[] { true, true };
         this.customConfig = customConfigIn;
+        
+        // Carry over core config compatibility data
+        try
+        {
+            MupCoreConfig.Patch corePatch = (MupCoreConfig.Patch) MupCore.config.getClass().getDeclaredField(this.fieldName).get(MupCore.config);
+            
+            this.compatDisabled = corePatch.enabled && !corePatch.loaded;
+            this.compatReason = corePatch.reason;
+        }
+        catch (Exception e)
+        {
+            Mup.logger.error("Failed to transfer compatibility data for patch " + this.fieldName + ".");
+        }
     }
     
     public final BiConsumer<PatchDef, Boolean> processServerSync;

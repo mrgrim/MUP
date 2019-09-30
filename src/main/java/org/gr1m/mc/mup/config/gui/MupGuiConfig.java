@@ -101,7 +101,14 @@ public class MupGuiConfig extends GuiConfig {
             }
             
             // Strip "MC-" prefix from bug fix names and sort numerically.
-            list.sort((propA, propB) -> (Integer.parseInt(propA.getName().substring(3)) > Integer.parseInt(propB.getName().substring(3))) ? 1 : -1);
+            list.sort((propA, propB) -> {
+                if (((IMupConfigElement)propA).getPatchDef().compatDisabled && !((IMupConfigElement)propB).getPatchDef().compatDisabled)
+                    return -1;
+                else if (!((IMupConfigElement)propA).getPatchDef().compatDisabled && ((IMupConfigElement)propB).getPatchDef().compatDisabled)
+                    return 1;
+                else
+                    return Integer.compare(Integer.parseInt(propA.getName().substring(3)), Integer.parseInt(propB.getName().substring(3)));
+            });
             
             GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, null, false, false, "EigenCraft Unofficial Patch");
             guiConfig.titleLine2 = "Bug Fixes";

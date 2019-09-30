@@ -3,36 +3,62 @@ package org.gr1m.mc.mup.core;
 import org.gr1m.mc.mup.core.config.Configuration;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.function.Function;
 
 public class MupCoreConfig {
 
     private Configuration config;
+    
+    public class Patch {
+        public boolean enabled;
+        public boolean loaded;
+        public String reason;
+        
+        public String category;
+        public boolean defaults[];
+        
+        public Function<MupCoreConfig.Patch, String> compatCheck = null;
+        
+        public Patch(String categoryIn, boolean defaultsIn[])
+        {
+            this.category = categoryIn;
+            this.defaults = defaultsIn;
+        }
 
-    public boolean mc4;
-    public boolean mc2025;
-    public boolean mc5694;
-    public boolean mc9568;
-    public boolean mc14826;
-    public boolean mc54026;
-    public boolean mc73051;
-    public boolean mc80032;
-    public boolean mc92916;
-    public boolean mc98153;
-    public boolean mc108469;
-    public boolean mc111444;
-    public boolean mc118710;
-    public boolean mc119971;
-    public boolean mc123320;
-    public boolean mc134989;
+        public Patch(String categoryIn, boolean defaultsIn[], Function<MupCoreConfig.Patch, String> compatCheckIn)
+        {
+            this.category = categoryIn;
+            this.defaults = defaultsIn;
+            this.compatCheck = compatCheckIn;
+        }
+    }
+
+    public Patch mc4 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc2025 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc5694 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc9568 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc14826 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc54026 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc73051 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc80032 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc92916 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc98153 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc108469 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc111444 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc118710 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc119971 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc123320 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc134989 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, MupCoreCompat.mc134989CompatCheck);
     
-    public boolean newlight;
-    public boolean rsturbo;
+    public Patch newlight = new MupCoreConfig.Patch("optimizations", new boolean[]{true, true});
+    public Patch rsturbo = new MupCoreConfig.Patch("optimizations", new boolean[]{true, false});
     
-    public boolean hud;
-    public boolean profiler;
-    public boolean dac;
-    public boolean ete;
-    public boolean vde;
+    public Patch hud = new MupCoreConfig.Patch("tweaks", new boolean[]{true, false});
+    public Patch profiler = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
+    public Patch dac = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
+    public Patch ete = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
+    public Patch vde = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
 
     public void init(File file)
     {
@@ -46,35 +72,27 @@ public class MupCoreConfig {
     public void load()
     {
         config.load();
-        
-        // Bug Fixes
-        mc4      = config.get("bug fixes", "mc4", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc2025   = config.get("bug fixes", "mc2025", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc5694   = config.get("bug fixes", "mc5694", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc9568   = config.get("bug fixes", "mc9568", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc14826  = config.get("bug fixes", "mc14826", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc54026  = config.get("bug fixes", "mc54026", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc73051  = config.get("bug fixes", "mc73051", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc80032  = config.get("bug fixes", "mc80032", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc92916  = config.get("bug fixes", "mc92916", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc98153  = config.get("bug fixes", "mc98153", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc108469 = config.get("bug fixes", "mc108469", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc111444 = config.get("bug fixes", "mc111444", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc118710 = config.get("bug fixes", "mc118710", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc119971 = config.get("bug fixes", "mc119971", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc123320 = config.get("bug fixes", "mc123320", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        mc134989 = config.get("bug fixes", "mc134989", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        
-        // Optimizations
-        newlight = config.get("optimizations", "newlight", new boolean[]{true, true}, null, true, 2).getBooleanList()[0];
-        rsturbo  = config.get("optimizations", "rsturbo", new boolean[]{true, false}, null, true, 2).getBooleanList()[0];
 
-        // Tweaks
-        hud      = config.get("tweaks", "hud", new boolean[]{true, false}, null, true, 2).getBooleanList()[0];
-        profiler = config.get("tweaks", "profiler", new boolean[]{false, false}, null, true, 2).getBooleanList()[0];
-        dac      = config.get("tweaks", "dac", new boolean[]{false, false}, null, true, 2).getBooleanList()[0];
-        ete      = config.get("tweaks", "ete", new boolean[]{false, false}, null, true, 2).getBooleanList()[0];
-        vde      = config.get("tweaks", "vde", new boolean[]{false, false}, null, true, 2).getBooleanList()[0];
+        for (Field field : this.getClass().getFields())
+        {
+            Object fieldObj;
+
+            try
+            {
+                fieldObj = field.get(this);
+            }
+            catch (Exception e)
+            {
+                MupCore.log.error("[MupCore] Unknown field access reading configuration file.");
+                continue;
+            }
+
+            if (fieldObj.getClass() == MupCoreConfig.Patch.class)
+            {
+                MupCoreConfig.Patch patch = (MupCoreConfig.Patch)fieldObj;
+                patch.enabled = config.get(patch.category, field.getName(), patch.defaults, null, true, 2).getBooleanList()[0];
+            }
+        }
     }
     
 }

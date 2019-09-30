@@ -1,11 +1,14 @@
 package org.gr1m.mc.mup.config.gui;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiUtilRenderComponents;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.client.config.*;
 import org.gr1m.mc.mup.Mup;
+import org.gr1m.mc.mup.config.PatchDef;
 
 public class PatchEntry extends GuiConfigEntries.ListEntryBase {
     private final GuiButtonExt enableButton;
@@ -19,12 +22,16 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
 
     private boolean currentLoadValue;
     private boolean currentEnableValue;
+    
+    private PatchDef patchDef;
 
     protected GuiScreen childScreen;
 
     public PatchEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
     {
         super(owningScreen, owningEntryList, configElement);
+
+        this.patchDef = ((IMupConfigElement) configElement).getPatchDef();
 
         this.beforeLoadValue = Boolean.valueOf(configElement.getList()[0].toString());
         this.beforeEnableValue = Boolean.valueOf(configElement.getList()[1].toString());
@@ -42,7 +49,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
         this.enableButton.enabled = this.enabled() && currentLoadValue && ((IMupConfigElement) this.configElement).isToggleable();
         updateEnableButtonText();
 
-        if (((IMupConfigElement) configElement).getPatchDef().customConfig != null)
+        if (this.patchDef.customConfig != null)
         {
             this.enableButton.setWidth(this.enableButton.getButtonWidth() - 18);
             
@@ -50,7 +57,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
             this.wrenchButton.visible = true;
             this.wrenchButton.enabled = this.enabled();
             
-            this.childScreen = ((IMupConfigElement) configElement).getPatchDef().customConfig.createGuiScreen(this.owningScreen, ((IMupConfigElement) configElement));
+            this.childScreen = this.patchDef.customConfig.createGuiScreen(this.owningScreen, ((IMupConfigElement) configElement));
         }
         else
         {
@@ -58,6 +65,10 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
         }
 
         this.toolTip.clear();
+        
+        if (this.patchDef.compatDisabled)
+            toolTip.add(TextFormatting.RED + "" + TextFormatting.UNDERLINE + "DISABLED: " + this.patchDef.compatReason);
+        
         toolTip.add(TextFormatting.GREEN + name);
         String comment = I18n.format(configElement.getLanguageKey() + ".tooltip").replace("\\n", "\n");
 
@@ -75,10 +86,10 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
 
     private void updateEnableButtonText() {
         // Take care to only modify the running configuration if the config is server locked
-        boolean actuallyEnabled = (!((IMupConfigElement) this.configElement).getPatchDef().isClientToggleable() && Mup.config.isServerLocked()) ?
-                                  ((IMupConfigElement) this.configElement).getPatchDef().isEnabled() : this.currentEnableValue;
-        boolean actuallyLoaded  = (!((IMupConfigElement) this.configElement).getPatchDef().isClientToggleable() && Mup.config.isServerLocked()) ?
-                                  ((IMupConfigElement) this.configElement).getPatchDef().isServerEnabled() : this.currentLoadValue;
+        boolean actuallyEnabled = (!this.patchDef.isClientToggleable() && Mup.config.isServerLocked()) ?
+                                  this.patchDef.isEnabled() : this.currentEnableValue;
+        boolean actuallyLoaded  = (!this.patchDef.isClientToggleable() && Mup.config.isServerLocked()) ?
+                                  this.patchDef.isServerEnabled() : this.currentLoadValue;
 
         if (((IMupConfigElement) this.configElement).isToggleable())
         {
@@ -264,6 +275,9 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
         }
 
         this.enableButton.drawButton(this.mc, mouseX, mouseY, partial);
+
+        if (this.patchDef != null && this.patchDef.compatDisabled)
+            Gui.drawRect(this.owningScreen.entryList.labelX - 2, y + (slotHeight / 2), this.owningScreen.entryList.resetX - 2, y + (slotHeight / 2) + 1, 0x8FFF0000);
     }
 
     @Override
@@ -301,7 +315,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
     @Override
     public boolean enabled()
     {
-        return !Mup.config.isServerLocked() || ((IMupConfigElement) this.configElement).getPatchDef().isClientToggleable();
+        return (!Mup.config.isServerLocked() || this.patchDef.isClientToggleable()) && (this.patchDef == null || !this.patchDef.compatDisabled);
     }
 
     @Override
