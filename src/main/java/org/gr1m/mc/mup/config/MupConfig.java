@@ -110,6 +110,14 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Chunk-wise entity lists often don't get updated correctly (Entities disappear)"});
 
+    public final PatchDef mc109832 = new PatchDef("mc109832", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.ENFORCE)
+        .setDisplayName("MC-109832")
+        .setCredits("MrGrim, Xcom")
+        .setToggleable(true)
+        .setSideEffects("None.")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Observers output a signal when placed"});
+
     public final PatchDef mc111444 = new PatchDef("mc111444", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
         .setDisplayName("MC-111444")
         .setCredits("Earthcomputer, nessie, masa")
