@@ -66,7 +66,7 @@ public class CPacketMupConfig implements IMessage
 
         for (Map.Entry<String, Boolean> configEntry : this.configList.entrySet())
         {
-            byte[] fieldName = StandardCharsets.UTF_8.encode(configEntry.getKey()).array();
+            byte[] fieldName = configEntry.getKey().getBytes(StandardCharsets.UTF_8);
             buf.writeByte(fieldName.length);
             buf.writeBytes(fieldName);
             buf.writeBoolean(configEntry.getValue());
