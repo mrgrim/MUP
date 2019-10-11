@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc5694.network.MC5694PacketHandler;
@@ -33,7 +34,7 @@ public class Mup
     public static final String VERSION = "1.2.2";
     public static final String FINGERPRINT = "@FINGERPRINT@";
 
-    public static Logger logger;
+    public static Logger logger = LogManager.getLogger();;
     public final static MupConfig config = new MupConfig();
 
     public Mup()
