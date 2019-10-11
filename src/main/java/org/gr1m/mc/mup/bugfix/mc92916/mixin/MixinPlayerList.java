@@ -33,7 +33,7 @@ public abstract class MixinPlayerList
     @Redirect(method = "transferEntityToWorld(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;Lnet/minecraftforge/common/util/ITeleporter;)V",
               at = @At(value = "INVOKE", target = "Lnet/minecraft/world/WorldServer;updateEntityWithOptionalForce(Lnet/minecraft/entity/Entity;Z)V", ordinal = 0),
               slice = @Slice(from = @At(value = "CONSTANT", args = "stringValue=placing"),
-                             to = @At(value = "INVOKE", target = "Lnet/minecraftforge/common/util/ITeleporter;placeEntity(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;F)V")))
+                             to = @At(value = "INVOKE", target = "Lnet/minecraftforge/common/util/ITeleporter;placeEntity(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;F)V", remap = false)))
     public void doPrepareLeaveDimensionForge(WorldServer worldIn, Entity entityIn, boolean forceUpdate)
     {
         if (Mup.config.mc92916.enabled)
