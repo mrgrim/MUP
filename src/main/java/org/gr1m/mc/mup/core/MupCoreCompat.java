@@ -45,15 +45,7 @@ public class MupCoreCompat
 
     public static final Function<MupCoreConfig.Patch, String> redstonePlusPlusCompatCheck = (patchIn) -> {
         List<String> supportedVersions = Arrays.asList("1.2d", "1.3 BETA-2");
-        
-        if (modList.containsKey("redstoneplusplus") && supportedVersions.contains(MupCoreCompat.modList.get("redstoneplusplus")))
-        {
-            if (MupCoreCompat.modList.get("redstoneplusplus").equals("1.2d"))
-                return "mixins.mup.modcompat.redstoneplusplus.v12d.json";
-            else if (MupCoreCompat.modList.get("redstoneplusplus").equals("1.3 BETA-2"))
-                return "mixins.mup.modcompat.redstoneplusplus.v13b2.json";
-        }
-        
+
         if (!(MupCore.config.mc54026.enabled && MupCore.config.mc54026.loaded))
         {
             patchIn.loaded = false;
@@ -64,6 +56,14 @@ public class MupCoreCompat
             return null;
         }
 
+        if (modList.containsKey("redstoneplusplus") && supportedVersions.contains(MupCoreCompat.modList.get("redstoneplusplus")))
+        {
+            if (MupCoreCompat.modList.get("redstoneplusplus").equals("1.2d"))
+                return "mixins.mup.modcompat.redstoneplusplus.v12d.json";
+            else if (MupCoreCompat.modList.get("redstoneplusplus").equals("1.3 BETA-2"))
+                return "mixins.mup.modcompat.redstoneplusplus.v13b2.json";
+        }
+        
         patchIn.loaded = false;
         patchIn.reason = "No compatible version of Redstone++ found. Supported versions: " + String.join(", ", supportedVersions);
 
