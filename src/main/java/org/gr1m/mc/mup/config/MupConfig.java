@@ -223,6 +223,7 @@ public class MupConfig
         .setCategory("tweaks")
         .setToggleable(true)
         .setDefaults(new boolean[] { false, false })
+        .setClientToggleable(true)
         .setSideEffects("Modifying these values can cause entity \"pop in\" or harm performance.")
         .setComment(new String[] {"Edit the maximum client render distance of various entities. The client cannot render entities it does not know about.",
                                   "Make sure the server tracking distance is also adjusted using the Entity Tracking Editor tweak."});

@@ -7,6 +7,8 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.config.ICustomizablePatch;
 import org.gr1m.mc.mup.config.MupConfig;
@@ -107,6 +109,7 @@ public class EteCustomConfig implements ICustomizablePatch
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public GuiScreen createGuiScreen(GuiConfig owningScreen, IMupConfigElement patchProperty)
     {
         List<IConfigElement> list = new ArrayList<>();
