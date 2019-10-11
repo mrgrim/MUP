@@ -35,3 +35,6 @@ WolfieMario (https://github.com/WolfieMario)
  
 DeadlyMC (https://github.com/DeadlyMC)
  - Profiler
+
+Dimensional Development (https://github.com/DimensionalDevelopment/)
+ - MixinLoader for mod compatibility

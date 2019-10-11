@@ -33,8 +33,18 @@ compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
+reobf {
+    jar {
+        extraFiles 'extraSrg.srg'
+    }
+}
+
+mixin {
+    extraSrgFile("searge", file('extraSrg.srg'))
+}
+
 minecraft {
-    version = "1.12.2-14.23.5.2808"
+    version = "1.12.2-14.23.5.2847"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.
@@ -67,6 +77,11 @@ sourceSets {
 
 repositories {
     maven { url = "http://repo.spongepowered.org/maven" }
+    ivy {
+        //url "https://google.com/404"
+        //ivyPattern("https://google.com/404") // Workaround for https://github.com/gradle/gradle/issues/4107
+        artifactPattern("modcompatlibs/[revision].[ext]")
+    }
 }
 
 configurations {
@@ -111,6 +126,9 @@ dependencies {
     }
     
     compile 'org.jetbrains.java.decompiler:fernflower:sponge-SNAPSHOT'
+    
+    //compile '2476:145:Redstone+++ver1.2d-deobf@jar'
+    //compile '2576:949:Redstone+++ver1.3+BETA-2-deobf@jar'
 }
 
 processResources {
@@ -132,6 +150,7 @@ processResources {
     }
 }
 
+/*
 processResources.doLast {
     copy {
         from("$projectDir/src/main/resources") {
@@ -152,6 +171,7 @@ processResources.doLast {
         into("$projectDir/build/classes/java/main")
     }
 }
+*/
 
 jar {
     manifest.attributes(

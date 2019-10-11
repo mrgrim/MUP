@@ -34,6 +34,7 @@ public class MupGuiConfig extends GuiConfig {
         list.add(new DummyConfigElement.DummyCategoryElement("Bug Fixes", "bugfixes", MupGuiConfig.BugFixes.class));
         list.add(new DummyConfigElement.DummyCategoryElement("Optimizations", "optimizations", MupGuiConfig.Optimizations.class));
         list.add(new DummyConfigElement.DummyCategoryElement("Tweaks", "tweaks", MupGuiConfig.Tweaks.class));
+        list.add(new DummyConfigElement.DummyCategoryElement("Mod Compatibility", "modcompat", MupGuiConfig.ModCompat.class));
         return list;
     }
 
@@ -102,9 +103,9 @@ public class MupGuiConfig extends GuiConfig {
             
             // Strip "MC-" prefix from bug fix names and sort numerically.
             list.sort((propA, propB) -> {
-                if (((IMupConfigElement)propA).getPatchDef().compatDisabled && !((IMupConfigElement)propB).getPatchDef().compatDisabled)
+                if (((IMupConfigElement)propA).getPatchDef().isCompatDisabled() && !((IMupConfigElement)propB).getPatchDef().isCompatDisabled())
                     return -1;
-                else if (!((IMupConfigElement)propA).getPatchDef().compatDisabled && ((IMupConfigElement)propB).getPatchDef().compatDisabled)
+                else if (!((IMupConfigElement)propA).getPatchDef().isCompatDisabled() && ((IMupConfigElement)propB).getPatchDef().isCompatDisabled())
                     return 1;
                 else
                     return Integer.compare(Integer.parseInt(propA.getName().substring(3)), Integer.parseInt(propB.getName().substring(3)));
@@ -160,6 +161,30 @@ public class MupGuiConfig extends GuiConfig {
 
             GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, null, false, false, "EigenCraft Unofficial Patch");
             guiConfig.titleLine2 = "Tweaks";
+
+            return guiConfig;
+        }
+    }
+
+    public static class ModCompat extends GuiConfigEntries.CategoryEntry
+    {
+        public ModCompat(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement prop)
+        {
+            super(owningScreen, owningEntryList, prop);
+        }
+
+        @Override
+        protected GuiScreen buildChildScreen()
+        {
+            List<IConfigElement> list = new ArrayList<>();
+
+            for (Property tweak : MupConfig.config.getCategory("modcompat").getOrderedValues())
+            {
+                list.add(new PatchElement(tweak));
+            }
+
+            GuiConfig guiConfig =  new PatchGuiConfig(this.owningScreen, list, this.owningScreen.modID, null, false, false, "EigenCraft Unofficial Patch");
+            guiConfig.titleLine2 = "Mod Compatibility";
 
             return guiConfig;
         }

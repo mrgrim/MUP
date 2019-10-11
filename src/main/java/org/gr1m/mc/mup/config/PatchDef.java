@@ -31,7 +31,7 @@ public class PatchDef
     private boolean clientToggleable = false;
     private boolean[] defaults;
     
-    public boolean compatDisabled;
+    private boolean compatDisabled;
     public String compatReason;
     
     public PatchDef(String fieldNameIn, Enum<Side> sideIn)
@@ -57,19 +57,6 @@ public class PatchDef
         this.side = sideIn;
         this.defaults = new boolean[] { true, true };
         this.customConfig = customConfigIn;
-        
-        // Carry over core config compatibility data
-        try
-        {
-            MupCoreConfig.Patch corePatch = (MupCoreConfig.Patch) MupCore.config.getClass().getDeclaredField(this.fieldName).get(MupCore.config);
-            
-            this.compatDisabled = corePatch.enabled && !corePatch.loaded;
-            this.compatReason = corePatch.reason;
-        }
-        catch (Exception e)
-        {
-            Mup.logger.error("Failed to transfer compatibility data for patch " + this.fieldName + ".");
-        }
     }
     
     public final BiConsumer<PatchDef, Boolean> processServerSync;
@@ -102,6 +89,24 @@ public class PatchDef
         return this.serverEnabled;
     }
     public PatchDef setServerEnabled(boolean isServerEnabled) { this.serverEnabled = isServerEnabled; return this; }
+    
+    public boolean isCompatDisabled()
+    {
+        // Carry over core config compatibility data
+        try
+        {
+            MupCoreConfig.Patch corePatch = (MupCoreConfig.Patch) MupCore.config.getClass().getDeclaredField(this.fieldName).get(MupCore.config);
+
+            this.compatDisabled = corePatch.enabled && !corePatch.loaded;
+            this.compatReason = corePatch.reason;
+        }
+        catch (Exception e)
+        {
+            Mup.logger.error("Failed to transfer compatibility data for patch " + this.fieldName + ".");
+        }
+        
+        return this.compatDisabled;
+    }
 
     public boolean isToggleable()
     {
@@ -133,8 +138,8 @@ public class PatchDef
         
         try
         {
-            coreField = MupCore.config.getClass().getField(this.getFieldName());
-            return coreField.getBoolean(MupCore.config);
+            coreField = MupCore.config.getClass().getDeclaredField(this.getFieldName());
+            return ((MupCoreConfig.Patch)coreField.get(MupCore.config)).loaded;
         }
         catch (Exception e)
         {

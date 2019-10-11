@@ -60,6 +60,8 @@ public class MupCoreConfig {
     public Patch ete = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch vde = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
 
+    public Patch redstoneplusplus = new MupCoreConfig.Patch("modcompat", new boolean[]{false, true}, MupCoreCompat.redstonePlusPlusCompatCheck);
+
     public void init(File file)
     {
         if (config == null)

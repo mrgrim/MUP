@@ -66,7 +66,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
 
         this.toolTip.clear();
         
-        if (this.patchDef.compatDisabled)
+        if (this.patchDef.isCompatDisabled())
             toolTip.add(TextFormatting.RED + "" + TextFormatting.UNDERLINE + "DISABLED: " + this.patchDef.compatReason);
         
         toolTip.add(TextFormatting.GREEN + name);
@@ -276,7 +276,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
 
         this.enableButton.drawButton(this.mc, mouseX, mouseY, partial);
 
-        if (this.patchDef != null && this.patchDef.compatDisabled)
+        if (this.patchDef != null && this.patchDef.isCompatDisabled())
             Gui.drawRect(this.owningScreen.entryList.labelX - 2, y + (slotHeight / 2), this.owningScreen.entryList.resetX - 2, y + (slotHeight / 2) + 1, 0x8FFF0000);
     }
 
@@ -315,7 +315,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
     @Override
     public boolean enabled()
     {
-        return (!Mup.config.isServerLocked() || this.patchDef.isClientToggleable()) && (this.patchDef == null || !this.patchDef.compatDisabled);
+        return (!Mup.config.isServerLocked() || this.patchDef.isClientToggleable()) && (this.patchDef == null || !this.patchDef.isCompatDisabled());
     }
 
     @Override

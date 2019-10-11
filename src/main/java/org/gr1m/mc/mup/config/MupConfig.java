@@ -227,6 +227,14 @@ public class MupConfig
         .setComment(new String[] {"Edit the maximum client render distance of various entities. The client cannot render entities it does not know about.",
                                   "Make sure the server tracking distance is also adjusted using the Entity Tracking Editor tweak."});
 
+    public final PatchDef redstoneplusplus = new PatchDef("redstoneplusplus", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("Redstone++")
+        .setCredits("MrGrim")
+        .setCategory("modcompat")
+        .setToggleable(false)
+        .setDefaults(new boolean[] { false, true })
+        .setComment(new String[] {"Extends MC-54026 support to Redstone++ pistons."});
+    
     public void init(File file)
     {
         if (config == null)

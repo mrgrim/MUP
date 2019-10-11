@@ -39,8 +39,22 @@ public class MupCore implements IFMLLoadingPlugin {
         config.init(new File(((File)(FMLInjectionData.data()[6])), "config/mup.cfg"));
     }
     
-    public static void loadMixins()
+    public static void loadMixins(boolean loadModCompat)
     {
+        String compatReason = "";
+        
+        // JustEnoughID's uses the same method for its own mod compatibility system. Coordination with DimDev will
+        // be required to deal with this cleanly.
+        if (!MupCoreCompat.JEIDsLoaded && !loadModCompat)
+        {
+            Mixins.addConfiguration("mixins.mup.modcompat.core.json");
+            MupCoreCompat.modCompatEnabled = true;
+        }
+        else
+        {
+            compatReason = "Mod compatibility features disabled due to incompatilibty with JustEnoughIDs.";
+        }
+        
         for (Field field : config.getClass().getFields())
         {
             Object fieldObj;
@@ -59,7 +73,8 @@ public class MupCore implements IFMLLoadingPlugin {
             {
                 MupCoreConfig.Patch patch = (MupCoreConfig.Patch) fieldObj;
 
-                if (patch.enabled)
+                if (patch.enabled && ((loadModCompat && patch.category.equals("modcompat")) ||
+                                      (!loadModCompat && !patch.category.equals("modcompat"))))
                 {
                     String jsonConfig;
 
@@ -74,9 +89,15 @@ public class MupCore implements IFMLLoadingPlugin {
 
                     if (jsonConfig != null)
                     {
+                        MupCore.log.debug("Loading mixin configuration: " + jsonConfig);
                         Mixins.addConfiguration(jsonConfig);
                         patch.loaded = true;
                     }
+                 }
+                else if (patch.enabled && !loadModCompat && !MupCoreCompat.modCompatEnabled)
+                {
+                    // Mod compatibility stage will never be called, so fill in reason for UI
+                    patch.reason = compatReason;
                 }
             }
         }
@@ -114,7 +135,7 @@ public class MupCore implements IFMLLoadingPlugin {
             MupCoreCompat.tweakerCheck(tweakClass.getClass().toString());
         }
         
-        loadMixins();
+        loadMixins(false);
     }
 
     @Override public String getAccessTransformerClass() {
