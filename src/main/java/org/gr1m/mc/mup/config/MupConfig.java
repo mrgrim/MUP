@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.gr1m.mc.mup.Mup;
+import org.gr1m.mc.mup.bugfix.mc111978.network.MC111978PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
 import org.gr1m.mc.mup.tweaks.ete.config.EteCustomConfig;
@@ -123,6 +124,26 @@ public class MupConfig
         .setCredits("Earthcomputer, nessie, masa")
         .setCategory("bug fixes")
         .setComment(new String[] {"Elytras can't open in laggy game."});
+
+    public final PatchDef mc111978 = new PatchDef("mc111978", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE,  (bug, enabled, handler) -> {
+        if (enabled)
+        {
+            MC111978PacketHandler.registered_clients.add(handler);
+        }
+        else
+        {
+            MC111978PacketHandler.registered_clients.remove(handler);
+        }
+        
+        return false;
+    })
+        .setDisplayName("MC-111978")
+        .setCredits("Pokechu22, MrGrim")
+        .setSideEffects("None")
+        .setCategory("bug fixes")
+        .setToggleable(true)
+        .setClientToggleable(true)
+        .setComment(new String[] {TextFormatting.RED + "[Experimental]" + TextFormatting.YELLOW + " Item entities turn invisible when dropped on the ground"});
 
     public final PatchDef mc118710 = new PatchDef("mc118710", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE)
         .setDisplayName("MC-118710")

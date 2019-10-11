@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.gr1m.mc.mup.bugfix.mc111978.network.MC111978PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc5694.network.MC5694PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
@@ -52,6 +53,7 @@ public class Mup
 
         if (config.mc4.isLoaded()) MC4PacketHandler.registerMessagesAndEvents();
         if (config.mc5694.isLoaded()) MC5694PacketHandler.registerMessagesAndEvents();
+        if (config.mc111978.isLoaded()) MC111978PacketHandler.registerMessagesAndEvents();
         if (config.hud.isLoaded()) Hud.Init();
 
         ConfigPacketHandler.registerMessagesAndEvents();
