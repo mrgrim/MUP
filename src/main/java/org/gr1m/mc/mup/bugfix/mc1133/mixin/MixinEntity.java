@@ -61,9 +61,10 @@ public abstract class MixinEntity implements IEntity
     {
         BlockPos blockpos = new BlockPos(x, y, z);
         IBlockState iblockstate = this.world.getBlockState(blockpos);
-
-        if (iblockstate.getBlock().isAir(iblockstate, this.world, blockpos))
-        {
+        
+// TODO: I need a better "simple" check here.         
+//        if (iblockstate.getBlock().isAir(iblockstate, this.world, blockpos))
+//        {
             HashMap<BlockPos, List<AxisAlignedBB>> blockList = new HashMap<>();
 
             AxisAlignedBB playerAABB = new AxisAlignedBB(this.getEntityBoundingBox().minX, this.getEntityBoundingBox().minY - 0.20000000298023224D, this.getEntityBoundingBox().minZ,
@@ -100,7 +101,7 @@ public abstract class MixinEntity implements IEntity
                     blockpos = winningPos;
                 }
             }
-        }
+//        }
 
         return blockpos;
     }

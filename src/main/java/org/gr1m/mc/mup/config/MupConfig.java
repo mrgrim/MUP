@@ -50,6 +50,7 @@ public class MupConfig
     public final PatchDef mc1133 = new PatchDef("mc1133", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("MC-1133")
         .setCredits("MrGrim")
+        .setSideEffects("This could substantially increase CPU usage in worlds with large numbers of entities.")
         .setCategory("bug fixes")
         .setComment(new String[] {"Whether or not a player experiences some effect is calculated based on the block under the center of the player"});
 
