@@ -54,6 +54,13 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Mobs going out of fenced areas/suffocate in blocks when loading chunks"});
 
+    public final PatchDef mc2399 = new PatchDef("mc2399", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("MC-2399")
+        .setCredits("MrGrim")
+        .setCategory("bug fixes")
+        .setToggleable(false)
+        .setComment(new String[] {"Transparent blocks visually use the brighter light level that they are next to"});
+
     public final PatchDef mc5694 = new PatchDef("mc5694", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE)
         .setDisplayName("MC-5694")
         .setCredits("Pokechu22, theosib, gnembon, Xcom, MrGrim")
@@ -115,7 +122,6 @@ public class MupConfig
         .setDisplayName("MC-109832")
         .setCredits("MrGrim, Xcom")
         .setToggleable(true)
-        .setSideEffects("None.")
         .setCategory("bug fixes")
         .setComment(new String[] {"Observers output a signal when placed"});
 
@@ -139,9 +145,7 @@ public class MupConfig
     })
         .setDisplayName("MC-111978")
         .setCredits("Pokechu22, MrGrim")
-        .setSideEffects("None")
         .setCategory("bug fixes")
-        .setToggleable(true)
         .setClientToggleable(true)
         .setComment(new String[] {TextFormatting.RED + "[Experimental]" + TextFormatting.YELLOW + " Item entities turn invisible when dropped on the ground"});
 

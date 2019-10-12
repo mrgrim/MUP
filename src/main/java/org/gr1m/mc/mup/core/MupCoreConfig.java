@@ -36,6 +36,7 @@ public class MupCoreConfig {
 
     public Patch mc4 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc2025 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc2399 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc5694 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc9568 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc14826 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
