@@ -47,6 +47,12 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Item drops sometimes appear at the wrong location"});
 
+    public final PatchDef mc1133 = new PatchDef("mc1133", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("MC-1133")
+        .setCredits("MrGrim")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Whether or not a player experiences some effect is calculated based on the block under the center of the player"});
+
     // First correct diagnosis of state loss on save with corrected code here: https://bugs.mojang.com/browse/MC-2025?focusedCommentId=74617&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-74617
     public final PatchDef mc2025 = new PatchDef("mc2025", PatchDef.Side.SERVER)
         .setDisplayName("MC-2025")
@@ -57,6 +63,7 @@ public class MupConfig
     public final PatchDef mc2399 = new PatchDef("mc2399", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
         .setDisplayName("MC-2399")
         .setCredits("MrGrim")
+        .setSideEffects("Not well tested and may cause other lighting glitches. Please report them if found.")
         .setCategory("bug fixes")
         .setToggleable(false)
         .setComment(new String[] {"Transparent blocks visually use the brighter light level that they are next to"});
