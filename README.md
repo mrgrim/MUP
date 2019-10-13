@@ -20,11 +20,17 @@ provided by ej-technologies. Thanks!
 
 ## Fixed Bugs
 
+### Vanilla Bugs
+
 Currently the mod provides fixes for the following bugs in 1.12.2:
 
 * [MC-4](https://bugs.mojang.com/browse/MC-4) - Item drops sometimes appear at the wrong location
+* [MC-1133](https://bugs.mojang.com/browse/MC-1133) - Whether or not a player experiences some effect is calculated
+  based on 
 * [MC-2025](https://bugs.mojang.com/browse/MC-2025) - Mobs going out of fenced areas/suffocate in blocks when loading
   chunks
+* [MC-2399](https://bugs.mojang.com/browse/MC-2399) - Transparent blocks visually use the brighter light level that they
+  are next to
 * [MC-5694](https://bugs.mojang.com/browse/MC-5694) - High efficiency tools / fast mining destroys some blocks
   client-side only
 * [MC-9568](https://bugs.mojang.com/browse/MC-9568) - Mobs suffocate / go through blocks when growing up near a solid
@@ -41,6 +47,7 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 * [MC-108469](https://bugs.mojang.com/browse/MC-108469) - Chunk-wise entity lists often don't get updated correctly
   (Entities disappear)
 * [MC-111444](https://bugs.mojang.com/browse/MC-111444) - Elytras can't open in laggy game
+* [MC-111978](https://bugs.mojang.com/browse/MC-111978) - Item entities turn invisible when dropped on the ground
 * [MC-118710](https://bugs.mojang.com/browse/MC-118710) - Blocks take multiple attempts to mine
 * [MC-119971](https://bugs.mojang.com/browse/MC-119971) - Various duplications, deletions, and data corruption at chunk
   boundaries, caused by loading outdated chunks - includes duping and deletion of entities/mobs, items in hoppers, and
@@ -48,7 +55,17 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 * [MC-123320](https://bugs.mojang.com/browse/MC-123320) - Items do not move through blocks smoothly
 * [MC-134989](https://bugs.mojang.com/browse/MC-134989) - AbstractMap::hashCode accounts for substantial CPU overhead
   (from profiling)
-  
+
+### Mod Compatibility
+
+* MC-134989 will not load when FomFix is installed. FoamFix already fixes this bug.
+* Mod Patches will not load or function when JustEnoughIDs is installed. The method used to patch mods was borrowed from
+JEIDs, and they do conflict. This may be resolved in the future.
+
+### Mod Patches
+
+* Redstone++ 1.2d and 1.3 BETA-2 pistons can be patched to work with the MC-54026 vanilla patch.
+
 ## Optimizations
 
 ### Newlight
@@ -89,6 +106,9 @@ redstone on the issues board.
 * Disable Movement Anti Cheat - Disables movement based anti cheat functionality. This helps with rubber banding from
   "Player moved too quickly" or "Player moved wrongly" when the server is lagging. However, hackers could very easily
   abuse this. Only enable if you trust all your players!
+* Entity Tracking Editor - Allows you to control the range at which a server tells a client about an entity and how
+  often a server sends updates based on the entity type.
+* View Distance Editor - Control view distance of entities and tile entities (e.g. chests) on the client
   
 ## What is EigenCraft?
 

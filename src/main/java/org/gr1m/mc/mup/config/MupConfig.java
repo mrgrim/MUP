@@ -272,7 +272,7 @@ public class MupConfig
     public final PatchDef redstoneplusplus = new PatchDef("redstoneplusplus", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("Redstone++")
         .setCredits("MrGrim")
-        .setCategory("modcompat")
+        .setCategory("modpatches")
         .setToggleable(false)
         .setDefaults(new boolean[] { false, true })
         .setComment(new String[] {"Extends MC-54026 support to Redstone++ pistons."});

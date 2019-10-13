@@ -34,7 +34,7 @@ public class MupGuiConfig extends GuiConfig {
         list.add(new DummyConfigElement.DummyCategoryElement("Bug Fixes", "bugfixes", MupGuiConfig.BugFixes.class));
         list.add(new DummyConfigElement.DummyCategoryElement("Optimizations", "optimizations", MupGuiConfig.Optimizations.class));
         list.add(new DummyConfigElement.DummyCategoryElement("Tweaks", "tweaks", MupGuiConfig.Tweaks.class));
-        list.add(new DummyConfigElement.DummyCategoryElement("Mod Compatibility", "modcompat", MupGuiConfig.ModCompat.class));
+        list.add(new DummyConfigElement.DummyCategoryElement("Mod Patches", "modpatches", MupGuiConfig.ModCompat.class));
         return list;
     }
 
