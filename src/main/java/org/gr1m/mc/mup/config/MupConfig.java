@@ -2,7 +2,9 @@ package org.gr1m.mc.mup.config;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -20,12 +22,14 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Mup.MODID)
 public class MupConfig
 {
     public static Configuration config;
+    public static List<String> parentCategories = Arrays.asList("bug fixes", "optimizations", "tweaks", "modpatches");
 
     private boolean serverLocked;
 
@@ -47,7 +51,7 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Item drops sometimes appear at the wrong location"});
 
-    public final PatchDef mc1133 = new PatchDef("mc1133", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
+    public final PatchDef mc1133 = new PatchDef("mc1133", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.ENFORCE, PatchDef.ClientSyncHandlers.DISCONNECT)
         .setDisplayName("MC-1133")
         .setCredits("MrGrim")
         .setSideEffects("This could substantially increase CPU usage in worlds with large numbers of entities.")
@@ -137,6 +141,7 @@ public class MupConfig
         .setDisplayName("MC-111444")
         .setCredits("Earthcomputer, nessie, masa")
         .setCategory("bug fixes")
+        .setClientToggleable(true)
         .setComment(new String[] {"Elytras can't open in laggy game."});
 
     public final PatchDef mc111978 = new PatchDef("mc111978", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE,  (bug, enabled, handler) -> {
@@ -322,6 +327,44 @@ public class MupConfig
                     patchDef.setEnabled(bugState[1]);
                     
                     if (patchDef.customConfig != null) patchDef.customConfig.loadConfig(config, patchDef.getCategory() + "." + patchDef.getFieldName());
+                }
+            }
+        }
+        
+        // Sanitize configuration
+        for (String category : config.getCategoryNames())
+        {
+            if (category.split("\\" + Configuration.CATEGORY_SPLITTER ).length == 1)
+            {
+                if (!parentCategories.contains(category))
+                {
+                    config.removeCategory(config.getCategory(category));
+                }
+                else
+                {
+                    config.getCategory(category).entrySet().forEach((propSet) ->
+                    {
+                        Property prop = propSet.getValue();
+                        
+                        if (this.get(prop.getName()) == null)
+                        {
+                            config.getCategory(category).remove(prop.getName());
+                        }
+                    });
+                    
+                    for (ConfigCategory customCategory : config.getCategory(category).getChildren())
+                    {
+                        PatchDef patch = this.get(customCategory.getName());
+                        
+                        if (patch != null && patch.customConfig != null)
+                        {
+                            patch.customConfig.sanitizeConfig(customCategory);
+                        }
+                        else
+                        {
+                            config.getCategory(category).removeChild(customCategory);
+                        }
+                    }
                 }
             }
         }

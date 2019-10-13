@@ -178,7 +178,7 @@ public class MupGuiConfig extends GuiConfig {
         {
             List<IConfigElement> list = new ArrayList<>();
 
-            for (Property tweak : MupConfig.config.getCategory("modcompat").getOrderedValues())
+            for (Property tweak : MupConfig.config.getCategory("modpatches").getOrderedValues())
             {
                 list.add(new PatchElement(tweak));
             }

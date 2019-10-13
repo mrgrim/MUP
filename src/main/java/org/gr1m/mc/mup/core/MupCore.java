@@ -39,13 +39,13 @@ public class MupCore implements IFMLLoadingPlugin {
         config.init(new File(((File)(FMLInjectionData.data()[6])), "config/mup.cfg"));
     }
     
-    public static void loadMixins(boolean loadModCompat)
+    public static void loadMixins(LoadingStage stage)
     {
         String compatReason = "";
         
         // JustEnoughID's uses the same method for its own mod compatibility system. Coordination with DimDev will
         // be required to deal with this cleanly.
-        if (!MupCoreCompat.JEIDsLoaded && !loadModCompat)
+        if (!MupCoreCompat.JEIDsLoaded && stage == LoadingStage.CORE)
         {
             Mixins.addConfiguration("mixins.mup.modcompat.core.json");
             MupCoreCompat.modCompatEnabled = true;
@@ -73,8 +73,8 @@ public class MupCore implements IFMLLoadingPlugin {
             {
                 MupCoreConfig.Patch patch = (MupCoreConfig.Patch) fieldObj;
 
-                if (patch.enabled && ((loadModCompat && patch.category.equals("modcompat")) ||
-                                      (!loadModCompat && !patch.category.equals("modcompat"))))
+                if (patch.enabled && ((stage == LoadingStage.INIT && patch.category.equals("modpatches")) ||
+                                      (stage == LoadingStage.CORE && !patch.category.equals("modpatches"))))
                 {
                     String jsonConfig;
 
@@ -94,7 +94,7 @@ public class MupCore implements IFMLLoadingPlugin {
                         patch.loaded = true;
                     }
                  }
-                else if (patch.enabled && !loadModCompat && !MupCoreCompat.modCompatEnabled)
+                else if (patch.enabled && stage == LoadingStage.CORE && !MupCoreCompat.modCompatEnabled)
                 {
                     // Mod compatibility stage will never be called, so fill in reason for UI
                     patch.reason = compatReason;
@@ -135,7 +135,7 @@ public class MupCore implements IFMLLoadingPlugin {
             MupCoreCompat.tweakerCheck(tweakClass.getClass().toString());
         }
         
-        loadMixins(false);
+        loadMixins(LoadingStage.CORE);
     }
 
     @Override public String getAccessTransformerClass() {

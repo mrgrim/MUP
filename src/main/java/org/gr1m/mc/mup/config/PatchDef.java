@@ -1,6 +1,7 @@
 package org.gr1m.mc.mup.config;
 
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.util.text.*;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.core.MupCore;
 import org.gr1m.mc.mup.core.MupCoreConfig;
@@ -204,5 +205,25 @@ public class PatchDef
     public static class ClientSyncHandlers
     {
         public static final TriFunction<PatchDef, Boolean, NetHandlerPlayServer, Boolean> IGNORE = (bug, enabled, handler) -> false;
+        
+        public static final TriFunction<PatchDef, Boolean, NetHandlerPlayServer, Boolean> DISCONNECT = (bug, enabled, handler) -> {
+            if (!enabled && bug.isLoaded() && bug.isEnabled())
+            {
+                ITextComponent disconnectMessage = new TextComponentString("");
+                disconnectMessage.appendSibling(new TextComponentString("EigenCraft Unofficial Patch Configuration Conflict!\n").setStyle(new Style().setUnderlined(true)));
+                disconnectMessage.appendSibling(new TextComponentString("\n"));
+                disconnectMessage.appendSibling(new TextComponentString("The patch for \""));
+                disconnectMessage.appendSibling(new TextComponentString(bug.displayName).setStyle(new Style().setColor(TextFormatting.YELLOW)));
+                disconnectMessage.appendSibling(new TextComponentString("\" must be loaded to connect to this server."));
+
+                handler.disconnect(disconnectMessage);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        };
     }
 }

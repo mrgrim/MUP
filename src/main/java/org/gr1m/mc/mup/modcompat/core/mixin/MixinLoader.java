@@ -11,6 +11,7 @@ import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModClassLoader;
 import net.minecraftforge.fml.common.ModContainer;
+import org.gr1m.mc.mup.core.LoadingStage;
 import org.gr1m.mc.mup.core.MupCore;
 import org.gr1m.mc.mup.core.MupCoreCompat;
 import org.spongepowered.asm.mixin.Mixin;
@@ -53,7 +54,7 @@ public class MixinLoader {
         }
 
         // Add and reload mixin configs
-        MupCore.loadMixins(true);
+        MupCore.loadMixins(LoadingStage.INIT);
 
         Proxy mixinProxy = (Proxy) Launch.classLoader.getTransformers().stream().filter(transformer -> transformer instanceof Proxy).findFirst().get();
         try {

@@ -108,6 +108,45 @@ public class EteCustomConfig implements ICustomizablePatch
         }
     }
     
+    public void sanitizeConfig(ConfigCategory categoryIn)
+    {
+        // No properties at the top level
+        categoryIn.values().clear();
+        
+        for (ConfigCategory category : categoryIn.getChildren())
+        {
+            if (category.getName().equals("distances") || category.getName().equals("frequencies"))
+            {
+                for (ConfigCategory invalidCategory : category.getChildren())
+                {
+                    category.removeChild(invalidCategory);
+                }
+
+                category.entrySet().forEach((propSet) ->
+                {
+                    Property prop = propSet.getValue();
+                    
+                    try
+                    {
+                        Field field = this.getClass().getField(prop.getName());
+                        if (!(field.get(this) instanceof Var))
+                        {
+                            category.remove(prop.getName());
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        category.remove(prop.getName());
+                    }
+                });
+            }
+            else
+            {
+                categoryIn.removeChild(category);
+            }
+        }
+    }
+    
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen createGuiScreen(GuiConfig owningScreen, IMupConfigElement patchProperty)

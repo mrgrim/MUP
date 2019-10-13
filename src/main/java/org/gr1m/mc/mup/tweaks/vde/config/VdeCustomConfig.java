@@ -15,6 +15,7 @@ import org.gr1m.mc.mup.config.MupConfig;
 import org.gr1m.mc.mup.config.gui.IMupConfigElement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class VdeCustomConfig implements ICustomizablePatch
@@ -42,6 +43,25 @@ public class VdeCustomConfig implements ICustomizablePatch
         prop = config.get(parentCategory, "Tile Entity View Distance", 50, "View distance of tile entities as a percentage of world view distance.", 5, 100);
         tileEntityViewDistance = (int) ((((double)(prop.getInt())) / 100.0D) * 128); // 128 is 100% at view distance 8. Actual render distance is compensated for by Entity.renderDistanceWeight
         prop.setHasSlidingControl(true);
+    }
+
+    public void sanitizeConfig(ConfigCategory categoryIn)
+    {
+        for (ConfigCategory category : categoryIn.getChildren())
+        {
+            categoryIn.removeChild(category);
+        }
+        
+        categoryIn.entrySet().forEach((propSet) ->
+        {
+            Property prop = propSet.getValue();
+            List<String> supportedProperties = Arrays.asList("Dynamic Distance", "Entity View Distance", "Tile Entity View Distance");
+            
+            if (!supportedProperties.contains(prop.getName()))
+            {
+                categoryIn.remove(prop.getName());
+            }
+        });
     }
 
     @Override
