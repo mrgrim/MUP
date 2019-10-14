@@ -44,7 +44,7 @@ public abstract class MixinEntityTracker
 
         if (net.minecraftforge.fml.common.registry.EntityRegistry.instance().tryTrackingEntity((EntityTracker)((Object)(this)), entityIn))
         {
-            Mup.logger.error("Forge handled tracking for entity class " + entityIn.getClass().toString());
+            // TODO: Find a clean way to edit modded entities. :/
             return;
         }
         

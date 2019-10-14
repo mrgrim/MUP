@@ -35,7 +35,8 @@ public abstract class MixinEntityPlayerMP extends EntityPlayer
         }
     }
     
-    @Redirect(method = "handleFalling", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;isAir(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Z", ordinal = 0))
+    // Not sure why this doesn't need a remap...
+    @Redirect(method = "handleFalling", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;isAir(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Z", ordinal = 0, remap = false))
     private boolean cancelPlayerAirCheck(Block blockIn, IBlockState stateIn, IBlockAccess worldIn, BlockPos posIn)
     {
         if (Mup.config.mc1133.enabled)

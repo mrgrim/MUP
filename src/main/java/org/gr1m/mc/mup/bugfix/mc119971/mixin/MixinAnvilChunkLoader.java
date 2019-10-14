@@ -41,11 +41,11 @@ public abstract class MixinAnvilChunkLoader {
     // New data structures don't need to be concurrent since we're doing our
     // own mutex.  Using the concurrent ones would now just be extra overhead.
     @Shadow
-    private final Map<ChunkPos, NBTTagCompound> chunksToSave = new HashMap();
+    private final Map<ChunkPos, NBTTagCompound> chunksToSave = new HashMap<>();
 
     // Currently there will never be more than one chunk being written at
     // one time, but this is convenient and leaves open the future option.
-    private final Map<ChunkPos, NBTTagCompound> chunksInWrite = new HashMap();
+    private final Map<ChunkPos, NBTTagCompound> chunksInWrite = new HashMap<>();
 
     /* --- new synchronized methods for MC-119971 --- */
 

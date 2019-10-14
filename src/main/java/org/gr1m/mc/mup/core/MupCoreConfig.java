@@ -4,6 +4,7 @@ import org.gr1m.mc.mup.core.config.Configuration;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class MupCoreConfig {
@@ -18,7 +19,7 @@ public class MupCoreConfig {
         public String category;
         public boolean defaults[];
         
-        public Function<MupCoreConfig.Patch, String> compatCheck = null;
+        public BiFunction<Patch, LoadingStage, String> compatCheck = null;
         
         public Patch(String categoryIn, boolean defaultsIn[])
         {
@@ -26,7 +27,7 @@ public class MupCoreConfig {
             this.defaults = defaultsIn;
         }
 
-        public Patch(String categoryIn, boolean defaultsIn[], Function<MupCoreConfig.Patch, String> compatCheckIn)
+        public Patch(String categoryIn, boolean defaultsIn[], BiFunction<Patch, LoadingStage, String> compatCheckIn)
         {
             this.category = categoryIn;
             this.defaults = defaultsIn;
@@ -48,7 +49,7 @@ public class MupCoreConfig {
     public Patch mc98153 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc108469 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc109832 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
-    public Patch mc111444 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc111444 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, MupCoreCompat.mc111444CompatCheck);
     public Patch mc111978 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc118710 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc119971 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
@@ -64,7 +65,8 @@ public class MupCoreConfig {
     public Patch ete = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch vde = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
 
-    public Patch redstoneplusplus = new MupCoreConfig.Patch("modpatches", new boolean[]{false, true}, MupCoreCompat.redstonePlusPlusCompatCheck);
+    public Patch redstoneplusplus = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, MupCoreCompat.redstonePlusPlusCompatCheck);
+    public Patch vanillafoamfix = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, MupCoreCompat.vanillaAndFoamFixCompatCheck);
 
     public void init(File file)
     {

@@ -58,13 +58,19 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 
 ### Mod Compatibility
 
-* MC-134989 will not load when FomFix is installed. FoamFix already fixes this bug.
-* Mod Patches will not load or function when JustEnoughIDs is installed. The method used to patch mods was borrowed from
-JEIDs, and they do conflict. This may be resolved in the future.
+* MC-134989 will not load when FomFix is installed. It fixes the same bug.
+* MC-111444 will not load when Tweakeroo Forge is installed. It fixes the same bug.
 
 ### Mod Patches
 
+The goal of mod patches are both to address patching other mods to work with features of this one as well as to address
+long standing bugs or interoperability issues between other mods. The goal is to provide fixes to abandoned mods or
+for issues that have remained unresolved for large amounts of time. 
+
 * Redstone++ 1.2d and 1.3 BETA-2 pistons can be patched to work with the MC-54026 vanilla patch.
+* If VanillaFix and FoamFix are both loaded and FoamFix has the "patchChunkSerialization" setting on, VanillaFix's
+  mixin will be disabled to prevent a crash. It is recommended to simply disable the FoamFix setting to avoid any
+  future problems.
 
 ## Optimizations
 

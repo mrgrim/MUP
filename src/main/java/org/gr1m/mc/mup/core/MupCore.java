@@ -41,18 +41,14 @@ public class MupCore implements IFMLLoadingPlugin {
     
     public static void loadMixins(LoadingStage stage)
     {
-        String compatReason = "";
+        String compatReason = "Unknown failure.";
         
-        // JustEnoughID's uses the same method for its own mod compatibility system. Coordination with DimDev will
-        // be required to deal with this cleanly.
-        if (!MupCoreCompat.JEIDsLoaded && stage == LoadingStage.CORE)
+        // JustEnoughID's and VanillaFix use the same method for its own mod compatibility system. Coordination with
+        //  DimDev will be required to deal with this cleanly.
+        if (stage == LoadingStage.CORE)
         {
             Mixins.addConfiguration("mixins.mup.modcompat.core.json");
             MupCoreCompat.modCompatEnabled = true;
-        }
-        else
-        {
-            compatReason = "Mod compatibility features disabled due to incompatilibty with JustEnoughIDs.";
         }
         
         for (Field field : config.getClass().getFields())
@@ -73,17 +69,28 @@ public class MupCore implements IFMLLoadingPlugin {
             {
                 MupCoreConfig.Patch patch = (MupCoreConfig.Patch) fieldObj;
 
-                if (patch.enabled && ((stage == LoadingStage.INIT && patch.category.equals("modpatches")) ||
-                                      (stage == LoadingStage.CORE && !patch.category.equals("modpatches"))))
+                if (patch.enabled)
                 {
                     String jsonConfig;
 
                     if (patch.compatCheck != null)
                     {
-                        jsonConfig = patch.compatCheck.apply(patch);
+                        if (stage == LoadingStage.CORE)
+                        {
+                            patch.reason = compatReason; // Set default reason in case INIT stage is never called
+                        }
+                        
+                        jsonConfig = patch.compatCheck.apply(patch, stage);
                     }
                     else
                     {
+                        if (patch.category.equals("modpatches"))
+                        {
+                            MupCore.log.error("Mod patch found without compatibility check function: " + field.getName());
+                            patch.reason = "Patch has missing compatibility checks. Please report this.";
+                            return;
+                        }
+                        
                         jsonConfig = "mixins.mup." + field.getName() + ".json";
                     }
 
@@ -94,11 +101,6 @@ public class MupCore implements IFMLLoadingPlugin {
                         patch.loaded = true;
                     }
                  }
-                else if (patch.enabled && stage == LoadingStage.CORE && !MupCoreCompat.modCompatEnabled)
-                {
-                    // Mod compatibility stage will never be called, so fill in reason for UI
-                    patch.reason = compatReason;
-                }
             }
         }
     }
@@ -122,19 +124,8 @@ public class MupCore implements IFMLLoadingPlugin {
     @Override
     public void injectData(Map<String, Object> data)
     {
-        // At this point all coremods have been instantiated and we should have a complete list.
-        // ... Except OptiFine doesn't show up here cause.. fuckin' OptiFine
-        
-        for (Object coremod : (List<Object>)(data.get("coremodList")))
-        {
-            MupCoreCompat.modCheck(coremod.toString());
-        }
-
-        for (Object tweakClass : (List<Object>)(Launch.blackboard.get("Tweaks")))
-        {
-            MupCoreCompat.tweakerCheck(tweakClass.getClass().toString());
-        }
-        
+        // At this point all coremods should be detected and class loaded but not necessarily initialized.
+        MupCoreCompat.runCoreModChecks();
         loadMixins(LoadingStage.CORE);
     }
 
