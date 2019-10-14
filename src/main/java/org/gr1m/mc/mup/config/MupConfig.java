@@ -192,6 +192,12 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"AbstractMap::hashCode accounts for substantial CPU overhead (from profiling)"});
 
+    public final PatchDef mc161869 = new PatchDef("mc161869", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.TOGGLE)
+        .setDisplayName("MC-161869")
+        .setCredits("nessie, MrGrim")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Crafted item statistics do not account for non-one stacksizes when crafted by pressing DROP"});
+
     public final PatchDef newlight = new PatchDef("newlight", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("Newlight")
         .setCredits("PhiPro, Mathe172, nessie, MrGrim")
