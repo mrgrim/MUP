@@ -1,0 +1,10 @@
+{
+  "package": "org.gr1m.mc.mup.bugfix.mc64836.mixin",
+  "refmap": "mixins.mup.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.7.4",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinEntityMinecart"
+  ]
+}

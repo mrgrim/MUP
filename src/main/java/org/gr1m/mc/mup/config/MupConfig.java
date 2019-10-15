@@ -98,6 +98,12 @@ public class MupConfig
         .setClientToggleable(true)
         .setComment(new String[] {"Blocks attached to slime blocks can create ghost blocks"});
 
+    public final PatchDef mc64836 = new PatchDef("mc64836", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("MC-64836")
+        .setCredits("Xcom")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Mobs \"control\" the minecart they are riding"});
+
     public final PatchDef mc73051 = new PatchDef("mc73051", PatchDef.Side.SERVER)
         .setDisplayName("MC-73051")
         .setCredits("Xcom")
