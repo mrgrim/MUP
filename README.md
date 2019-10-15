@@ -26,7 +26,7 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 
 * [MC-4](https://bugs.mojang.com/browse/MC-4) - Item drops sometimes appear at the wrong location
 * [MC-1133](https://bugs.mojang.com/browse/MC-1133) - Whether or not a player experiences some effect is calculated
-  based on 
+  based on the block under the center of the player
 * [MC-2025](https://bugs.mojang.com/browse/MC-2025) - Mobs going out of fenced areas/suffocate in blocks when loading
   chunks
 * [MC-2399](https://bugs.mojang.com/browse/MC-2399) - Transparent blocks visually use the brighter light level that they

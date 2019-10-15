@@ -1,6 +1,7 @@
 package org.gr1m.mc.mup.config;
 
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.text.*;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.core.MupCore;
@@ -8,7 +9,6 @@ import org.gr1m.mc.mup.core.MupCoreConfig;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class PatchDef
@@ -40,17 +40,17 @@ public class PatchDef
         this(fieldNameIn, sideIn, ServerSyncHandlers.ENFORCE, ClientSyncHandlers.IGNORE);
     }
     
-    public PatchDef(String fieldNameIn, Enum<Side> sideIn, BiConsumer<PatchDef, Boolean> serverSyncHandler)
+    public PatchDef(String fieldNameIn, Enum<Side> sideIn, TriConsumer<PatchDef, Boolean, INetHandlerPlayClient> serverSyncHandler)
     {
         this(fieldNameIn, sideIn, serverSyncHandler, ClientSyncHandlers.IGNORE);
     }
     
-    public PatchDef(String fieldNameIn, Enum<Side> sideIn, BiConsumer<PatchDef, Boolean> serverSyncHandler, TriFunction<PatchDef, Boolean, NetHandlerPlayServer, Boolean> clientSyncHandler)
+    public PatchDef(String fieldNameIn, Enum<Side> sideIn, TriConsumer<PatchDef, Boolean, INetHandlerPlayClient> serverSyncHandler, TriFunction<PatchDef, Boolean, NetHandlerPlayServer, Boolean> clientSyncHandler)
     {
         this(fieldNameIn, sideIn, serverSyncHandler, clientSyncHandler, null);
     }
     
-    public PatchDef(String fieldNameIn, Enum<Side> sideIn, BiConsumer<PatchDef, Boolean> serverSyncHandler, TriFunction<PatchDef, Boolean, NetHandlerPlayServer, Boolean> clientSyncHandler, ICustomizablePatch customConfigIn)
+    public PatchDef(String fieldNameIn, Enum<Side> sideIn, TriConsumer<PatchDef, Boolean, INetHandlerPlayClient> serverSyncHandler, TriFunction<PatchDef, Boolean, NetHandlerPlayServer, Boolean> clientSyncHandler, ICustomizablePatch customConfigIn)
     {
         this.fieldName = fieldNameIn;
         this.processServerSync = serverSyncHandler;
@@ -60,7 +60,7 @@ public class PatchDef
         this.customConfig = customConfigIn;
     }
     
-    public final BiConsumer<PatchDef, Boolean> processServerSync;
+    public final TriConsumer<PatchDef, Boolean, INetHandlerPlayClient> processServerSync;
     public final TriFunction<PatchDef, Boolean, NetHandlerPlayServer, Boolean> processClientSync;
     
     public boolean isLoaded()
@@ -149,10 +149,33 @@ public class PatchDef
         }
     }
 
-    public static class ServerSyncHandlers {
-        public static final BiConsumer<PatchDef, Boolean> IGNORE = (bug, enabled) -> { };
+    @FunctionalInterface
+    public interface TriFunction<T, U, V, R> {
+        public R apply(T t, U u, V v);
 
-        public static final BiConsumer<PatchDef, Boolean> TOGGLE = (bug, enabled) -> {
+        public default <W> TriFunction<T, U, V, W> andThen(Function<? super R, ? extends W> after) {
+            Objects.requireNonNull(after);
+            return (T t, U u, V v) -> after.apply(apply(t, u, v));
+        }
+    }
+
+    @FunctionalInterface
+    public interface TriConsumer<T, U, V> {
+        public void accept(T t, U u, V v);
+
+        public default TriConsumer<T, U, V> andThen(TriConsumer<? super T, ? super U, ? super V> after) {
+            Objects.requireNonNull(after);
+            return (a, b, c) -> {
+                accept(a, b, c);
+                after.accept(a, b, c);
+            };
+        }
+    }
+
+    public static class ServerSyncHandlers {
+        public static final TriConsumer<PatchDef, Boolean, INetHandlerPlayClient> IGNORE = (bug, enabled, handler) -> { };
+
+        public static final TriConsumer<PatchDef, Boolean, INetHandlerPlayClient> TOGGLE = (bug, enabled, handler) -> {
             if (Mup.config.isServerLocked())
             {
                 bug.setClientToggleable(enabled);
@@ -164,7 +187,7 @@ public class PatchDef
             }
         };
 
-        public static final BiConsumer<PatchDef, Boolean> ENFORCE = (bug, enabled) -> {
+        public static final TriConsumer<PatchDef, Boolean, INetHandlerPlayClient> ENFORCE = (bug, enabled, handler) -> {
             if (enabled && !bug.isLoaded())
             {
                 Mup.logger.warn("Server requested to enable unloaded patch: " + bug.getDisplayName());
@@ -184,22 +207,10 @@ public class PatchDef
             bug.setEnabled(enabled);
         };
 
-        public static final BiConsumer<PatchDef, Boolean> ACCEPT = (bug, enabled) -> {
-            TOGGLE.accept(bug, enabled);
-            ENFORCE.accept(bug, enabled);
+        public static final TriConsumer<PatchDef, Boolean, INetHandlerPlayClient> ACCEPT = (bug, enabled, handler) -> {
+            TOGGLE.accept(bug, enabled, handler);
+            ENFORCE.accept(bug, enabled, handler);
         };
-    }
-
-    @FunctionalInterface
-    public interface TriFunction<A,B,C,R> {
-
-        R apply(A a, B b, C c);
-
-        default <V> TriFunction<A, B, C, V> andThen(
-            Function<? super R, ? extends V> after) {
-            Objects.requireNonNull(after);
-            return (A a, B b, C c) -> after.apply(apply(a, b, c));
-        }
     }
 
     public static class ClientSyncHandlers
@@ -213,7 +224,7 @@ public class PatchDef
                 disconnectMessage.appendSibling(new TextComponentString("EigenCraft Unofficial Patch Configuration Conflict!\n").setStyle(new Style().setUnderlined(true)));
                 disconnectMessage.appendSibling(new TextComponentString("\n"));
                 disconnectMessage.appendSibling(new TextComponentString("The patch for \""));
-                disconnectMessage.appendSibling(new TextComponentString(bug.displayName).setStyle(new Style().setColor(TextFormatting.YELLOW)));
+                disconnectMessage.appendSibling(new TextComponentString(bug.getDisplayName()).setStyle(new Style().setColor(TextFormatting.YELLOW)));
                 disconnectMessage.appendSibling(new TextComponentString("\" must be loaded to connect to this server."));
 
                 handler.disconnect(disconnectMessage);

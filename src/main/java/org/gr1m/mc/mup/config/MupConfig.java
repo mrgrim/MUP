@@ -264,7 +264,6 @@ public class MupConfig
         .setDisplayName("Disable Movement Anti Cheat")
         .setCredits("MrGrim")
         .setCategory("tweaks")
-        .setToggleable(true)
         .setDefaults(new boolean[] { false, false })
         .setSideEffects("This disables movement based anti cheat functionality. Only use on private servers with trusted players!")
         .setComment(new String[] {"Prevents the server from resetting the position of (rubber banding) clients that move \"too quickly\"."});
@@ -273,12 +272,22 @@ public class MupConfig
         .setDisplayName("View Distance Editor")
         .setCredits("MrGrim")
         .setCategory("tweaks")
-        .setToggleable(true)
         .setDefaults(new boolean[] { false, false })
         .setClientToggleable(true)
         .setSideEffects("Modifying these values can cause entity \"pop in\" or harm performance.")
         .setComment(new String[] {"Edit the maximum client render distance of various entities. The client cannot render entities it does not know about.",
                                   "Make sure the server tracking distance is also adjusted using the Entity Tracking Editor tweak."});
+
+    public final PatchDef netseqcheck = new PatchDef("netseqcheck", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("Network Sequence Checking")
+        .setCredits("MrGrim")
+        .setCategory("tweaks")
+        .setDefaults(new boolean[] { false, false })
+        .setSideEffects("This tweak MUST be loaded on the server and all clients to function. It does not sync configs due to technical limitations.")
+        .setToggleable(false)
+        .setComment(new String[] {"Adds a sequence number to all network packets and checks them. If any are missed an error message will be logged.",
+                                  "If you suspect packet drops above the TCP layer this should at least detect them.",
+                                  "This tweak is very nasty and should only be loaded for debugging purposes. It adds 4 bytes to every packet sent."});
 
     public final PatchDef redstoneplusplus = new PatchDef("redstoneplusplus", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("Redstone++")

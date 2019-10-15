@@ -2,6 +2,8 @@ package org.gr1m.mc.mup.config.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -78,8 +80,10 @@ public class SPacketMupConfig implements IMessage
         @Override
         public IMessage onMessage(final SPacketMupConfig message, final MessageContext ctx)
         {
+            NetHandlerPlayClient handler = ctx.getClientHandler();
+
             Minecraft.getMinecraft().addScheduledTask(() ->
-                                                          ConfigPacketHandler.handleServerConfigReceived(message)
+                                                          ConfigPacketHandler.handleServerConfigReceived(message, handler)
                                                      );
 
             return null;

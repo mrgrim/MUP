@@ -18,19 +18,25 @@ public class MupCoreConfig {
         
         public String category;
         public boolean defaults[];
+        LoadingStage stage;
         
         public BiFunction<Patch, LoadingStage, String> compatCheck = null;
-        
+
         public Patch(String categoryIn, boolean defaultsIn[])
         {
-            this.category = categoryIn;
-            this.defaults = defaultsIn;
+            this(categoryIn, defaultsIn, LoadingStage.CORE);
+        }
+        
+        public Patch(String categoryIn, boolean defaultsIn[], LoadingStage stageIn)
+        {
+            this(categoryIn, defaultsIn, stageIn, null);
         }
 
-        public Patch(String categoryIn, boolean defaultsIn[], BiFunction<Patch, LoadingStage, String> compatCheckIn)
+        public Patch(String categoryIn, boolean defaultsIn[], LoadingStage stageIn, BiFunction<Patch, LoadingStage, String> compatCheckIn)
         {
             this.category = categoryIn;
             this.defaults = defaultsIn;
+            this.stage = stageIn;
             this.compatCheck = compatCheckIn;
         }
     }
@@ -49,12 +55,12 @@ public class MupCoreConfig {
     public Patch mc98153 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc108469 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc109832 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
-    public Patch mc111444 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, MupCoreCompat.mc111444CompatCheck);
+    public Patch mc111444 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc111444CompatCheck);
     public Patch mc111978 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc118710 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc119971 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc123320 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
-    public Patch mc134989 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, MupCoreCompat.mc134989CompatCheck);
+    public Patch mc134989 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc134989CompatCheck);
     public Patch mc161869 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     
     public Patch newlight = new MupCoreConfig.Patch("optimizations", new boolean[]{true, true});
@@ -65,9 +71,10 @@ public class MupCoreConfig {
     public Patch dac = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch ete = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch vde = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
+    public Patch netseqcheck = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
 
-    public Patch redstoneplusplus = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, MupCoreCompat.redstonePlusPlusCompatCheck);
-    public Patch vanillafoamfix = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, MupCoreCompat.vanillaAndFoamFixCompatCheck);
+    public Patch redstoneplusplus = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, LoadingStage.INIT, MupCoreCompat.redstonePlusPlusCompatCheck);
+    public Patch vanillafoamfix = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.vanillaAndFoamFixCompatCheck);
 
     public void init(File file)
     {

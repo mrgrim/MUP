@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -97,7 +98,7 @@ public class ConfigPacketHandler
         });
     }
 
-    public static void handleServerConfigReceived(SPacketMupConfig message)
+    public static void handleServerConfigReceived(SPacketMupConfig message, INetHandlerPlayClient handler)
     {
         // Attempt to apply all server supplied configuration settings, and report back any that are not recognized or
         // loaded by the client.
@@ -112,7 +113,7 @@ public class ConfigPacketHandler
             
             if (entry != null)
             {
-                entry.processServerSync.accept(entry, configEntry.getValue());
+                entry.processServerSync.accept(entry, configEntry.getValue(), handler);
                 entry.setServerEnabled(configEntry.getValue());
                 
                 if (entry.isEnabled() != configEntry.getValue())

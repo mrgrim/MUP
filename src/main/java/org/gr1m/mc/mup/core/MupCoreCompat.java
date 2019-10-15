@@ -73,7 +73,7 @@ public class MupCoreCompat
     }
     
     public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc111444CompatCheck = (patchIn, stage) -> {
-        if (stage == LoadingStage.INIT)
+        if (stage == LoadingStage.CORE)
         {
             if (MupCoreCompat.TweakerooLoaded)
             {
@@ -93,7 +93,7 @@ public class MupCoreCompat
     };
 
     public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc134989CompatCheck = (patchIn, stage) -> {
-        if (stage == LoadingStage.INIT)
+        if (stage == LoadingStage.CORE)
         {
             if (MupCoreCompat.FoamFixLoaded)
             {

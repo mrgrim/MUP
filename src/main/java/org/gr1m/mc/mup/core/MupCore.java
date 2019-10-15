@@ -69,7 +69,7 @@ public class MupCore implements IFMLLoadingPlugin {
             {
                 MupCoreConfig.Patch patch = (MupCoreConfig.Patch) fieldObj;
 
-                if (patch.enabled)
+                if (patch.enabled && patch.stage == stage)
                 {
                     String jsonConfig;
 
