@@ -6,5 +6,5 @@ public interface INetSequenceHandler
     void incrSendingSequenceNumber();
 
     int getCheckingSequenceNumber();
-    void setCheckingSequenceNumber(long sequenceIn);
+    void setCheckingSequenceNumber(int sequenceIn);
 }
