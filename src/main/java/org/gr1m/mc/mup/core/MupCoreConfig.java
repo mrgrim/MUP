@@ -76,6 +76,7 @@ public class MupCoreConfig {
 
     public Patch redstoneplusplus = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, LoadingStage.INIT, MupCoreCompat.redstonePlusPlusCompatCheck);
     public Patch vanillafoamfix = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.vanillaAndFoamFixCompatCheck);
+    public Patch rcnewlight = new MupCoreConfig.Patch("rcnewlight", new boolean[]{true, true}, LoadingStage.INIT, MupCoreCompat.RCComplexNewlightCompatCheck);
 
     public void init(File file)
     {

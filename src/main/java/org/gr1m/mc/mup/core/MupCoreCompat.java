@@ -117,7 +117,7 @@ public class MupCoreCompat
         {
             List<String> supportedVersions = Arrays.asList("1.2d", "1.3 BETA-2");
 
-            if (!(MupCore.config.mc54026.enabled && MupCore.config.mc54026.loaded))
+            if (!MupCore.config.mc54026.loaded)
             {
                 patchIn.loaded = false;
                 patchIn.reason = "MC-54026 bug fix is not loaded.";
@@ -201,4 +201,26 @@ public class MupCoreCompat
         return null;
     };
 
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> RCComplexNewlightCompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.INIT)
+        {
+            if (!MupCore.config.newlight.loaded)
+            {
+                patchIn.loaded = false;
+                patchIn.reason = "Newlight optimization is not loaded.";
+
+                return null;
+            }
+
+            if (modList.containsKey("reccomplex"))
+            {
+                MupCore.log.warn("Loading Recurrent Complex and Newlight compatibility patch.");
+                return "mixins.mup.modcompat.rcnewlight.json";
+            }
+            
+            patchIn.reason = "Recurrent Complex not found.";
+        }
+
+        return null;
+    };
 }

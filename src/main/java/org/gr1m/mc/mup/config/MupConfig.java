@@ -296,7 +296,7 @@ public class MupConfig
                                   "This tweak is very nasty and should only be loaded for debugging purposes. It adds 4 bytes to every packet sent."});
 
     public final PatchDef redstoneplusplus = new PatchDef("redstoneplusplus", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
-        .setDisplayName("Redstone++")
+        .setDisplayName("Redstone++ and MC-54026")
         .setCredits("MrGrim")
         .setCategory("modpatches")
         .setToggleable(false)
@@ -310,6 +310,15 @@ public class MupConfig
         .setToggleable(false)
         .setDefaults(new boolean[] { true, true })
         .setComment(new String[] {"VanillaFix and FoamFix both try to fix a BlockStateContainer serialization bug. This disables VanillaFix's version if FoamFix has it enabled."});
+
+    public final PatchDef rcnewlight = new PatchDef("rcnewlight", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("Recurrent Complex and Newlight")
+        .setCredits("MrGrim")
+        .setCategory("modpatches")
+        .setDefaults(new boolean[] { true, true })
+        .setComment(new String[] {"Recurrent Complex has an optimization feature called \"HeightMapFreezer\" designed to stop the vanilla light engine while",
+                                  "structures are being generated. This confuses the newlight optimization and is unnecessary due to newlight batching light",
+                                  "updates on its own."});
 
     public void init(File file)
     {

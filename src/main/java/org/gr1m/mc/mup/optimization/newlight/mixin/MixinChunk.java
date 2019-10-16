@@ -170,9 +170,6 @@ public abstract class MixinChunk implements IChunk {
     private void nullPropagateSkylightOcclusion(int x, int z, CallbackInfo ci)
     {
         ci.cancel();
-        
-        // This is a workaround for Recurrent Complex's height map freezer which ends up calling vanilla lighting methods directly.
-        LightingHooks.fillSkylightColumn((Chunk)(Object)(this), x, z);
     }
 
 	public short[] getNeighborLightChecks() {
