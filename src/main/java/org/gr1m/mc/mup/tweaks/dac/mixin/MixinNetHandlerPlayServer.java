@@ -32,12 +32,8 @@ public abstract class MixinNetHandlerPlayServer
     
     @Shadow
     @Final
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static Logger LOGGER;
     
-    @Shadow
-    @Final
-    public NetworkManager netManager;
-
     // Handle Player movement case
     @Inject(method = "processPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayerMP;isInvulnerableDimensionChange()Z", ordinal = 0),
             locals = LocalCapture.CAPTURE_FAILHARD, slice = @Slice(to = @At(value = "CONSTANT", args = "stringValue={} moved too quickly! {},{},{}")))
