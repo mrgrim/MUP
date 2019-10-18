@@ -13,9 +13,10 @@ import org.spongepowered.asm.mixin.injection.Slice;
 @Mixin(EntityMinecart.class)
 public abstract class MixinEntityMinecart
 {
+    // TODO: Investigate AI code
     @Redirect(method = "moveAlongTrack", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;moveForward:F", opcode = Opcodes.GETFIELD, ordinal = 0),
               slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/entity/item/EntityMinecart;getPassengers()Ljava/util/List;", ordinal = 1),
-                             to = @At(value = "INVOKE", target = "Lnet/minecraft/entity/item/EntityMinecart;shouldDoRailFunctions()Z")))
+                             to = @At(value = "INVOKE", target = "Lnet/minecraft/entity/item/EntityMinecart;shouldDoRailFunctions()Z", remap = false)))
     private float disableMobControl(EntityLivingBase entityIn)
     {
         if (Mup.config.mc64836.enabled && !(entityIn instanceof EntityPlayer))
