@@ -50,6 +50,7 @@ public class MupCoreCompat
     // This is nasty and Mumfrey hates it with a passion, but for now there's no other way. Maybe in the
     // future there will be a cleaner way for mods to cooperate on the final set of mixins to be applied,
     // but the idea of "glue" or "patch" mods like this seems to be looked down upon. :(
+    @SuppressWarnings("deprecation")
     public static boolean removeMixinConfiguration(String configFile)
     {
         Iterator<Config> configItr = Mixins.getConfigs().iterator();

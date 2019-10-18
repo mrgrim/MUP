@@ -104,6 +104,14 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Mobs \"control\" the minecart they are riding"});
 
+    public final PatchDef mc70850 = new PatchDef("mc70850", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("MC-70850")
+        .setCredits("MrGrim")
+        .setCategory("bug fixes")
+        .setSideEffects("May have a small FPS impact.")
+        .setToggleable(false)
+        .setComment(new String[] {"False negatives during occlusion culling"});
+
     public final PatchDef mc73051 = new PatchDef("mc73051", PatchDef.Side.SERVER)
         .setDisplayName("MC-73051")
         .setCredits("Xcom")
