@@ -5,9 +5,11 @@
   "minVersion": "0.7.4",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinNetHandlerPlayClient",
     "MixinNetHandlerPlayServer",
     "MixinNettyPacketDecoder",
     "MixinNettyPacketEncoder"
-   ]
+   ],
+  "client": [
+    "MixinNetHandlerPlayClient"
+  ]
 }
