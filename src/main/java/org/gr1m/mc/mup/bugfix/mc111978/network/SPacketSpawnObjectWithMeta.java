@@ -75,6 +75,9 @@ public class SPacketSpawnObjectWithMeta implements IMessage
         
         buf.writeBytes(objectPacket.readBytes(objectPacket.readableBytes()));
         buf.writeBytes(metadataPacket.readBytes(metadataPacket.readableBytes()));
+        
+        objectPacket.release();
+        metadataPacket.release();
     }
 
     public SPacketSpawnObject getObjectPacket() { return this.object; }
