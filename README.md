@@ -38,6 +38,8 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 * [MC-14826](https://bugs.mojang.com/browse/MC-14826) - Leads in unloaded chunks break, become invisible or connect to
   an invisible target far away
 * [MC-54026](https://bugs.mojang.com/browse/MC-54026) - Blocks attached to slime blocks can create ghost blocks
+* [MC-64836](https://bugs.mojang.com/browse/MC-64836) - Mobs "control" the minecart they are riding
+* [MC-70850](https://bugs.mojang.com/browse/MC-70850) - False negatives during occlusion culling
 * [MC-73051](https://bugs.mojang.com/browse/MC-73051) - Witch Hut structure data do not account for height the witch hut
   is generated at
 * [MC-80032](https://bugs.mojang.com/browse/MC-80032) - Horse suffocate when going through nether portals
@@ -55,6 +57,8 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 * [MC-123320](https://bugs.mojang.com/browse/MC-123320) - Items do not move through blocks smoothly
 * [MC-134989](https://bugs.mojang.com/browse/MC-134989) - AbstractMap::hashCode accounts for substantial CPU overhead
   (from profiling)
+* [MC-161869](https://bugs.mojang.com/browse/MC-161869) - Crafted item statistics do not account for non-one stack sizes
+  when crafted by pressing DROP
 
 ### Mod Compatibility
 
@@ -71,7 +75,11 @@ for issues that have remained unresolved for large amounts of time.
 * If VanillaFix and FoamFix are both loaded and FoamFix has the "patchChunkSerialization" setting on, VanillaFix's
   mixin will be disabled to prevent a crash. It is recommended to simply disable the FoamFix setting to avoid any
   future problems.
-
+* Recurrent Complex has an optimization called a "Height Map Freezer" designed to suppress vanilla light updates during
+  structure generation. It depends on vanilla lighting calls to clean up afterward which do not function when using the
+  Newlight optimization. Since Newlight already batches updates, this patch simply disables this optimization in
+  Recurrent Complex.
+  
 ## Optimizations
 
 ### Newlight
@@ -115,7 +123,11 @@ redstone on the issues board.
 * Entity Tracking Editor - Allows you to control the range at which a server tells a client about an entity and how
   often a server sends updates based on the entity type.
 * View Distance Editor - Control view distance of entities and tile entities (e.g. chests) on the client
-  
+* Network Sequence Checker - This is a debugging tweak to help detect packets dropped on the client or server at the
+  application layer. Enabling this tweak alters the network protocol and will break clients that do not also have this
+  tweak loaded. This also adds 4 bytes to every network packet sent. Do not enable this unless you know what you are
+  doing and why you are doing it.
+
 ## What is EigenCraft?
 
 EigenCraft is a Discord server focused on Minecraft development and bug fixing. Many of the fixes in this mod were
