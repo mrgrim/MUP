@@ -24,7 +24,7 @@ apply plugin: 'java'
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
 
-version = "1.3.3"
+version = "1.3.4"
 group = "org.gr1m.mc" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "mup"
 
@@ -56,6 +56,7 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     replace '@FINGERPRINT@', project.findProperty('signSHA1')
+    replace '@VERSION@', project.version
 
     def args = [
             "-Dfml.coreMods.load=org.gr1m.mc.mup.core.MupCore",
