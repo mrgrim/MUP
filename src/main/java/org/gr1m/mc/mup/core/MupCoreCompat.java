@@ -18,6 +18,7 @@ public class MupCoreCompat
     public static boolean FoamFixLoaded = false;
     public static boolean OptiFineLoaded = false;
     public static boolean TweakerooLoaded = false;
+    public static boolean QuarkLoaded = false;
     
     public static HashMap<String, String> coreModChecks = new HashMap<String, String>() {{
        put("JEIDsLoaded", "org.dimdev.jeid.JEIDLoadingPlugin");
@@ -25,6 +26,7 @@ public class MupCoreCompat
        put("FoamFixLoaded", "pl.asie.foamfix.coremod.FoamFixCore");
        put("OptiFineLoaded", "optifine.OptiFineForgeTweaker");
        put("TweakerooLoaded", "fi.dy.masa.tweakeroo.core.TweakerooCore");
+       put("QuarkLoaded", "vazkii.quark.base.asm.LoadingPlugin");
     }};
     
     public static Map<String, String> modList = new HashMap<>();
@@ -72,7 +74,25 @@ public class MupCoreCompat
         
         return false;
     }
-    
+
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc109832CompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.QuarkLoaded)
+            {
+                MupCore.log.warn("Loading Quark compatible mixins for MC-109832.");
+
+                patchIn.reason = null;
+                return "mixins.mup.mc109832-quark.json";
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.mc109832.json";
+        }
+
+        return null;
+    };
+
     public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc111444CompatCheck = (patchIn, stage) -> {
         if (stage == LoadingStage.CORE)
         {
