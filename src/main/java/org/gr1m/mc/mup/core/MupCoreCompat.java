@@ -75,6 +75,42 @@ public class MupCoreCompat
         return false;
     }
 
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc63020CompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.OptiFineLoaded)
+            {
+                MupCore.log.warn("Disabling MC-63020 due to functionality overlap with Optifine.");
+
+                patchIn.reason = "Optifine provides a similar fix.";
+                return null;
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.mc63020.json";
+        }
+
+        return null;
+    };
+
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc70850CompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.OptiFineLoaded)
+            {
+                MupCore.log.warn("Loading Optifine compatible mixins for MC-70850.");
+
+                patchIn.reason = null;
+                return "mixins.mup.mc70850-optifine.json";
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.mc70850.json";
+        }
+
+        return null;
+    };
+
     public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc109832CompatCheck = (patchIn, stage) -> {
         if (stage == LoadingStage.CORE)
         {

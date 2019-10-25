@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(CompiledChunk.class)
-public class MixinCompiledChunk implements ICompiledChunk
+public abstract class MixinCompiledChunk implements ICompiledChunk
 {
     @Shadow
     private SetVisibility setVisibility;

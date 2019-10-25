@@ -1,0 +1,10 @@
+{
+  "package": "org.gr1m.mc.mup.bugfix.mc63020.mixin",
+  "refmap": "mixins.mup.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.7.5",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MixinRenderGlobal"
+  ]
+}

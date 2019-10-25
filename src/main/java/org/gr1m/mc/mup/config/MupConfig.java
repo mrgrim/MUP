@@ -98,6 +98,13 @@ public class MupConfig
         .setClientToggleable(true)
         .setComment(new String[] {"Blocks attached to slime blocks can create ghost blocks"});
 
+    public final PatchDef mc63020 = new PatchDef("mc63020", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("MC-63020")
+        .setCredits("MrGrim")
+        .setCategory("bug fixes")
+        .setToggleable(false)
+        .setComment(new String[] {"Chunks are not rendered in first person in some cases"});
+
     public final PatchDef mc64836 = new PatchDef("mc64836", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("MC-64836")
         .setCredits("Xcom")
@@ -108,7 +115,8 @@ public class MupConfig
         .setDisplayName("MC-70850")
         .setCredits("MrGrim")
         .setCategory("bug fixes")
-        .setSideEffects("May have a small FPS impact.")
+        .setSideEffects("Can have a significant FPS impact.")
+        .setDefaults(new boolean[] { false, false })
         .setToggleable(false)
         .setComment(new String[] {"False negatives during occlusion culling"});
 

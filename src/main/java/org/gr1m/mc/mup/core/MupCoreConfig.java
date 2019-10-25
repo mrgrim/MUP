@@ -49,8 +49,9 @@ public class MupCoreConfig {
     public Patch mc9568 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc14826 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc54026 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc63020 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc63020CompatCheck);
     public Patch mc64836 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
-    public Patch mc70850 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc70850 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc70850CompatCheck);
     public Patch mc73051 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc80032 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc92916 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});

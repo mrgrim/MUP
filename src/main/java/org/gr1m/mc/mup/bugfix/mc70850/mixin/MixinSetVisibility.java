@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(SetVisibility.class)
-public class MixinSetVisibility implements ISetVisibility
+public abstract class MixinSetVisibility implements ISetVisibility
 {
     // I can't believe this class is using a flipping BitSet object for such a simple task. I ain't havin' it.
     
