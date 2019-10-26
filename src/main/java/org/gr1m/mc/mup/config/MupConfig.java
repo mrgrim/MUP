@@ -132,6 +132,13 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Mobs suffocate when going through nether portals."});
 
+    public final PatchDef mc83039 = new PatchDef("mc83039", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("MC-83039")
+        .setCredits("MrGrim")
+        .setCategory("bug fixes")
+        .setToggleable(false)
+        .setComment(new String[] {"End City chests generate destroyed, items on the ground"});
+
     public final PatchDef mc92916 = new PatchDef("mc92916", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
         .setDisplayName("MC-92916")
         .setCredits("Xcom, MrGrim")
