@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 public class MupCoreConfig {
 
-    private Configuration config;
+	private Configuration config;
     
     public class Patch {
         public boolean enabled;
@@ -55,6 +55,7 @@ public class MupCoreConfig {
     public Patch mc73051 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc80032 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc83039 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc88959 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, false});
     public Patch mc92916 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc98153 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc108469 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});

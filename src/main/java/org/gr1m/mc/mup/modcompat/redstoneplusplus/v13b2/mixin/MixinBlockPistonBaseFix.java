@@ -125,6 +125,10 @@ public abstract class MixinBlockPistonBaseFix extends BlockPistonBase
                 }
             }
 
+            if (Mup.config.mc88959.enabled)
+            {
+                worldIn.setBlockState(pos, state.withProperty(EXTENDED, false), 2);
+            }
             worldIn.addBlockEvent(pos, this, 1, enumfacing.getIndex() | suppress_move);
         }
     }

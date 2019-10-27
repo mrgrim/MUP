@@ -174,10 +174,10 @@ public class MupCoreCompat
         {
             List<String> supportedVersions = Arrays.asList("1.2d", "1.3 BETA-2");
 
-            if (!MupCore.config.mc54026.loaded)
+            if (!MupCore.config.mc54026.loaded && !MupCore.config.mc88959.loaded)
             {
                 patchIn.loaded = false;
-                patchIn.reason = "MC-54026 bug fix is not loaded.";
+                patchIn.reason = "Bug fixes for neither MC-88959 nor MC-54026 are loaded.";
 
                 return null;
             }
