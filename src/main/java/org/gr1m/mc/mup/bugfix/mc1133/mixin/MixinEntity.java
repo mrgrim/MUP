@@ -3,12 +3,14 @@ package org.gr1m.mc.mup.bugfix.mc1133.mixin;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc1133.IEntity;
 import org.gr1m.mc.mup.bugfix.mc1133.IWorld;
+import org.gr1m.mc.mup.bugfix.mc1133.config.MC1133CustomConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,7 +34,9 @@ public abstract class MixinEntity implements IEntity
                              to = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;updateFallState(DZLnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;)V", ordinal = 0)))
     private BlockPos findTrueFloor(int x, int y, int z)
     {
-        if (Mup.config.mc1133.enabled)
+        if (Mup.config.mc1133.enabled &&
+            (!((MC1133CustomConfig)(Mup.config.mc1133.customConfig)).onlyPlayers ||
+             (((MC1133CustomConfig)(Mup.config.mc1133.customConfig)).onlyPlayers && (Object)this instanceof EntityPlayer)))
         {
             return this.findFloorEffectBlockPos(x, y, z);
         }
@@ -47,7 +51,9 @@ public abstract class MixinEntity implements IEntity
                              to = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;updateFallState(DZLnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;)V", ordinal = 0)))
     private Material cancelEntityAirCheck(IBlockState state)
     {
-        if (Mup.config.mc1133.enabled)
+        if (Mup.config.mc1133.enabled &&
+            (!((MC1133CustomConfig)(Mup.config.mc1133.customConfig)).onlyPlayers ||
+            (((MC1133CustomConfig)(Mup.config.mc1133.customConfig)).onlyPlayers && (Object)this instanceof EntityPlayer)))
         {
             return Material.ROCK;
         }

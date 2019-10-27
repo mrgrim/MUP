@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc111978.network.MC111978PacketHandler;
+import org.gr1m.mc.mup.bugfix.mc1133.config.MC1133CustomConfig;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
 import org.gr1m.mc.mup.tweaks.ete.config.EteCustomConfig;
@@ -51,7 +52,7 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Item drops sometimes appear at the wrong location"});
 
-    public final PatchDef mc1133 = new PatchDef("mc1133", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.ENFORCE, PatchDef.ClientSyncHandlers.DISCONNECT)
+    public final PatchDef mc1133 = new PatchDef("mc1133", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.ENFORCE, PatchDef.ClientSyncHandlers.DISCONNECT, new MC1133CustomConfig())
         .setDisplayName("MC-1133")
         .setCredits("MrGrim")
         .setSideEffects("This could substantially increase CPU usage in worlds with large numbers of entities.")
@@ -139,14 +140,14 @@ public class MupConfig
         .setToggleable(false)
         .setComment(new String[] {"End City chests generate destroyed, items on the ground"});
 
-    public final PatchDef mc88959 = new PatchDef("mc88959", PatchDef.Side.SERVER)
+    public final PatchDef mc88959 = new PatchDef("mc88959", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("MC-88959")
         .setCredits("nessie")
+        .setDefaults(new boolean[] { true, false })
         .setCategory("bug fixes")
-        .setComment(new String[] {"Piston no longer retracts an extended piston when de-powered at the same time (instant piston double retraction)"});
+        .setComment(new String[] {TextFormatting.RED + "[Experimental]" + TextFormatting.YELLOW + " Piston no longer retracts an extended piston when de-powered at the same time (instant piston double retraction)"});
 
-
-    public final PatchDef mc92916 = new PatchDef("mc92916", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+    public final PatchDef mc92916 = new PatchDef("mc92916", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("MC-92916")
         .setCredits("Xcom, MrGrim")
         .setCategory("bug fixes")
@@ -328,7 +329,6 @@ public class MupConfig
     public final PatchDef redstoneplusplus = new PatchDef("redstoneplusplus", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("Redstone++ Compatibility Fixes")
         .setCredits("MrGrim, nessie")
-        .setSideEffects("Potentially breaks any and all piston contraptions that rely on extremely specific update order and block event delay (+among other things).")
         .setCategory("modpatches")
         .setToggleable(false)
         .setDefaults(new boolean[] { true, true })
