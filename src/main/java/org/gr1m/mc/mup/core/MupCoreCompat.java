@@ -19,6 +19,7 @@ public class MupCoreCompat
     public static boolean OptiFineLoaded = false;
     public static boolean TweakerooLoaded = false;
     public static boolean QuarkLoaded = false;
+    public static boolean SurgeLoaded = false;
     
     public static HashMap<String, String> coreModChecks = new HashMap<String, String>() {{
        put("JEIDsLoaded", "org.dimdev.jeid.JEIDLoadingPlugin");
@@ -27,6 +28,7 @@ public class MupCoreCompat
        put("OptiFineLoaded", "optifine.OptiFineForgeTweaker");
        put("TweakerooLoaded", "fi.dy.masa.tweakeroo.core.TweakerooCore");
        put("QuarkLoaded", "vazkii.quark.base.asm.LoadingPlugin");
+       put("SurgeLoaded", "net.darkhax.surge.core.SurgeLoadingPlugin");
     }};
     
     public static Map<String, String> modList = new HashMap<>();
@@ -75,6 +77,47 @@ public class MupCoreCompat
         return false;
     }
 
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc2025CompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.SurgeLoaded)
+            {
+                MupCore.log.warn("Disabling conflicting Surge functionality for MC-2025.");
+                
+                // Reflection to avoid compile time dependency
+                try
+                {
+                    Class<?> surgeConfigClass = Class.forName("net.darkhax.surge.core.SurgeConfiguration");
+                    
+                    Field surgeFixWallGlitchField = surgeConfigClass.getDeclaredField("fixWallGlitch");
+                    Field surgeConfigField = surgeConfigClass.getDeclaredField("config");
+                    
+                    if (surgeConfigField.get(null) == null)
+                    {
+                        surgeConfigClass.getDeclaredMethod("init", File.class).invoke(null, new File("config/surge.cfg"));
+                    }
+                    
+                    if ((boolean)(surgeFixWallGlitchField.get(null)))
+                    {
+                        surgeFixWallGlitchField.set(null, false);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MupCore.log.warn("Failed to disable Surge fix. Disabling MC-2025 patch instead.");
+                    
+                    patchIn.reason = "Incompatible with similar Surge feature and unable to disable Surge configuration.";
+                    return null;
+                }
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.mc2025.json";
+        }
+
+        return null;
+    };
+    
     public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc63020CompatCheck = (patchIn, stage) -> {
         if (stage == LoadingStage.CORE)
         {
