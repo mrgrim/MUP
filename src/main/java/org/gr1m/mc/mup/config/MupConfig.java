@@ -139,6 +139,13 @@ public class MupConfig
         .setToggleable(false)
         .setComment(new String[] {"End City chests generate destroyed, items on the ground"});
 
+    public final PatchDef mc88959 = new PatchDef("mc88959", PatchDef.Side.SERVER)
+        .setDisplayName("MC-88959")
+        .setCredits("nessie")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Piston no longer retracts an extended piston when de-powered at the same time (instant piston double retraction)"});
+
+
     public final PatchDef mc92916 = new PatchDef("mc92916", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
         .setDisplayName("MC-92916")
         .setCredits("Xcom, MrGrim")
@@ -319,12 +326,13 @@ public class MupConfig
                                   "This tweak is very nasty and should only be loaded for debugging purposes. It adds 4 bytes to every packet sent."});
 
     public final PatchDef redstoneplusplus = new PatchDef("redstoneplusplus", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
-        .setDisplayName("Redstone++ and MC-54026")
-        .setCredits("MrGrim")
+        .setDisplayName("Redstone++ Compatibility Fixes")
+        .setCredits("MrGrim, nessie")
+        .setSideEffects("Potentially breaks any and all piston contraptions that rely on extremely specific update order and block event delay (+among other things).")
         .setCategory("modpatches")
         .setToggleable(false)
         .setDefaults(new boolean[] { true, true })
-        .setComment(new String[] {"Extends MC-54026 support to Redstone++ pistons."});
+        .setComment(new String[] {"Extends MC-54026 and MC-88959 support to Redstone++ pistons."});
 
     public final PatchDef vanillafoamfix = new PatchDef("vanillafoamfix", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("VanillaFix and FoamFix Compatibility")

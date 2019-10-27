@@ -70,11 +70,7 @@ minecraft {
     serverJvmArgs.addAll(args)
 }
 
-sourceSets {
-    main {
-        refMap = "mixins.mup.refmap.json"
-    }
-}
+sourceSets.main.refMap = "mixins.mup.refmap.json"
 
 repositories {
     maven { url = "http://repo.spongepowered.org/maven" }
