@@ -66,6 +66,7 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 
 * MC-134989 will not load when FomFix is installed. It fixes the same bug.
 * MC-111444 will not load when Tweakeroo Forge is installed. It fixes the same bug.
+* MC-2025 will disable a similar fix in the mod "Surge" if it is found.
 
 ### Mod Patches
 
