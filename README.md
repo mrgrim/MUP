@@ -45,6 +45,7 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
   is generated at
 * [MC-80032](https://bugs.mojang.com/browse/MC-80032) - Horse suffocate when going through nether portals
 * [MC-83039](https://bugs.mojang.com/browse/MC-83039) - End City chests generate destroyed, items on the ground
+* [MC-88959](https://bugs.mojang.com/browse/MC-88959) - Piston no longer retracts an extended piston when de-powered at the same time
 * [MC-92916](https://bugs.mojang.com/browse/MC-92916) - Player is removed from the EntityTracker when teleporting to
   unloaded chunks or changing dimensions, resulting in client side desync
 * [MC-98153](https://bugs.mojang.com/browse/MC-98153) - Portals generate far-away chunks & set player on fire
