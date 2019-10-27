@@ -58,8 +58,21 @@ public abstract class MixinEntity implements ICommandSender {
         
         if (Mup.config.mc2025.enabled && compound.hasKey("AABB", 9))
         {
-            NBTTagList aabb = compound.getTagList("AABB", 6);
-            this.setEntityBoundingBox(new AxisAlignedBB(aabb.getDoubleAt(0), aabb.getDoubleAt(1), aabb.getDoubleAt(2), aabb.getDoubleAt(3), aabb.getDoubleAt(4), aabb.getDoubleAt(5)));
+            NBTTagList aabb_tag = compound.getTagList("AABB", 6);
+            
+            AxisAlignedBB aabb = new AxisAlignedBB(aabb_tag.getDoubleAt(0), aabb_tag.getDoubleAt(1), aabb_tag.getDoubleAt(2), aabb_tag.getDoubleAt(3), aabb_tag.getDoubleAt(4), aabb_tag.getDoubleAt(5));
+            
+            double deltaX = ((aabb.minX + aabb.maxX) / 2.0D) - this.posX;
+            double deltaY = aabb.minY - this.posY;
+            double deltaZ = ((aabb.minZ + aabb.maxZ) / 2.0D) - this.posZ;
+
+            // If the position and AABB center point are > 0.1 blocks apart then do not restore the AABB. In vanilla
+            // this should never happen, but mods might not be aware that the AABB is stored and that the entity
+            // position will be reset to it. A good example of this is the ExtraUtils2 golden lasso.
+            if (((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ)) < 0.01D)
+            {
+                this.setEntityBoundingBox(aabb);
+            }
         }
         
         return false;

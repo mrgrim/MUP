@@ -30,7 +30,10 @@ public abstract class MixinEntityTrackerEntry {
     @Final
     private Entity trackedEntity;
 
-    @Shadow @Final public Set<EntityPlayerMP> trackingPlayers;
+    @Shadow
+    @Final
+    public Set<EntityPlayerMP> trackingPlayers;
+    
     private double posX;
     private double posY;
     private double posZ;
