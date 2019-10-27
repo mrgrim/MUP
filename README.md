@@ -38,11 +38,13 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
 * [MC-14826](https://bugs.mojang.com/browse/MC-14826) - Leads in unloaded chunks break, become invisible or connect to
   an invisible target far away
 * [MC-54026](https://bugs.mojang.com/browse/MC-54026) - Blocks attached to slime blocks can create ghost blocks
+* [MC-63020](https://bugs.mojang.com/browse/MC-63020) - Chunks are not rendered in first person in some cases
 * [MC-64836](https://bugs.mojang.com/browse/MC-64836) - Mobs "control" the minecart they are riding
 * [MC-70850](https://bugs.mojang.com/browse/MC-70850) - False negatives during occlusion culling
 * [MC-73051](https://bugs.mojang.com/browse/MC-73051) - Witch Hut structure data do not account for height the witch hut
   is generated at
 * [MC-80032](https://bugs.mojang.com/browse/MC-80032) - Horse suffocate when going through nether portals
+* [MC-83039](https://bugs.mojang.com/browse/MC-83039) - End City chests generate destroyed, items on the ground
 * [MC-92916](https://bugs.mojang.com/browse/MC-92916) - Player is removed from the EntityTracker when teleporting to
   unloaded chunks or changing dimensions, resulting in client side desync
 * [MC-98153](https://bugs.mojang.com/browse/MC-98153) - Portals generate far-away chunks & set player on fire
