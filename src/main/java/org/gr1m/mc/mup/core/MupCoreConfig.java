@@ -77,6 +77,7 @@ public class MupCoreConfig {
     public Patch ete = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch vde = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch netseqcheck = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
+    public Patch rbp = new MupCoreConfig.Patch("tweaks", new boolean[]{true, true});
 
     public Patch redstoneplusplus = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, LoadingStage.INIT, MupCoreCompat.redstonePlusPlusCompatCheck);
     public Patch vanillafoamfix = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.vanillaAndFoamFixCompatCheck);

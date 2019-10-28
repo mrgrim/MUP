@@ -17,6 +17,7 @@ import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
 import org.gr1m.mc.mup.tweaks.ete.config.EteCustomConfig;
 import org.gr1m.mc.mup.tweaks.hud.Hud;
+import org.gr1m.mc.mup.tweaks.rbp.config.RbpCustomConfig;
 import org.gr1m.mc.mup.tweaks.vde.config.VdeCustomConfig;
 
 import javax.annotation.Nullable;
@@ -326,6 +327,12 @@ public class MupConfig
                                   "If you suspect packet drops above the TCP layer this should at least detect them.",
                                   "This tweak is very nasty and should only be loaded for debugging purposes. It adds 4 bytes to every packet sent."});
 
+    public final PatchDef rbp = new PatchDef("rbp", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE, PatchDef.ClientSyncHandlers.IGNORE, new RbpCustomConfig())
+        .setDisplayName("Relaxed Block Placement")
+        .setCredits("gnembon (CarpetMod)")
+        .setCategory("tweaks")
+        .setComment(new String[] {"Allows lifting some block placement restrictions."});
+    
     public final PatchDef redstoneplusplus = new PatchDef("redstoneplusplus", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("Redstone++ Compatibility Fixes")
         .setCredits("MrGrim, nessie")
