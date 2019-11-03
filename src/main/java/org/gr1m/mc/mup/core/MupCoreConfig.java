@@ -45,7 +45,7 @@ public class MupCoreConfig {
     public Patch mc1133 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc2025 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc2025CompatCheck);
     public Patch mc2399 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
-    public Patch mc5694 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
+    public Patch mc5694 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc5694CompatCheck);
     public Patch mc9568 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc14826 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
     public Patch mc54026 = new MupCoreConfig.Patch("bug fixes", new boolean[]{true, true});
@@ -78,10 +78,11 @@ public class MupCoreConfig {
     public Patch vde = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch netseqcheck = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch rbp = new MupCoreConfig.Patch("tweaks", new boolean[]{true, true});
+    public Patch forgenetrace = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
 
     public Patch redstoneplusplus = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, LoadingStage.INIT, MupCoreCompat.redstonePlusPlusCompatCheck);
     public Patch vanillafoamfix = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.vanillaAndFoamFixCompatCheck);
-    public Patch rcnewlight = new MupCoreConfig.Patch("rcnewlight", new boolean[]{true, true}, LoadingStage.INIT, MupCoreCompat.RCComplexNewlightCompatCheck);
+    public Patch rcnewlight = new MupCoreConfig.Patch("modpatches", new boolean[]{true, true}, LoadingStage.INIT, MupCoreCompat.RCComplexNewlightCompatCheck);
 
     public void init(File file)
     {

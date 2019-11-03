@@ -327,12 +327,23 @@ public class MupConfig
                                   "If you suspect packet drops above the TCP layer this should at least detect them.",
                                   "This tweak is very nasty and should only be loaded for debugging purposes. It adds 4 bytes to every packet sent."});
 
-    public final PatchDef rbp = new PatchDef("rbp", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE, PatchDef.ClientSyncHandlers.IGNORE, new RbpCustomConfig())
+    public final PatchDef rbp = new PatchDef("rbp", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.ENFORCE, PatchDef.ClientSyncHandlers.IGNORE, new RbpCustomConfig())
         .setDisplayName("Relaxed Block Placement")
         .setCredits("gnembon (CarpetMod)")
         .setCategory("tweaks")
         .setComment(new String[] {"Allows lifting some block placement restrictions."});
-    
+
+    public final PatchDef forgenetrace = new PatchDef("forgenetrace", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("Forge Networking Race Condition")
+        .setCredits("MrGrim")
+        .setCategory("tweaks")
+        .setDefaults(new boolean[] { false, false })
+        .setClientToggleable(true)
+        .setSideEffects("This may have an impact on network latency depending on the types of mods installed.")
+        .setComment(new String[] {"Forge for 1.12.2 has a race condition in its networking code for custom packets that can cause the sender of a client packet",
+                                  "to be incorrectly set very rarely. This can cause many types of rare and hard to diagnose glitches with mods that use a lot",
+                                  "of custom network packets."});
+
     public final PatchDef redstoneplusplus = new PatchDef("redstoneplusplus", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("Redstone++ Compatibility Fixes")
         .setCredits("MrGrim, nessie")
