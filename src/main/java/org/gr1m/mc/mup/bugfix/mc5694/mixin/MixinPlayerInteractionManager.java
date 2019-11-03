@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -41,5 +42,17 @@ public class MixinPlayerInteractionManager implements IPlayerInteractionManager 
         {
             this.player.connection.sendPacket(new SPacketBlockChange(this.world, this.destroyPos));
         }
+    }
+    
+    @Redirect(method = "onBlockClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/management/PlayerInteractionManager;tryHarvestBlock(Lnet/minecraft/util/math/BlockPos;)Z", ordinal = 1))
+    private boolean tryHarvestBlockHandleFailure(PlayerInteractionManager that, BlockPos pos)
+    {
+        if (!that.tryHarvestBlock(pos) && Mup.config.mc5694.enabled)
+        {
+            that.player.connection.sendPacket(new SPacketBlockChange(that.world, pos));
+            return false;
+        }
+        
+        return true;
     }
 }

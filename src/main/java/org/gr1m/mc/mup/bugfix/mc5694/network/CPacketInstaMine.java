@@ -1,6 +1,7 @@
 package org.gr1m.mc.mup.bugfix.mc5694.network;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.util.ReferenceCountUtil;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -40,13 +41,15 @@ public class CPacketInstaMine implements IMessage
 
     public BlockPos getPos() { return this.pos; }
     public EnumFacing getFacing() { return this.facing; }
-
+    
     public static class Handler implements IMessageHandler<CPacketInstaMine, IMessage>
     {
         @Override
         public IMessage onMessage(final CPacketInstaMine message, final MessageContext ctx)
         {
             NetHandlerPlayServer handler = ctx.getServerHandler();
+
+            ReferenceCountUtil.retain(message);
 
             handler.player.getServerWorld().addScheduledTask(() ->
                     ((INetHandlerPlayServer)handler).handleInstaMine(message)

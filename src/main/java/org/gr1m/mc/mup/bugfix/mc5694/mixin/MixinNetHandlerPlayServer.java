@@ -1,5 +1,6 @@
 package org.gr1m.mc.mup.bugfix.mc5694.mixin;
 
+import io.netty.util.ReferenceCountUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
@@ -22,11 +23,11 @@ public class MixinNetHandlerPlayServer implements INetHandlerPlayServer {
     @Shadow
     @Final
     private MinecraftServer server;
-    
+
     public void handleInstaMine(CPacketInstaMine packetIn) {
         WorldServer worldserver = this.server.getWorld(this.player.dimension);
         BlockPos blockpos = packetIn.getPos();
-
+        
         double d0 = this.player.posX - ((double) blockpos.getX() + 0.5D);
         double d1 = this.player.posY - ((double) blockpos.getY() + 0.5D) + 1.5D;
         double d2 = this.player.posZ - ((double) blockpos.getZ() + 0.5D);
@@ -48,5 +49,14 @@ public class MixinNetHandlerPlayServer implements INetHandlerPlayServer {
                 this.player.connection.sendPacket(new SPacketBlockChange(worldserver, blockpos));
             }
         }
+        else
+        {
+            // If the Forge Networking Race Condition tweak isn't enabled there's a good chance we're sending this info
+            // to the wrong player and that we calculated reach distance using the wrong player.. not much to do about
+            // it, though. Send in the rare case it's legit.
+            this.player.connection.sendPacket(new SPacketBlockChange(worldserver, blockpos));
+        }
+
+        ReferenceCountUtil.release(packetIn);
     }
 }
