@@ -107,7 +107,7 @@ using this optimization. It also eliminates the directionality and locationality
 propagation predictable. It always flows outward from the source.
 
 This optimization was tested heavily by many members of the technical Minecraft player community. While it is extremely
-compatible, it is does not perfectly replicate vanilla behavior. So far, only two known contraptions have broken.
+compatible, it does not perfectly replicate vanilla behavior. So far, only two known contraptions have broken.
 In cases where it is not compatible, its more predictable nature will likely result in a simpler alternative.
 
 This optimization fixes [MC-81098](https://bugs.mojang.com/browse/MC-81098) and
