@@ -118,23 +118,6 @@ public class MupCoreCompat
         return null;
     };
     
-    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc5694CompatCheck = (patchIn, stage) ->
-    {
-        if (stage == LoadingStage.CORE)
-        {
-            if (MupCore.config.forgenetrace.enabled)
-            {
-                patchIn.reason = null;
-                return "mixins.mup.mc5694.json";
-            }
-            
-            patchIn.reason = "MC-5694 fix requires the Forge Networking Race Condition tweak be enabled.";
-            return null;
-        }
-        
-        return null;
-    };
-    
     public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc63020CompatCheck = (patchIn, stage) -> {
         if (stage == LoadingStage.CORE)
         {

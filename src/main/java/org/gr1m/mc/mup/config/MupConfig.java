@@ -79,6 +79,7 @@ public class MupConfig
         .setDisplayName("MC-5694")
         .setCredits("Pokechu22, theosib, gnembon, Xcom, MrGrim")
         .setCategory("bug fixes")
+        .setSideEffects("This fix will not be reliable on MP servers if the Forge Networking Race Condition tweak is not enabled.")
         .setComment(new String[] {"High efficiency tools / fast mining destroys some blocks client-side only"});
 
     public final PatchDef mc9568 = new PatchDef("mc9568", PatchDef.Side.SERVER)
@@ -339,7 +340,7 @@ public class MupConfig
         .setCategory("tweaks")
         .setDefaults(new boolean[] { false, false })
         .setClientToggleable(true)
-        .setSideEffects("This may have an impact on network latency depending on the types of mods installed.")
+        .setSideEffects("This may have an impact on network latency depending on the types of mods installed. Test thoroughly before enabling on a server.")
         .setComment(new String[] {"Forge for 1.12.2 has a race condition in its networking code for custom packets that can cause the sender of a client packet",
                                   "to be incorrectly set very rarely. This can cause many types of rare and hard to diagnose glitches with mods that use a lot",
                                   "of custom network packets."});
