@@ -1,5 +1,6 @@
 package org.gr1m.mc.mup.bugfix.mc111978.mixin;
 
+import io.netty.util.ReferenceCountUtil;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.play.server.SPacketEntityMetadata;
 import net.minecraft.network.play.server.SPacketSpawnObject;
@@ -22,5 +23,7 @@ public abstract class MixinNetHandlerPlayClient implements INetHandlerPlayClient
     {
         this.handleSpawnObject(packetIn.getObjectPacket());
         this.handleEntityMetadata(packetIn.getMetadataPacket());
+
+        ReferenceCountUtil.release(packetIn);
     }
 }

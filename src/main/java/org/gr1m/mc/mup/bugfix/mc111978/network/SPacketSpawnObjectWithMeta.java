@@ -1,6 +1,7 @@
 package org.gr1m.mc.mup.bugfix.mc111978.network;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.util.ReferenceCountUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SPacketEntityMetadata;
@@ -73,8 +74,8 @@ public class SPacketSpawnObjectWithMeta implements IMessage
         buf.writeInt(objectPacket.readableBytes());
         buf.writeInt(metadataPacket.readableBytes());
         
-        buf.writeBytes(objectPacket.readBytes(objectPacket.readableBytes()));
-        buf.writeBytes(metadataPacket.readBytes(metadataPacket.readableBytes()));
+        buf.writeBytes(objectPacket);
+        buf.writeBytes(metadataPacket);
         
         objectPacket.release();
         metadataPacket.release();
@@ -90,6 +91,8 @@ public class SPacketSpawnObjectWithMeta implements IMessage
         {
             INetHandlerPlayClient handler = (INetHandlerPlayClient)ctx.getClientHandler();
 
+            ReferenceCountUtil.retain(message);
+            
             Minecraft.getMinecraft().addScheduledTask(() ->
                                                           handler.handleSpawnObjectWithMeta(message)
                                                      );
