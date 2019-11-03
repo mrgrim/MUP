@@ -1,4 +1,4 @@
-package org.gr1m.mc.mup.bugfix.mc4.network;
+package org.gr1m.mc.mup.shared;
 
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 

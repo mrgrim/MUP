@@ -1,5 +1,6 @@
 package org.gr1m.mc.mup.bugfix.mc4.mixin;
 
+import io.netty.util.ReferenceCountUtil;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
@@ -17,7 +18,7 @@ public abstract class MixinNetHandlerPlayClient implements INetHandlerPlayClient
     
     public void handleNewEntityRelMove(SPacketNewEntityRelMove packetIn)
     {
-        Entity entity = packetIn.getEntity(this.world);
+        Entity entity = this.world == null ? null : packetIn.getEntity(this.world);
 
         if (entity != null)
         {
@@ -32,11 +33,13 @@ public abstract class MixinNetHandlerPlayClient implements INetHandlerPlayClient
                 entity.onGround = packetIn.getOnGround();
             }
         }
+
+        ReferenceCountUtil.release(packetIn);
     }
 
     public void handleNewEntityLookMove(SPacketNewEntityLookMove packetIn)
     {
-        Entity entity = packetIn.getEntity(this.world);
+        Entity entity = this.world == null ? null : packetIn.getEntity(this.world);
 
         if (entity != null)
         {
@@ -54,5 +57,7 @@ public abstract class MixinNetHandlerPlayClient implements INetHandlerPlayClient
                 entity.onGround = packetIn.getOnGround();
             }
         }
+
+        ReferenceCountUtil.release(packetIn);
     }
 }

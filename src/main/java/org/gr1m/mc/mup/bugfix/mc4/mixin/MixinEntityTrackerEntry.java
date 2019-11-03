@@ -8,7 +8,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import org.gr1m.mc.mup.Mup;
-import org.gr1m.mc.mup.bugfix.mc4.network.ICloneableMessage;
+import org.gr1m.mc.mup.shared.ICloneableMessage;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc4.network.SPacketNewEntityLookMove;
 import org.gr1m.mc.mup.bugfix.mc4.network.SPacketNewEntityRelMove;

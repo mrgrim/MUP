@@ -1,6 +1,7 @@
 package org.gr1m.mc.mup.bugfix.mc4.network;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.util.ReferenceCountUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -8,6 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.gr1m.mc.mup.bugfix.mc4.INetHandlerPlayClient;
+import org.gr1m.mc.mup.shared.ICloneableMessage;
 
 public class SPacketNewEntityRelMove implements ICloneableMessage
 {
@@ -67,7 +69,9 @@ public class SPacketNewEntityRelMove implements ICloneableMessage
         public IMessage onMessage(final SPacketNewEntityRelMove message, final MessageContext ctx)
         {
             INetHandlerPlayClient handler = (INetHandlerPlayClient)ctx.getClientHandler();
-            
+
+            ReferenceCountUtil.retain(message);
+
             Minecraft.getMinecraft().addScheduledTask(() ->
                     handler.handleNewEntityRelMove(message)
             );
