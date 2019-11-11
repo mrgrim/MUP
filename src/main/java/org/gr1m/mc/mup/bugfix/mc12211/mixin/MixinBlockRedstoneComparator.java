@@ -65,20 +65,13 @@ public abstract class MixinBlockRedstoneComparator extends BlockRedstoneDiode
             {
                 int sideStrength = this.getPowerOnSides(worldIn, posIn, stateIn);
 
-                if (sideStrength == 0)
+                if (inputStrength > sideStrength)
                 {
                     cir.setReturnValue(true);
                 }
-                else
+                else if (inputStrength == sideStrength)
                 {
-                    if (inputStrength > sideStrength)
-                    {
-                        cir.setReturnValue(true);
-                    }
-                    else if (inputStrength == sideStrength)
-                    {
-                        cir.setReturnValue(stateIn.getValue(MODE) == BlockRedstoneComparator.Mode.COMPARE);
-                    }
+                    cir.setReturnValue(stateIn.getValue(MODE) == BlockRedstoneComparator.Mode.COMPARE);
                 }
             }
         }
