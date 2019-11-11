@@ -27,10 +27,14 @@ public abstract class MixinWorldServer extends World implements IWorldServer
         entityIn.prevRotationYaw = entityIn.rotationYaw;
         entityIn.prevRotationPitch = entityIn.rotationPitch;
 
+        // This is already done with the call to World.removeEntityDangerously in PlayerList.transferPlayerToDimension
+        
+        /*
         if (entityIn.addedToChunk && this.isChunkLoaded(entityIn.chunkCoordX, entityIn.chunkCoordZ, true))
         {
             this.getChunk(entityIn.chunkCoordX, entityIn.chunkCoordZ).removeEntityAtIndex(entityIn, entityIn.chunkCoordY);
             entityIn.addedToChunk = false;
         }
+        */
     }
 }
