@@ -38,3 +38,6 @@ DeadlyMC (https://github.com/DeadlyMC)
 
 Dimensional Development (https://github.com/DimensionalDevelopment/)
  - MixinLoader for mod compatibility
+ 
+RedCMD
+ - MC-12211

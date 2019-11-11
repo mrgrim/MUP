@@ -88,6 +88,12 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Mobs suffocate / go through blocks when growing up near a solid block"});
 
+    public final PatchDef mc12211 = new PatchDef("mc12211", PatchDef.Side.SERVER)
+        .setDisplayName("MC-12211")
+        .setCredits("RedCMD")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Comparator in subtraction mode does not update visually under certain conditions (Also fixes MC-63669 and MC-94838)"});
+
     public final PatchDef mc14826 = new PatchDef("mc14826", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
         .setDisplayName("MC-14826")
         .setCredits("Xcom, Kevin Gagnon")
