@@ -126,6 +126,7 @@ dependencies {
     
     //compile '2476:145:Redstone+++ver1.2d-deobf@jar'
     //compile '2576:949:Redstone+++ver1.3+BETA-2-deobf@jar'
+    //compile '2757:379:astralsorcery-1.12.2-1.10.20-deobf@jar'
 }
 
 processResources {
