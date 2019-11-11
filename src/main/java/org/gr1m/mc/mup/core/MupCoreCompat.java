@@ -1,5 +1,6 @@
 package org.gr1m.mc.mup.core;
 
+import akka.io.SelectionHandlerSettings;
 import org.spongepowered.asm.mixin.Mixins;
 import org.spongepowered.asm.mixin.transformer.Config;
 
@@ -319,6 +320,38 @@ public class MupCoreCompat
             }
             
             patchIn.reason = "Recurrent Complex not found.";
+        }
+
+        return null;
+    };
+
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> redstonePlusPlusAstralSorceryCompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.INIT)
+        {
+            List<String> supportedRedstonePlusPlusVersions = Arrays.asList("1.2d", "1.3 BETA-2");
+
+            if (modList.containsKey("redstoneplusplus") && supportedRedstonePlusPlusVersions.contains(MupCoreCompat.modList.get("redstoneplusplus")))                
+            {
+                if (modList.containsKey("astralsorcery"))
+                {
+                    patchIn.reason = null;
+                    MupCore.log.warn("Loading RedStone++ and Astral Sorcery compatibility patch.");
+                    
+                    return "mixins.mup.modcompat.rsppas.json";
+                }
+                else
+                {
+                    patchIn.loaded = false;
+                    patchIn.reason = "Astral Sorcery not found.";
+                    
+                    return null;
+                }
+            }
+
+            patchIn.loaded = false;
+            patchIn.reason = "No compatible version of Redstone++ found. Supported versions: " + String.join(", ", supportedRedstonePlusPlusVersions);
+
+            return null;
         }
 
         return null;

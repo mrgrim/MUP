@@ -350,7 +350,6 @@ public class MupConfig
         .setCredits("MrGrim, nessie")
         .setCategory("modpatches")
         .setToggleable(false)
-        .setDefaults(new boolean[] { true, true })
         .setComment(new String[] {"Extends MC-54026 and MC-88959 support to Redstone++ pistons."});
 
     public final PatchDef vanillafoamfix = new PatchDef("vanillafoamfix", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
@@ -358,17 +357,22 @@ public class MupConfig
         .setCredits("MrGrim")
         .setCategory("modpatches")
         .setToggleable(false)
-        .setDefaults(new boolean[] { true, true })
         .setComment(new String[] {"VanillaFix and FoamFix both try to fix a BlockStateContainer serialization bug. This disables VanillaFix's version if FoamFix has it enabled."});
 
     public final PatchDef rcnewlight = new PatchDef("rcnewlight", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("Recurrent Complex and Newlight")
         .setCredits("MrGrim")
         .setCategory("modpatches")
-        .setDefaults(new boolean[] { true, true })
         .setComment(new String[] {"Recurrent Complex has an optimization feature called \"HeightMapFreezer\" designed to stop the vanilla light engine while",
                                   "structures are being generated. This confuses the newlight optimization and is unnecessary due to newlight batching light",
                                   "updates on its own."});
+
+    public final PatchDef rsppas = new PatchDef("rsppas", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
+        .setDisplayName("Redstone++ and Astral Sorcery")
+        .setCredits("MrGrim")
+        .setCategory("modpatches")
+        .setToggleable(false)
+        .setComment(new String[] {"Fixes issues with the Redstone++ crafting table not registering with Astral Sorcery collector crystals."});
 
     public void init(File file)
     {
