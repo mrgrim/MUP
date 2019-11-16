@@ -17,6 +17,7 @@ import org.gr1m.mc.mup.config.gui.IMupConfigElement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class VdeCustomConfig implements ICustomizablePatch
 {
@@ -45,23 +46,27 @@ public class VdeCustomConfig implements ICustomizablePatch
         prop.setHasSlidingControl(true);
     }
 
-    public void sanitizeConfig(ConfigCategory categoryIn)
+    public boolean sanitizeConfig(ConfigCategory categoryIn)
     {
+        AtomicBoolean configChanged = new AtomicBoolean(false);
+        
         for (ConfigCategory category : categoryIn.getChildren())
         {
             categoryIn.removeChild(category);
+            configChanged.set(true);
         }
         
-        categoryIn.entrySet().forEach((propSet) ->
-        {
-            Property prop = propSet.getValue();
+        categoryIn.forEach((key, prop) -> {
             List<String> supportedProperties = Arrays.asList("Dynamic Distance", "Entity View Distance", "Tile Entity View Distance");
-            
+
             if (!supportedProperties.contains(prop.getName()))
             {
                 categoryIn.remove(prop.getName());
+                configChanged.set(true);
             }
         });
+        
+        return configChanged.get();
     }
 
     @Override

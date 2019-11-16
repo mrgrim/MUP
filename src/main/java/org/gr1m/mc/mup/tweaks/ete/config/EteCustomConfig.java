@@ -17,6 +17,7 @@ import org.gr1m.mc.mup.config.gui.IMupConfigElement;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EteCustomConfig implements ICustomizablePatch
 {
@@ -108,10 +109,16 @@ public class EteCustomConfig implements ICustomizablePatch
         }
     }
     
-    public void sanitizeConfig(ConfigCategory categoryIn)
+    public boolean sanitizeConfig(ConfigCategory categoryIn)
     {
+        AtomicBoolean configChanged = new AtomicBoolean(false);
+        
         // No properties at the top level
-        categoryIn.values().clear();
+        if (categoryIn.values().size() > 0)
+        {
+            categoryIn.values().clear();
+            configChanged.set(true);
+        }
         
         for (ConfigCategory category : categoryIn.getChildren())
         {
@@ -120,31 +127,35 @@ public class EteCustomConfig implements ICustomizablePatch
                 for (ConfigCategory invalidCategory : category.getChildren())
                 {
                     category.removeChild(invalidCategory);
+                    configChanged.set(true);
                 }
 
-                category.entrySet().forEach((propSet) ->
-                {
-                    Property prop = propSet.getValue();
-                    
+                category.forEach((key, prop) -> {
+
                     try
                     {
                         Field field = this.getClass().getField(prop.getName());
                         if (!(field.get(this) instanceof Var))
                         {
                             category.remove(prop.getName());
+                            configChanged.set(true);
                         }
                     }
                     catch (Exception e)
                     {
                         category.remove(prop.getName());
+                        configChanged.set(true);
                     }
                 });
             }
             else
             {
                 categoryIn.removeChild(category);
+                configChanged.set(true);
             }
         }
+        
+        return configChanged.get();
     }
     
     @Override

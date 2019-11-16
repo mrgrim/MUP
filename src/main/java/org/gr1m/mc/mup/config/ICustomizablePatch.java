@@ -9,6 +9,9 @@ import org.gr1m.mc.mup.config.gui.IMupConfigElement;
 public interface ICustomizablePatch
 {
     void loadConfig(Configuration config, String parentCategory);
-    void sanitizeConfig(ConfigCategory category);
+    
+    // Return true if config was changed
+    boolean sanitizeConfig(ConfigCategory category);
+    
     GuiScreen createGuiScreen(GuiConfig owningScreen, IMupConfigElement patchProperty);
 }

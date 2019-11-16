@@ -17,6 +17,7 @@ import org.gr1m.mc.mup.config.gui.IMupConfigElement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MC1133CustomConfig implements ICustomizablePatch
 {
@@ -35,23 +36,27 @@ public class MC1133CustomConfig implements ICustomizablePatch
         onlyPlayers = prop.getBoolean();
     }
 
-    public void sanitizeConfig(ConfigCategory categoryIn)
+    public boolean sanitizeConfig(ConfigCategory categoryIn)
     {
+        AtomicBoolean configChanged = new AtomicBoolean(false);
+        
         for (ConfigCategory category : categoryIn.getChildren())
         {
             categoryIn.removeChild(category);
+            configChanged.set(true);
         }
 
-        categoryIn.entrySet().forEach((propSet) ->
-                                      {
-                                          Property prop = propSet.getValue();
-                                          List<String> supportedProperties = Arrays.asList("Only Players");
+        categoryIn.forEach((key, prop) -> {
+            List<String> supportedProperties = Arrays.asList("Only Players");
 
-                                          if (!supportedProperties.contains(prop.getName()))
-                                          {
-                                              categoryIn.remove(prop.getName());
-                                          }
-                                      });
+            if (!supportedProperties.contains(prop.getName()))
+            {
+                categoryIn.remove(prop.getName());
+                configChanged.set(true);
+            }
+        });
+        
+        return configChanged.get();
     }
 
     @Override

@@ -27,6 +27,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = Mup.MODID)
 public class MupConfig
@@ -403,7 +404,6 @@ public class MupConfig
     {
         config.load();
         this.sync();
-        config.save();
     }
 
     public void sync()
@@ -439,6 +439,8 @@ public class MupConfig
             }
         }
         
+        AtomicBoolean configChanged = new AtomicBoolean(false);
+        
         // Sanitize configuration
         for (String category : config.getCategoryNames())
         {
@@ -447,16 +449,21 @@ public class MupConfig
                 if (!parentCategories.contains(category))
                 {
                     config.removeCategory(config.getCategory(category));
+                    configChanged.set(true);
                 }
                 else
                 {
-                    config.getCategory(category).entrySet().forEach((propSet) ->
-                    {
-                        Property prop = propSet.getValue();
-                        
+                    config.getCategory(category).forEach((key, prop) -> {
+
                         if (this.get(prop.getName()) == null)
                         {
                             config.getCategory(category).remove(prop.getName());
+                            configChanged.set(true);
+                        }
+                        else if (!this.get(prop.getName()).getCategory().equals(category))
+                        {
+                            config.getCategory(category).remove(prop.getName());
+                            configChanged.set(true);
                         }
                     });
                     
@@ -466,15 +473,21 @@ public class MupConfig
                         
                         if (patch != null && patch.customConfig != null)
                         {
-                            patch.customConfig.sanitizeConfig(customCategory);
+                            configChanged.set(patch.customConfig.sanitizeConfig(customCategory) | configChanged.get());
                         }
                         else
                         {
                             config.getCategory(category).removeChild(customCategory);
+                            configChanged.set(true);
                         }
                     }
                 }
             }
+        }
+        
+        if (configChanged.get())
+        {
+            config.save();
         }
     }
 
