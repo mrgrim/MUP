@@ -232,6 +232,13 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Items do not move through blocks smoothly"});
 
+    public final PatchDef mc125157 = new PatchDef("mc125157", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("MC-125157")
+        .setCredits("nessie")
+        .setCategory("bug fixes")
+        .setClientToggleable(true)
+        .setComment(new String[] {"Spectator menu does no longer show skins (up to 1.12.2)"});
+
     // Implemented hash code caching because these objects do not appear to be singletons as Grum suggested.
     public final PatchDef mc134989 = new PatchDef("mc134989", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE)
         .setDisplayName("MC-134989")
