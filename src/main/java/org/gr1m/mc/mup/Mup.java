@@ -22,6 +22,7 @@ import java.io.File;
 @Mod(modid = Mup.MODID,
      name = Mup.NAME,
      version = Mup.VERSION,
+     dependencies = "required:forge@[14.23.5.2802,)",
      acceptedMinecraftVersions = "1.12.2",
      certificateFingerprint = Mup.FINGERPRINT,
      guiFactory = "org.gr1m.mc.mup.config.gui.MupGuiFactory")
