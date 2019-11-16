@@ -4,6 +4,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.7.4",
   "compatibilityLevel": "JAVA_8",
+  "required": true,
   "mixins": [
     "MixinBlockRedstoneWire"
   ]

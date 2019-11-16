@@ -4,6 +4,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.7.5",
   "compatibilityLevel": "JAVA_8",
+  "required": true,
   "client": [
     "MixinCompiledChunk",
     "MixinRenderGlobal",
