@@ -15,6 +15,7 @@ import org.gr1m.mc.mup.bugfix.mc111978.network.MC111978PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc1133.config.MC1133CustomConfig;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
+import org.gr1m.mc.mup.tweaks.autosave.config.AutosaveCustomConfig;
 import org.gr1m.mc.mup.tweaks.ete.config.EteCustomConfig;
 import org.gr1m.mc.mup.tweaks.hud.Hud;
 import org.gr1m.mc.mup.tweaks.rbp.config.RbpCustomConfig;
@@ -350,6 +351,15 @@ public class MupConfig
         .setComment(new String[] {"Forge for 1.12.2 has a race condition in its networking code for custom packets that can cause the sender of a client packet",
                                   "to be incorrectly set very rarely. This can cause many types of rare and hard to diagnose glitches with mods that use a lot",
                                   "of custom network packets."});
+
+    public final PatchDef autosave = new PatchDef("autosave", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE, new AutosaveCustomConfig())
+            .setDisplayName("Autosave configurator")
+            .setCredits("nessie")
+            .setCategory("tweaks")
+            .setToggleable(true)
+            .setDefaults(new boolean[] { false, false })
+            .setSideEffects("May cause performance problems or \"strange things\" if configured incorrectly.")
+            .setComment(new String[] {"Edit the interval of and maximum number of chunks unloaded during autosave."});
 
     public final PatchDef redstoneplusplus = new PatchDef("redstoneplusplus", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.IGNORE)
         .setDisplayName("Redstone++ Compatibility Fixes")
