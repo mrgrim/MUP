@@ -17,6 +17,14 @@ public abstract class MixinWorld
               at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;setPositionNonDirty()Z", ordinal = 0))
     public boolean alwaysLoadChunk(Entity entityIn)
     {
-        return !Mup.config.mc108469.enabled && entityIn.setPositionNonDirty();
+         if (Mup.config.mc108469.enabled)
+         {
+             return true;
+         }
+         else
+         {
+             // As far as I can tell the flag this function sets is used nowhere and this function always returns false
+             return entityIn.setPositionNonDirty();
+         }
     }
 }
