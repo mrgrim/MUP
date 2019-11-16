@@ -1,0 +1,14 @@
+{
+  "package": "org.gr1m.mc.mup.tweaks.serverprop.mixin",
+  "refmap": "mixins.mup.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.7.4",
+  "compatibilityLevel": "JAVA_8",
+  "injectors": {
+    "maxShiftBy": 4
+  },
+  "mixins": [
+    "MixinChunkProviderServer",
+    "MixinMinecraftServer"
+  ]
+}
