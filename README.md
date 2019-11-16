@@ -35,6 +35,9 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
   client-side only
 * [MC-9568](https://bugs.mojang.com/browse/MC-9568) - Mobs suffocate / go through blocks when growing up near a solid
   block
+* [MC-12211](https://bugs.mojang.com/browse/MC-12211) - Comparator in subtraction mode does not update visually under
+  certain conditions (Also fixes [MC-63669](https://bugs.mojang.com/browse/MC-63669) and
+  [MC-94838](https://bugs.mojang.com/browse/MC-94838))
 * [MC-14826](https://bugs.mojang.com/browse/MC-14826) - Leads in unloaded chunks break, become invisible or connect to
   an invisible target far away
 * [MC-54026](https://bugs.mojang.com/browse/MC-54026) - Blocks attached to slime blocks can create ghost blocks
@@ -84,6 +87,9 @@ for issues that have remained unresolved for large amounts of time.
   structure generation. It depends on vanilla lighting calls to clean up afterward which do not function when using the
   Newlight optimization. Since Newlight already batches updates, this patch simply disables this optimization in
   Recurrent Complex.
+* Redstone++ and Astral Sorcery fix for crafting tables not registering with collector crystals preventing crafting of
+  "Luminous Crafting Table" and "Resonant Wand". This is documented in Redstone++ issue
+  [#14](https://www.curseforge.com/minecraft/mc-mods/redstoneplusplus/issues/14).
   
 ## Optimizations
 
@@ -136,6 +142,8 @@ redstone on the issues board.
 * Forge Networking Race Condition - When enabled this applies a fix for the issue reported at
   https://github.com/MinecraftForge/MinecraftForge/issues/6295. The patch for MC-5694 requires this tweak to be reliable
   on multiplayer servers. 
+* Server Properties - Fine tuning of server properties. For now the autosave interval and max chunks unloaded per
+  autosave are adjustable. Please request any other adjustments in the issue tracker.
 
 ## What is EigenCraft?
 
