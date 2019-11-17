@@ -23,6 +23,7 @@ public class ServerPropCustomConfig implements ICustomizablePatch
 {
     public int maxChunkLimit;
     public int autosaveInterval;
+    public double pistonEntityPushLimit;
 
     @Override
     public void loadConfig(Configuration config, String parentCategory)
@@ -34,6 +35,9 @@ public class ServerPropCustomConfig implements ICustomizablePatch
 
         prop = config.get(parentCategory, "Max Chunks Unloaded Per Autosave", 100, "Maximum number of chunks unloaded per autosave.");
         maxChunkLimit = prop.getInt();
+
+        prop = config.get(parentCategory, "Piston Entity Push Limit", 0.51D, "Maximum distance an entity can be pushed by pistons per game tick. 0 for unlimited.");
+        pistonEntityPushLimit = prop.getDouble();
     }
 
     @Override
@@ -48,7 +52,7 @@ public class ServerPropCustomConfig implements ICustomizablePatch
         }
 
         categoryIn.forEach((key, prop) -> {
-            List<String> supportedProperties = Arrays.asList("Autosave Interval", "Max Chunks Unloaded Per Autosave");
+            List<String> supportedProperties = Arrays.asList("Autosave Interval", "Max Chunks Unloaded Per Autosave", "Piston Entity Push Limit");
 
             if (!supportedProperties.contains(prop.getName()))
             {
