@@ -49,12 +49,12 @@ public class MixinFMLProxyPacket
         {
             ci.cancel();
             
-            this.netHandler = inethandler;
             EmbeddedChannel internalChannel = NetworkRegistry.INSTANCE.getChannel(this.channel, this.target);
             if (internalChannel != null)
             {
                 synchronized (internalChannel)
                 {
+                    this.netHandler = inethandler;
                     internalChannel.attr(NetworkRegistry.NET_HANDLER).set(this.netHandler);
                     try
                     {
@@ -85,6 +85,10 @@ public class MixinFMLProxyPacket
                         dispatcher.rejectHandshake("A fatal error has occurred, this connection is terminated");
                     }
                 }
+            }
+            else
+            {
+                this.netHandler = inethandler;
             }
         }
     }
