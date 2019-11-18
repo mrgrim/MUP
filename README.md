@@ -62,6 +62,7 @@ Currently the mod provides fixes for the following bugs in 1.12.2:
   boundaries, caused by loading outdated chunks - includes duping and deletion of entities/mobs, items in hoppers, and
   blocks moved by pistons, among other problems
 * [MC-123320](https://bugs.mojang.com/browse/MC-123320) - Items do not move through blocks smoothly
+* [MC-125157](https://bugs.mojang.com/browse/MC-125157) - Spectator menu does no longer show skins (up to 1.12.2)
 * [MC-134989](https://bugs.mojang.com/browse/MC-134989) - AbstractMap::hashCode accounts for substantial CPU overhead
   (from profiling)
 * [MC-161869](https://bugs.mojang.com/browse/MC-161869) - Crafted item statistics do not account for non-one stack sizes
@@ -142,8 +143,9 @@ redstone on the issues board.
 * Forge Networking Race Condition - When enabled this applies a fix for the issue reported at
   https://github.com/MinecraftForge/MinecraftForge/issues/6295. The patch for MC-5694 requires this tweak to be reliable
   on multiplayer servers. 
-* Server Properties - Fine tuning of server properties. For now the autosave interval and max chunks unloaded per
-  autosave are adjustable. Please request any other adjustments in the issue tracker.
+* Server Properties - Fine tuning of server properties. For now the autosave interval, max chunks unloaded per
+  autosave, and maximum distance entities can be pushed by a piston per tick are adjustable. Please request any other
+  adjustments in the issue tracker.
 
 ## What is EigenCraft?
 
