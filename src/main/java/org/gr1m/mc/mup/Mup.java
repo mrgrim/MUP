@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.gr1m.mc.mup.bugfix.mc100830.network.MC100830PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc111978.network.MC111978PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc5694.network.MC5694PacketHandler;
@@ -51,6 +52,7 @@ public class Mup
 
         if (config.mc4.isLoaded()) MC4PacketHandler.registerMessagesAndEvents();
         if (config.mc5694.isLoaded()) MC5694PacketHandler.registerMessagesAndEvents();
+        if (config.mc100830.isLoaded()) MC100830PacketHandler.registerMessagesAndEvents();
         if (config.mc111978.isLoaded()) MC111978PacketHandler.registerMessagesAndEvents();
         if (config.hud.isLoaded()) Hud.Init();
 

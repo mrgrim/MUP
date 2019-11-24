@@ -177,6 +177,12 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"Chunk-wise entity lists often don't get updated correctly (Entities disappear)"});
 
+    public final PatchDef mc100830 = new PatchDef("mc100830", PatchDef.Side.SERVER)
+        .setDisplayName("MC-100830")
+        .setCredits("MrGrim")
+        .setCategory("bug fixes")
+        .setComment(new String[] {"Horse on stairs \"moved wrongly!\" error"});
+
     public final PatchDef mc109832 = new PatchDef("mc109832", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.ENFORCE)
         .setDisplayName("MC-109832")
         .setCredits("MrGrim, Xcom")
