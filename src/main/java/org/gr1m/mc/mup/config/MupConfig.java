@@ -231,6 +231,15 @@ public class MupConfig
                                   "by loading outdated chunks — includes duping and deletion of entities/mobs,",
                                   "items in hoppers, and blocks moved by pistons, among other problems"});
 
+    public final PatchDef mc121196 = new PatchDef("mc121196", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("MC-121196")
+        .setCredits("Luflosi")
+        .setCategory("bug fixes")
+        .setDefaults(new boolean[] { false, false })
+        .setToggleable(false)
+        .setSideEffects("This overwrites the server main loop. Disable this first if the game doesn't start or run properly.")
+        .setComment(new String[] {"Overloaded servers pointlessly wait up to 50 ms every couple ticks. Also fixes various other timing issues in the server main loop."});
+
     public final PatchDef mc123320 = new PatchDef("mc123320", PatchDef.Side.SERVER)
         .setDisplayName("MC-123320")
         .setCredits("nessie, MrGrim")
