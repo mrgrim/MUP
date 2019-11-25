@@ -3,6 +3,7 @@ package org.gr1m.mc.mup.config;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.text.*;
+import net.minecraftforge.common.config.Property;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.core.MupCore;
 import org.gr1m.mc.mup.core.MupCoreConfig;
@@ -31,6 +32,7 @@ public class PatchDef
     private boolean toggleable = true;
     private boolean clientToggleable = false;
     private boolean[] defaults;
+    private Property property;
     
     private boolean compatDisabled;
     public String compatReason;
@@ -132,7 +134,10 @@ public class PatchDef
 
     public boolean[] getDefaults() { return this.defaults; }
     public PatchDef setDefaults(boolean[] defaultsIn) { this.defaults = defaultsIn; return this; }
-    
+
+    public Property getProperty() { return this.property; }
+    public void setProperty(Property propertyIn) { this.property = propertyIn; }
+
     public boolean wasLoaded()
     {
         Field coreField;

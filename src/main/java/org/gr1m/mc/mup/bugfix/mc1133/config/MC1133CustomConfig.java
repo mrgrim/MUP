@@ -22,17 +22,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MC1133CustomConfig implements ICustomizablePatch
 {
     public boolean onlyPlayers;
+    
+    public String parentCategory;
 
     public MC1133CustomConfig()
     {
     }
 
     @Override
-    public void loadConfig(Configuration config, String parentCategory)
+    public void loadConfig(Configuration config, String parentCategoryIn)
     {
         Property prop;
 
-        prop = config.get(parentCategory, "Only Players", true, "Only apply to players to help reduce CPU load.");
+        this.parentCategory = parentCategoryIn;
+        
+        prop = config.get(parentCategoryIn, "Only Players", true, "Only apply to players to help reduce CPU load.");
         onlyPlayers = prop.getBoolean();
     }
 

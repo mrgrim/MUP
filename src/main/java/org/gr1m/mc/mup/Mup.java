@@ -13,6 +13,7 @@ import org.gr1m.mc.mup.bugfix.mc100830.network.MC100830PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc111978.network.MC111978PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc4.network.MC4PacketHandler;
 import org.gr1m.mc.mup.bugfix.mc5694.network.MC5694PacketHandler;
+import org.gr1m.mc.mup.config.cli.ConfigCommand;
 import org.gr1m.mc.mup.config.network.ConfigPacketHandler;
 import org.gr1m.mc.mup.config.MupConfig;
 import org.gr1m.mc.mup.tweaks.hud.Hud;
@@ -36,6 +37,7 @@ public class Mup
 
     public static Logger logger = LogManager.getLogger();;
     public final static MupConfig config = new MupConfig();
+    public final static MupCommand cli = new MupCommand();
 
     public Mup()
     {
@@ -72,7 +74,11 @@ public class Mup
     @EventHandler
     public void serverLoad(FMLServerStartingEvent event)
     {
-        if (config.profiler.isLoaded()) event.registerServerCommand(new ProfilerCommand());
+        event.registerServerCommand(cli);
+        
+        MupCommand.registerCommand("config", new ConfigCommand());
+        
+        if (config.profiler.isLoaded()) MupCommand.registerCommand("tickhealth", new ProfilerCommand());
     }
 }
 

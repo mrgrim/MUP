@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(Entity.class)
-public abstract class MixinEntity implements ICommandSender {
+public abstract class MixinEntity {
 
     @Shadow
     public World world;

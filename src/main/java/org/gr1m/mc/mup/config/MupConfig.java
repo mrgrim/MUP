@@ -1,5 +1,7 @@
 package org.gr1m.mc.mup.config;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.ConfigCategory;
@@ -29,12 +31,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = Mup.MODID)
 public class MupConfig
 {
     public static Configuration config;
-    public static List<String> parentCategories = Arrays.asList("bug fixes", "optimizations", "tweaks", "modpatches");
+    public final static List<String> parentCategories = Arrays.asList("bug fixes", "optimizations", "tweaks", "modpatches");
+    public final static BiMap<String, String> categoryCliMap = HashBiMap.create();
 
+    static {
+        categoryCliMap.put("bug fixes", "bugfixes");
+        categoryCliMap.put("optimizations", "optimizations");
+        categoryCliMap.put("tweaks", "tweaks");
+        categoryCliMap.put("modpatches", "modpatches");
+    }
+    
     private boolean serverLocked;
 
     public final PatchDef mc4 = new PatchDef("mc4", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE, (bug, enabled, handler) -> {
@@ -150,7 +161,7 @@ public class MupConfig
         .setToggleable(false)
         .setComment(new String[] {"End City chests generate destroyed, items on the ground"});
 
-    public final PatchDef mc88959 = new PatchDef("mc88959", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE)
+    public final PatchDef mc88959 = new PatchDef("mc88959", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.ENFORCE)
         .setDisplayName("MC-88959")
         .setCredits("nessie")
         .setDefaults(new boolean[] { true, false })
@@ -231,7 +242,7 @@ public class MupConfig
                                   "by loading outdated chunks — includes duping and deletion of entities/mobs,",
                                   "items in hoppers, and blocks moved by pistons, among other problems"});
 
-    public final PatchDef mc121196 = new PatchDef("mc121196", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+    public final PatchDef mc121196 = new PatchDef("mc121196", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.ENFORCE, PatchDef.ClientSyncHandlers.IGNORE)
         .setDisplayName("MC-121196")
         .setCredits("Luflosi")
         .setCategory("bug fixes")
@@ -261,7 +272,7 @@ public class MupConfig
         .setCategory("bug fixes")
         .setComment(new String[] {"AbstractMap::hashCode accounts for substantial CPU overhead (from profiling)"});
 
-    public final PatchDef mc161869 = new PatchDef("mc161869", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.TOGGLE)
+    public final PatchDef mc161869 = new PatchDef("mc161869", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.ENFORCE)
         .setDisplayName("MC-161869")
         .setCredits("nessie, MrGrim")
         .setCategory("bug fixes")
@@ -319,6 +330,14 @@ public class MupConfig
         .setComment(new String[] {"Enables server side profiler features available under the /tickhealth command:",
                                   "    /tickhealth <basic|entities> [tick count]"});
 
+    public final PatchDef dac = new PatchDef("dac", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
+        .setDisplayName("Disable Movement Anti Cheat")
+        .setCredits("MrGrim")
+        .setCategory("tweaks")
+        .setDefaults(new boolean[] { false, false })
+        .setSideEffects("This disables movement based anti cheat functionality. Only use on private servers with trusted players!")
+        .setComment(new String[] {"Prevents the server from resetting the position of (rubber banding) clients that move \"too quickly\"."});
+
     public final PatchDef ete = new PatchDef("ete", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE, new EteCustomConfig())
         .setDisplayName("Entity Tracking Editor")
         .setCredits("MrGrim")
@@ -328,14 +347,6 @@ public class MupConfig
         .setSideEffects("Modifying these values can cause entity \"pop in\", increase server bandwidth use, or harm performance.")
         .setComment(new String[] {"Edit the maximum range at which the server will send entity data to the client and how often the server updates the client.",
                                   "Setting the tracking distance larger than the view distance will cause it to be set to the current view distance."});
-
-    public final PatchDef dac = new PatchDef("dac", PatchDef.Side.SERVER, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE)
-        .setDisplayName("Disable Movement Anti Cheat")
-        .setCredits("MrGrim")
-        .setCategory("tweaks")
-        .setDefaults(new boolean[] { false, false })
-        .setSideEffects("This disables movement based anti cheat functionality. Only use on private servers with trusted players!")
-        .setComment(new String[] {"Prevents the server from resetting the position of (rubber banding) clients that move \"too quickly\"."});
 
     public final PatchDef vde = new PatchDef("vde", PatchDef.Side.CLIENT, PatchDef.ServerSyncHandlers.IGNORE, PatchDef.ClientSyncHandlers.IGNORE, new VdeCustomConfig())
         .setDisplayName("View Distance Editor")
@@ -446,15 +457,18 @@ public class MupConfig
 
             if (fieldObj.getClass() == PatchDef.class)
             {
+                Property bugProp;
                 boolean[] bugState;
                 PatchDef patchDef = (PatchDef) fieldObj;
 
                 if (!this.isServerLocked() || patchDef.isClientToggleable())
                 {
-                    bugState = config.get(patchDef.getCategory(), field.getName(), patchDef.getDefaults(), String.join("\n", patchDef.getComment()), true, 2).getBooleanList();
+                    bugProp = config.get(patchDef.getCategory(), field.getName(), patchDef.getDefaults(), String.join("\n", patchDef.getComment()), true, 2);
+                    bugState = bugProp.getBooleanList();
 
                     if (bugState[0]) patchDef.setLoaded();
                     patchDef.setEnabled(bugState[1]);
+                    patchDef.setProperty(bugProp);
                     
                     if (patchDef.customConfig != null) patchDef.customConfig.loadConfig(config, patchDef.getCategory() + "." + patchDef.getFieldName());
                 }

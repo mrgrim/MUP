@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class MixinEntity implements ICommandSender {
+public abstract class MixinEntity {
     @Shadow
     public double posX;
     @Shadow

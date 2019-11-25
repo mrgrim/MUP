@@ -80,7 +80,7 @@ public class PatchEntry extends GuiConfigEntries.ListEntryBase {
         // TODO: Translation
         if ((((IMupConfigElement) this.configElement).getSideEffects()) != null) toolTip.add(TextFormatting.RED + "Side Effects: " + (((IMupConfigElement) this.configElement).getSideEffects()));
         toolTip.add(TextFormatting.WHITE + "Credits: " + (((IMupConfigElement) this.configElement).getCredits()));
-        toolTip.add(TextFormatting.AQUA + "[default: " + (Boolean.valueOf(configElement.getDefaults()[0].toString()) ? "Loaded" : "Not Loaded") + ", " + (Boolean.valueOf(configElement.getDefaults()[1].toString()) ? "Enabled" : "Disabled") + "]");
+        toolTip.add(TextFormatting.AQUA + "[default: " + (Boolean.parseBoolean(configElement.getDefaults()[0].toString()) ? "Loaded" : "Not Loaded") + ", " + (Boolean.parseBoolean(configElement.getDefaults()[1].toString()) ? "Enabled" : "Disabled") + "]");
         toolTip.add(TextFormatting.RED + "[Restart Required to Load/Unload!]");
     }
 

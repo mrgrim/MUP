@@ -25,7 +25,7 @@ public class ProfilerCommand extends CommandBase
     @Override
     public String getUsage(ICommandSender sender)
     {
-        return "Usage: /tickhealth <global|entities> [tick count]";
+        return "tickhealth <global|entities> [tick count]";
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ProfilerCommand extends CommandBase
             }
             else
             {
-                throw new CommandException("commands.tickhealth.subcommand.invalid");
+                throw new CommandException("eup.commands.tickhealth.subcommand.invalid");
             }
             
             CALLER = (sender instanceof EntityPlayer) ? (EntityPlayer)(sender) : null;

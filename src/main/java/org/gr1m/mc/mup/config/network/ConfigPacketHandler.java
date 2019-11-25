@@ -165,6 +165,15 @@ public class ConfigPacketHandler
         
         ConfigPacketHandler.INSTANCE.sendToServer(message);
     }
+    
+    public static void sendServerConfigUpdate(PatchDef patch)
+    {
+        SPacketMupConfig message = new SPacketMupConfig();
+        
+        message.addConfig(patch.getFieldName(), patch.isEnabled());
+        
+        ConfigPacketHandler.INSTANCE.sendToAll(message);
+    }
 
     public static void registerMessagesAndEvents()
     {
