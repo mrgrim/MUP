@@ -428,7 +428,7 @@ public class MupConfig
     {
         if (config == null)
         {
-            config = new Configuration(file);
+            config = new Configuration(file, Mup.VERSION);
             this.load();
         }
     }
@@ -437,6 +437,12 @@ public class MupConfig
     {
         config.load();
         this.sync();
+        
+        if (config.getLoadedConfigVersion() == null || !config.getLoadedConfigVersion().equals(Mup.VERSION))
+        {
+            Mup.logger.warn("Configuration version mismatch. Was looking for " + Mup.VERSION + " but found " + config.getLoadedConfigVersion() + ". Re-saving.");
+            config.save();
+        }
     }
 
     public void sync()
