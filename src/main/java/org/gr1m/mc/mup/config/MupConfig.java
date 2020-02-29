@@ -300,14 +300,17 @@ public class MupConfig
                                   "locational requirements for many things. It fixes MC-81098 and MC-11193."});
 
     public final PatchDef hud = new PatchDef("hud", PatchDef.Side.BOTH, PatchDef.ServerSyncHandlers.TOGGLE, (bug, enabled, handler) -> {
-        if (enabled)
+        if (Mup.config.hud.enabled)
         {
-            Hud.registered_clients.add(handler);
-        }
-        else
-        {
-            Hud.registered_clients.remove(handler);
-            Hud.clearHudForPlayer(handler);
+            if (enabled)
+            {
+                Hud.registered_clients.add(handler);
+            }
+            else
+            {
+                Hud.registered_clients.remove(handler);
+                Hud.clearHudForPlayer(handler);
+            }
         }
         
         return false;
