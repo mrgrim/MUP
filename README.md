@@ -18,6 +18,14 @@ patches on and off for clients.
 [Java profiler](https://www.ej-technologies.com/products/jprofiler/overview.html) open source license generously
 provided by ej-technologies. Thanks!
 
+## How to compile (for technical users/developers)
+
+```
+chmod +x gradlew
+./gradlew reobfJar
+cp build/libs/mup-1.3.8.jar <mods folder>
+```
+
 ## Fixed Bugs
 
 ### Vanilla Bugs
