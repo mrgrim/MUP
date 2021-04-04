@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import org.gr1m.mc.mup.Mup;
 import org.gr1m.mc.mup.bugfix.mc14826.ILeashBackRef;
 import org.gr1m.mc.mup.bugfix.mc14826.ILeashSaver;
-import org.spongepowered.asm.lib.Opcodes;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
