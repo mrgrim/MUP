@@ -7,7 +7,7 @@ buildscript {
         }
         maven {
             name = 'sponge'
-            url = 'http://repo.spongepowered.org/maven'
+            url = 'https://repo.spongepowered.org/repository/maven-public'
         }
     }
     dependencies {
@@ -73,7 +73,7 @@ minecraft {
 sourceSets.main.refMap = "mixins.mup.refmap.json"
 
 repositories {
-    maven { url = "http://repo.spongepowered.org/maven" }
+    maven { url = "https://repo.spongepowered.org/repository/maven-public" }
     ivy {
         //url "https://google.com/404"
         //ivyPattern("https://google.com/404") // Workaround for https://github.com/gradle/gradle/issues/4107
@@ -112,7 +112,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //embed("org.spongepowered:mixin:0.7.8-SNAPSHOT") { transitive = false }
-    shade('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+    shade('org.spongepowered:mixin:0.8-SNAPSHOT') {
         exclude module: "asm-commons"
         exclude module: "asm-tree"
         exclude module: "launchwrapper"

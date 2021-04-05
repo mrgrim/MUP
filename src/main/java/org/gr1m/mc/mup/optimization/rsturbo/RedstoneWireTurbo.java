@@ -900,8 +900,11 @@ public final class RedstoneWireTurbo {
             // and set it in the world.  
             // Possible optimization:  Don't commit state changes to the world until they
             // need to be known by some nearby non-redstone-wire block.
-            state = state.withProperty(BlockRedstoneWire.POWER, j);
-            worldIn.setBlockState(upd.self, state, 2);
+            BlockPos pos = new BlockPos(upd.self.getX(), upd.self.getY(), upd.self.getZ());
+            if (wire.canPlaceBlockAt(worldIn, pos)) {
+                state = state.withProperty(BlockRedstoneWire.POWER, j);
+                worldIn.setBlockState(upd.self, state, 2);
+            }
         }
 
         return state;

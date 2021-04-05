@@ -2,7 +2,7 @@ package org.gr1m.mc.mup.tweaks.vde.mixin;
 
 import net.minecraft.client.renderer.RenderGlobal;
 import org.gr1m.mc.mup.Mup;
-import org.spongepowered.asm.lib.Opcodes;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;

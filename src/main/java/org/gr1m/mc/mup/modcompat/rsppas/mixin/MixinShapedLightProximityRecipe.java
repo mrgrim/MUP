@@ -5,7 +5,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.BlockPos;
 import org.gr1m.mc.mup.modcompat.rsppas.IContainerCraftingTableFix;
 import org.gr1m.mc.mup.modcompat.rsppas.IContainerWorkbench;
-import org.spongepowered.asm.lib.Opcodes;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
