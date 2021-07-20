@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(PlayerInteractionManager.class)
+@Mixin(value = PlayerInteractionManager.class, priority = 1001)
 public class MixinPlayerInteractionManager implements IPlayerInteractionManager {
     @Shadow
     public EntityPlayerMP player;
