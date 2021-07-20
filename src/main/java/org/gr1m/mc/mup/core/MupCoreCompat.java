@@ -21,6 +21,7 @@ public class MupCoreCompat
     public static boolean TweakerooLoaded = false;
     public static boolean QuarkLoaded = false;
     public static boolean SurgeLoaded = false;
+    public static boolean SpongeLoaded = false;
     
     public static HashMap<String, String> coreModChecks = new HashMap<String, String>() {{
        put("JEIDsLoaded", "org.dimdev.jeid.JEIDLoadingPlugin");
@@ -30,12 +31,14 @@ public class MupCoreCompat
        put("TweakerooLoaded", "fi.dy.masa.tweakeroo.core.TweakerooCore");
        put("QuarkLoaded", "vazkii.quark.base.asm.LoadingPlugin");
        put("SurgeLoaded", "net.darkhax.surge.core.SurgeLoadingPlugin");
+       put("SpongeLoaded", "org.spongepowered.common.launch.SpongeLaunch");
     }};
     
     public static Map<String, String> modList = new HashMap<>();
     
     public static void runCoreModChecks()
     {
+        MupCore.log.debug("Running compatibility checks");
         for (String modName : coreModChecks.keySet())
         {
             try
@@ -155,6 +158,60 @@ public class MupCoreCompat
         return null;
     };
 
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc80032CompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.SpongeLoaded)
+            {
+                MupCore.log.warn("Disabling MC-80032 due to incompatibility with Sponge.");
+
+                patchIn.reason = "Incompatible with Sponge.";
+                return null;
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.mc80032.json";
+        }
+
+        return null;
+    };
+
+        public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc92916CompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.SpongeLoaded)
+            {
+                MupCore.log.warn("Disabling MC-92916 due to incompatibility with Sponge.");
+
+                patchIn.reason = "Incompatible with Sponge.";
+                return null;
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.mc92916.json";
+        }
+
+        return null;
+    };
+
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc98153CompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.SpongeLoaded)
+            {
+                MupCore.log.warn("Disabling MC-98153 due to incompatibility with Sponge.");
+
+                patchIn.reason = "Incompatible with Sponge.";
+                return null;
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.mc98153.json";
+        }
+
+        return null;
+    };
+
     public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc109832CompatCheck = (patchIn, stage) -> {
         if (stage == LoadingStage.CORE)
         {
@@ -190,6 +247,24 @@ public class MupCoreCompat
             return "mixins.mup.mc111444.json";
         }
         
+        return null;
+    };
+
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc119171CompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.SpongeLoaded)
+            {
+                MupCore.log.warn("Disabling MC-119171 due to incompatibility with Sponge.");
+
+                patchIn.reason = "Incompatible with Sponge.";
+                return null;
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.mc119171.json";
+        }
+
         return null;
     };
 
@@ -352,6 +427,24 @@ public class MupCoreCompat
             patchIn.reason = "No compatible version of Redstone++ found. Supported versions: " + String.join(", ", supportedRedstonePlusPlusVersions);
 
             return null;
+        }
+
+        return null;
+    };
+
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> spongeNewlightCompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.SpongeLoaded)
+            {
+                MupCore.log.warn("Disabling Newlight due to incompatibility with Sponge.");
+
+                patchIn.reason = "Incompatible with Sponge.";
+                return null;
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.newlight.json";
         }
 
         return null;

@@ -1,5 +1,6 @@
 package org.gr1m.mc.mup.core;
 
+import net.minecraftforge.event.world.ChunkEvent;
 import org.gr1m.mc.mup.core.config.Configuration;
 
 import java.io.File;
@@ -54,25 +55,25 @@ public class MupCoreConfig {
     public Patch mc64836 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     public Patch mc70850 = new MupCoreConfig.Patch("bugfixes", new boolean[]{false, false}, LoadingStage.CORE, MupCoreCompat.mc70850CompatCheck);
     public Patch mc73051 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
-    public Patch mc80032 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
+    public Patch mc80032 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc80032CompatCheck);
     public Patch mc83039 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     public Patch mc88959 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, false});
-    public Patch mc92916 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
-    public Patch mc98153 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
+    public Patch mc92916 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc92916CompatCheck);
+    public Patch mc98153 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc98153CompatCheck);
     public Patch mc100830 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     public Patch mc108469 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     public Patch mc109832 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc109832CompatCheck);
     public Patch mc111444 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc111444CompatCheck);
     public Patch mc111978 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     public Patch mc118710 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
-    public Patch mc119971 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
+    public Patch mc119971 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc119171CompatCheck);
     public Patch mc121196 = new MupCoreConfig.Patch("bugfixes", new boolean[]{false, false});
     public Patch mc123320 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     public Patch mc125157 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     public Patch mc134989 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc134989CompatCheck);
     public Patch mc161869 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     
-    public Patch newlight = new MupCoreConfig.Patch("optimizations", new boolean[]{true, true});
+    public Patch newlight = new MupCoreConfig.Patch("optimizations", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.spongeNewlightCompatCheck);
     public Patch rsturbo = new MupCoreConfig.Patch("optimizations", new boolean[]{true, false});
     
     public Patch hud = new MupCoreConfig.Patch("tweaks", new boolean[]{true, false});
