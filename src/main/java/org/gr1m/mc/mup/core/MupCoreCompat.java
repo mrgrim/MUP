@@ -250,19 +250,38 @@ public class MupCoreCompat
         return null;
     };
 
-    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc119171CompatCheck = (patchIn, stage) -> {
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc111978CompatCheck = (patchIn, stage) -> {
         if (stage == LoadingStage.CORE)
         {
             if (MupCoreCompat.SpongeLoaded)
             {
-                MupCore.log.warn("Disabling MC-119171 due to incompatibility with Sponge.");
+                MupCore.log.warn("Disabling MC-111978 due to incompatibility with Sponge.");
 
                 patchIn.reason = "Incompatible with Sponge.";
                 return null;
             }
 
             patchIn.reason = null;
-            return "mixins.mup.mc119171.json";
+            return "mixins.mup.mc111978.json";
+        }
+
+        return null;
+    };
+
+
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> mc119971CompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.SpongeLoaded)
+            {
+                MupCore.log.warn("Disabling MC-119971 due to incompatibility with Sponge.");
+
+                patchIn.reason = "Incompatible with Sponge.";
+                return null;
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.mc119971.json";
         }
 
         return null;
@@ -445,6 +464,24 @@ public class MupCoreCompat
 
             patchIn.reason = null;
             return "mixins.mup.newlight.json";
+        }
+
+        return null;
+    };
+
+    public static final BiFunction<MupCoreConfig.Patch, LoadingStage, String> spongeHudCompatCheck = (patchIn, stage) -> {
+        if (stage == LoadingStage.CORE)
+        {
+            if (MupCoreCompat.SpongeLoaded)
+            {
+                MupCore.log.warn("Disabling HUD tweak due to incompatibility with Sponge.");
+
+                patchIn.reason = "Incompatible with Sponge.";
+                return null;
+            }
+
+            patchIn.reason = null;
+            return "mixins.mup.hud.json";
         }
 
         return null;

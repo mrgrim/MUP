@@ -64,9 +64,9 @@ public class MupCoreConfig {
     public Patch mc108469 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     public Patch mc109832 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc109832CompatCheck);
     public Patch mc111444 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc111444CompatCheck);
-    public Patch mc111978 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
+    public Patch mc111978 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc111978CompatCheck);
     public Patch mc118710 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
-    public Patch mc119971 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc119171CompatCheck);
+    public Patch mc119971 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.mc119971CompatCheck);
     public Patch mc121196 = new MupCoreConfig.Patch("bugfixes", new boolean[]{false, false});
     public Patch mc123320 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
     public Patch mc125157 = new MupCoreConfig.Patch("bugfixes", new boolean[]{true, true});
@@ -76,7 +76,7 @@ public class MupCoreConfig {
     public Patch newlight = new MupCoreConfig.Patch("optimizations", new boolean[]{true, true}, LoadingStage.CORE, MupCoreCompat.spongeNewlightCompatCheck);
     public Patch rsturbo = new MupCoreConfig.Patch("optimizations", new boolean[]{true, false});
     
-    public Patch hud = new MupCoreConfig.Patch("tweaks", new boolean[]{true, false});
+    public Patch hud = new MupCoreConfig.Patch("tweaks", new boolean[]{true, false}, LoadingStage.CORE, MupCoreCompat.spongeHudCompatCheck);
     public Patch profiler = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch dac = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
     public Patch ete = new MupCoreConfig.Patch("tweaks", new boolean[]{false, false});
